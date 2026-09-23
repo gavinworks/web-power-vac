@@ -80,3 +80,33 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Power-Vac brand tokens (holding page and homepage prototype) */
+@theme {
+  --color-pv-ink: #050d18;
+  --color-pv-navy: #071a33;
+  --color-pv-navy-soft: #12294a;
+  --color-pv-sky: #1fb0f0;
+  --color-pv-mist: #e4f5fd;
+  --color-pv-haze: #d2e6f5;
+  --color-pv-line: #c9e3f2;
+  --color-pv-link: #0b5ea8;
+  --color-pv-leaf: #f28c28;
+
+  --animate-pv-nudge: pv-nudge 1.6s ease-in-out infinite;
+
+  @keyframes pv-nudge {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(0.5rem);
+    }
+  }
+}
+
+@theme inline {
+  --font-pv-display: var(--font-pv-bricolage), ui-sans-serif, sans-serif;
+  --font-pv-hand: var(--font-pv-caveat), cursive;
+}
