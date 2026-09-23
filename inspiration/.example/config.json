@@ -1,0 +1,30 @@
+{
+  "source_url": "https://existing-client-site.com",
+  "colors": {
+    "primary": "#1a365d",
+    "secondary": "#e53e3e",
+    "accent": "#38b2ac",
+    "background": "#ffffff",
+    "text": "#1a202c"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "body": "Open Sans"
+  },
+  "direction": "Modern, clean design with emphasis on trust and professionalism. The client wants a fresh look but to keep the same general content structure.",
+  "critical_points": [
+    "Must include a clear CTA in the hero section",
+    "Testimonials section is important to the client",
+    "Contact number must be prominent in the header",
+    "Client wants to keep the same navigation structure"
+  ],
+  "sections": [
+    "hero",
+    "services",
+    "testimonials",
+    "about-summary",
+    "cta",
+    "footer"
+  ],
+  "notes": "This is an example config. Copy this directory, rename it to match your prototype (e.g., 'home', 'about'), and customise the values. All fields are optional — use only what's relevant."
+}
