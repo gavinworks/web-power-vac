@@ -8,6 +8,7 @@ import { Areas } from "./areas";
 import { News } from "./news";
 import { QuoteForm } from "./quote-form";
 import { SiteFooter } from "./site-footer";
+import { ComingSoonToast } from "./prototype-link";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export function PowerVacHome() {
       <News />
       <QuoteForm />
       <SiteFooter />
+      <ComingSoonToast />
     </main>
   );
 }

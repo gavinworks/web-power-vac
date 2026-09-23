@@ -7,13 +7,14 @@ export const EMAIL = "powervacguttercleaning@gmail.com";
 export const focusRing =
   "focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-pv-sky";
 
+// The six pages of the Business package site. Only the homepage exists in the prototype.
 export const NAV_LINKS = [
-  { label: "Home", href: "#" },
-  { label: "Services", href: "#services" },
-  { label: "Before & after", href: "#before-after" },
-  { label: "Areas", href: "#areas" },
-  { label: "News", href: "#news" },
-  { label: "Contact", href: "#quote" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Before & after", href: "/before-and-after" },
+  { label: "Areas", href: "/areas" },
+  { label: "News", href: "/news" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function HouseMark({

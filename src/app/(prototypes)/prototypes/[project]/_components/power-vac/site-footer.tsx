@@ -1,19 +1,16 @@
 import { cn } from "@/lib/utils";
-import { focusRing } from "./shared";
+import { NAV_LINKS, focusRing } from "./shared";
+import { PrototypeLink } from "./prototype-link";
 
-const LINKS = [
-  { label: "Services", href: "#services" },
-  { label: "Before & after", href: "#before-after" },
-  { label: "Areas", href: "#areas" },
-  { label: "News", href: "#news" },
-  { label: "Contact", href: "#quote" },
-  { label: "Facebook", href: "https://www.facebook.com" },
-];
+const PAGES = NAV_LINKS.filter((link) => link.href !== "/");
 
 const LEGAL = [
-  { label: "Privacy", href: "#" },
-  { label: "Cookies", href: "#" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Cookies", href: "/cookies" },
 ];
+
+const linkClass =
+  "flex h-13 items-center border-b border-pv-navy/25 whitespace-nowrap hover:text-white md:h-9 md:border-0";
 
 export function SiteFooter() {
   return (
@@ -26,19 +23,18 @@ export function SiteFooter() {
           <nav aria-label="Footer">
             {/* Mobile: a tidy two-column list with full-width tap targets. md+: two columns of three. */}
             <ul className="grid grid-cols-2 gap-x-6 border-t border-pv-navy/25 text-lg font-semibold md:grid-flow-col md:grid-rows-3 md:gap-x-14 md:border-0">
-              {LINKS.map((link) => (
+              {PAGES.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className={cn(
-                      "flex h-13 items-center border-b border-pv-navy/25 whitespace-nowrap hover:text-white md:h-9 md:border-0",
-                      focusRing
-                    )}
-                  >
+                  <PrototypeLink href={link.href} page={link.label} className={cn(linkClass, focusRing)}>
                     {link.label}
-                  </a>
+                  </PrototypeLink>
                 </li>
               ))}
+              <li>
+                <a href="https://www.facebook.com" className={cn(linkClass, focusRing)}>
+                  Facebook
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
@@ -53,12 +49,13 @@ export function SiteFooter() {
           <ul className="flex gap-5">
             {LEGAL.map((link) => (
               <li key={link.label}>
-                <a
+                <PrototypeLink
                   href={link.href}
+                  page={link.label}
                   className={cn("underline underline-offset-4 hover:text-white", focusRing)}
                 >
                   {link.label}
-                </a>
+                </PrototypeLink>
               </li>
             ))}
           </ul>

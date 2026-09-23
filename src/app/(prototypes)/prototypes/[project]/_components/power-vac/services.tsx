@@ -2,6 +2,7 @@ import { ArrowRight, Droplets, House, PanelTop, Wrench } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { focusRing } from "./shared";
+import { PrototypeLink } from "./prototype-link";
 
 const EXTRAS: {
   title: string;
@@ -28,20 +29,22 @@ export function Services() {
             <br />
             on the <span className="text-pv-sky">roofline</span>
           </h2>
-          <a
-            href="#"
+          <PrototypeLink
+            href="/services"
+            page="Services"
             className={cn(
               "flex h-15 items-center self-start rounded-full border-2 border-white px-7 text-lg font-bold transition-colors hover:bg-white hover:text-pv-navy sm:self-auto",
               focusRing
             )}
           >
             All services
-          </a>
+          </PrototypeLink>
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-[18.75rem_18.75rem]">
-          <a
-            href="#"
+          <PrototypeLink
+            href="/services"
+            page="Services"
             className={cn(
               "flex flex-col justify-between gap-10 rounded-[2.5rem] bg-pv-sky p-8 text-pv-navy md:col-span-2 lg:row-span-2 lg:p-12",
               focusRing
@@ -70,12 +73,13 @@ export function Services() {
                 <ArrowRight className="size-8 motion-safe:animate-pv-nudge" strokeWidth={2.5} aria-hidden="true" />
               </span>
             </div>
-          </a>
+          </PrototypeLink>
 
           {EXTRAS.map(({ title, kind, icon: Icon, light }) => (
-            <a
+            <PrototypeLink
               key={title}
-              href="#"
+              href="/services"
+              page="Services"
               className={cn(
                 "flex min-h-60 flex-col justify-between rounded-4xl p-8 transition-transform hover:-translate-y-1",
                 light ? "bg-white text-pv-navy" : "bg-pv-navy-soft text-white",
@@ -100,7 +104,7 @@ export function Services() {
                   {title}
                 </h3>
               </div>
-            </a>
+            </PrototypeLink>
           ))}
         </div>
       </div>

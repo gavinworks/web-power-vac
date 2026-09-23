@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { FacebookIcon, focusRing } from "./shared";
+import { PrototypeLink } from "./prototype-link";
 
 // Sample articles for the prototype; real posts come from the News page.
 const POSTS = [
@@ -19,22 +20,24 @@ export function News() {
           <h2 className="font-pv-display text-[clamp(3.5rem,7vw,6rem)] leading-[0.9] font-extrabold font-stretch-75% tracking-[-0.01em]">
             Gutter talk
           </h2>
-          <a
-            href="#"
+          <PrototypeLink
+            href="/news"
+            page="News"
             className={cn(
               "flex h-15 items-center self-start rounded-full bg-pv-navy px-7 text-lg font-bold text-white transition-colors hover:bg-pv-link sm:self-auto",
               focusRing
             )}
           >
             All news
-          </a>
+          </PrototypeLink>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {POSTS.map((post) => (
-            <a
+            <PrototypeLink
               key={post.title}
-              href="#"
+              href="/news"
+              page="News"
               className={cn(
                 "flex min-h-80 flex-col justify-between gap-10 rounded-4xl bg-white p-8 transition-transform hover:-translate-y-1",
                 focusRing
@@ -46,7 +49,7 @@ export function News() {
               <h3 className="font-pv-display text-[2rem] leading-[1.02] font-extrabold font-stretch-80% tracking-[-0.02em]">
                 {post.title}
               </h3>
-            </a>
+            </PrototypeLink>
           ))}
           <a
             href="https://www.facebook.com"

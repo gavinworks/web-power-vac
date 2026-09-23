@@ -11,6 +11,7 @@ import {
   PHONE_HREF,
   focusRing,
 } from "./shared";
+import { PrototypeLink } from "./prototype-link";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -18,22 +19,25 @@ export function SiteHeader() {
   return (
     <div className="absolute inset-x-4 top-5 z-20 mx-auto max-w-336 lg:inset-x-12 lg:top-7">
       <header className="flex h-17 items-center justify-between rounded-full border border-white/20 bg-pv-ink/60 pr-2 pl-5 text-white backdrop-blur-md lg:h-21 lg:pr-3 lg:pl-8">
-        <a
-          href="#"
+        <PrototypeLink
+          href="/"
+          page="Home"
+          aria-label="Power-Vac home"
           className={cn("flex items-center gap-3 rounded-full", focusRing)}
         >
           <HouseMark className="h-8 w-11 lg:h-9 lg:w-12" roof="#ffffff" />
           <span className="font-pv-display text-2xl font-extrabold font-stretch-80% tracking-[-0.01em] whitespace-nowrap lg:text-[1.75rem]">
             power-vac
           </span>
-        </a>
+        </PrototypeLink>
 
         <nav aria-label="Main" className="hidden xl:block">
           <ul className="flex gap-1 text-[1.0625rem] font-semibold whitespace-nowrap 2xl:gap-1.5">
             {NAV_LINKS.map((link, i) => (
               <li key={link.label}>
-                <a
+                <PrototypeLink
                   href={link.href}
+                  page={link.label}
                   aria-current={i === 0 ? "page" : undefined}
                   className={cn(
                     "block rounded-full px-3.5 py-3 transition-colors hover:bg-white/10 2xl:px-4.5",
@@ -42,7 +46,7 @@ export function SiteHeader() {
                   )}
                 >
                   {link.label}
-                </a>
+                </PrototypeLink>
               </li>
             ))}
           </ul>
@@ -89,8 +93,10 @@ export function SiteHeader() {
             <ul className="flex flex-col">
               {NAV_LINKS.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <PrototypeLink
                     href={link.href}
+                    page={link.label}
+                    aria-current={link.href === "/" ? "page" : undefined}
                     onClick={() => setOpen(false)}
                     className={cn(
                       "block rounded-2xl px-4 py-3.5 font-pv-display text-2xl font-extrabold font-stretch-80% hover:bg-pv-mist",
@@ -98,7 +104,7 @@ export function SiteHeader() {
                     )}
                   >
                     {link.label}
-                  </a>
+                  </PrototypeLink>
                 </li>
               ))}
             </ul>

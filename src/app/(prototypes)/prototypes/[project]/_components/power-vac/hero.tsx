@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "./site-header";
 import { ASSETS, Leaf, focusRing } from "./shared";
+import { PrototypeLink } from "./prototype-link";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -103,15 +104,16 @@ export function Hero() {
               Get my free quote
               <ArrowRight className="size-5" strokeWidth={2.5} aria-hidden="true" />
             </a>
-            <a
-              href="#services"
+            <PrototypeLink
+              href="/services"
+              page="Services"
               className={cn(
                 "flex h-17 items-center rounded-full border-2 border-white px-7.5 text-xl font-bold transition-colors hover:bg-white hover:text-pv-navy",
                 focusRing
               )}
             >
               Our services
-            </a>
+            </PrototypeLink>
           </motion.div>
         </div>
       </div>
