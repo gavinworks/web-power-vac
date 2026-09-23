@@ -52,7 +52,7 @@ export default async function Home() {
     >
       <div className="absolute inset-y-0 right-0 -z-20 w-full lg:w-[62%]">
         <Image
-          src="/prototypes/power-vac-homepage/hero.jpg"
+          src="/images/hero-skyvac.jpg"
           alt=""
           fill
           priority
