@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PowerVacHome } from "./_components/power-vac/power-vac-home";
 
 interface PrototypePageProps {
   params: Promise<{ project: string }>;
@@ -25,6 +26,7 @@ interface PrototypePageProps {
 // Register your prototypes here
 const PROTOTYPES: Record<string, () => React.ReactNode> = {
   // "acme-homepage": () => <AcmeHomepage />,
+  "power-vac-homepage": () => <PowerVacHome />,
 };
 
 export default async function PrototypePage({ params }: PrototypePageProps) {

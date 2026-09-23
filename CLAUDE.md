@@ -1011,3 +1011,13 @@ Create a dedicated Directus user/role ("Form Bot") with **create-only** permissi
 - **Do not implement previews or visual editor without reading the how-to guides first** — consult `.docs/how-to/` before implementing; they document real challenges and solutions
 - **Do not modify Directus permissions or access policies** — never add, change, or remove public read access, role permissions, or access policies via the API or MCP. When a task requires permission changes, report what's needed to the developer and let them handle it manually in the Directus UI
 - **Do not upload files to the production site URL** — file uploads go to the Directus URL (`NEXT_PUBLIC_DIRECTUS_URL`), not the Next.js site; the `/files/:id` route is a read-only proxy
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
