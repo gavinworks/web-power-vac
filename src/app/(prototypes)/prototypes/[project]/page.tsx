@@ -38,7 +38,12 @@ export default async function PrototypePage({ params }: PrototypePageProps) {
   return renderPrototype();
 }
 
-// Generate static params for registered prototypes
+// Only registered prototypes exist, and only where prototypes are enabled.
+// Anything else (including every prototype on production) is a real 404,
+// rather than a streamed not-found page with a 200 status.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
+  if (process.env.ENABLE_PROTOTYPES !== "true") return [];
   return Object.keys(PROTOTYPES).map((project) => ({ project }));
 }
