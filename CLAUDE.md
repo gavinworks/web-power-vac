@@ -171,23 +171,40 @@ export const revalidate = 0;
 
 #### Directus Preview Setup
 
-For live preview to work, the preview URL on each Directus collection must contain a hard-coded token. This requires a dedicated user in Directus:
+For live preview to work, the preview URL on each Directus collection must contain a hard-coded token. This requires a dedicated Preview User and two access policies.
 
-1. **Create a "Preview User"** in Directus (Settings > Users) with a static token
-2. **Assign the Preview User to the Public access policy** — this gives it read access to published content, plus you can grant it access to draft/unpublished items for preview purposes
-3. **Configure the preview URL** on each collection (Settings > Data Model > [Collection] > Preview URL) using the token:
-   ```
-   https://YOUR_SITE_URL/preview/page-slug?token=PREVIEW_USER_TOKEN
-   ```
-   The token is hard-coded directly in the preview URL — Directus passes this URL to the iframe, and the Next.js preview route reads the token from the query string to authenticate its fetch requests.
+**1. Preview User (developer, in the Directus UI).** Create a user called "Preview User" (Settings > Users) with a static token. Assign it the **Public** policy, so it can read everything the live site can. Creating users and tokens is always done by the developer, never via the API.
 
-When setting up previews for a new project, ensure this user exists and the token is embedded in the collection's preview URL. If preview returns empty data or 403s, check that the Preview User has the correct access policy and that the token in the URL matches the user's static token.
+**2. "Website preview" policy (Claude, via the REST API).** Create a second, read-only policy so the Preview User can also read draft items. Never add draft read to the Public policy itself, or drafts become readable by anyone.
 
-Creating the Preview User and its static token are done by the developer in the Directus UI. Granting its policy read access to draft items can be done via the REST API (see "Permissions and Access Policies").
+```bash
+curl -s -X POST "$DIRECTUS_URL/policies" -H "Authorization: Bearer $ADMIN_TOKEN" -H "Content-Type: application/json" \
+  -d '{"name":"Website preview","icon":"preview","description":"Read access to draft items for the website preview. Attach to the Preview User.","admin_access":false,"app_access":false,"enforce_tfa":false,"permissions":{"create":[{"collection":"posts","action":"read","fields":["*"],"permissions":{},"validation":{}}]}}'
+```
+
+Add one read permission, with no filter, for every collection that has a `status` field (services, posts, legal pages and so on). Singletons don't need it: they have no drafts, so Public read already covers them. Then ask the developer to attach the policy to the Preview User (Settings > Access > Preview User). Claude never attaches policies to users itself.
+
+**3. Preview token in `.env.local` (developer).** The developer adds the Preview User's static token to `.env.local` as `DIRECTUS_PREVIEW_TOKEN`. Claude never reads, prints or copies it: tokens are only read by scripts from the environment.
+
+**4. Preview URLs (Claude, via `scripts/set-preview-urls.mjs`).** Edit the script's `PATHS` map so every collection the site renders points at its preview route, then run it with an admin token from the environment:
+
+```bash
+DIRECTUS_ADMIN_TOKEN=… node --env-file=.env.local scripts/set-preview-urls.mjs https://www.example.com
+```
+
+It sets each collection's preview URL to `https://YOUR_SITE_URL/preview/page-slug?token=…` (item collections use Directus templates, e.g. `/preview/news/{{slug}}`) and prints the URLs with the token masked. Directus passes this URL to the iframe, and the preview route reads the token from the query string to authenticate its fetches. The global collection points at the home preview, because its edits show on every page.
+
+**5. Drafts.** The Public policy reads collections with a `status` field filtered to `{"status":{"_eq":"published"}}`, so drafts never reach the live site or the public API. In the preview fetchers:
+
+- Lists (services on the services page, articles on the news page) still filter to published, so the preview matches what will go live.
+- The single item being previewed is fetched by slug **whatever its status** (`getPostPreview(slug, token)`, `getServicePreview(slug, token)` and so on), so an editor can check a draft before publishing.
+- Item preview routes call `notFound()` when the item can't be read, and singleton preview routes render a "preview unavailable" message naming the collection, rather than throwing a 500.
+
+**Testing.** Create a temporary draft item, open its preview URL with the token (200, renders), check the live route returns 404 and the public API returns nothing for it, then delete the draft.
+
+If preview returns empty data or 403s, check that the Preview User has both policies and that the token in the URL matches the user's static token.
 
 **Directus must allow the site in a frame.** Directus's `CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC` lists the sites it may show in the preview pane and the visual editor, and the site must send `Content-Security-Policy: frame-ancestors 'self' <directus-origin>` (in `netlify.toml` and `next.config.ts`) instead of `X-Frame-Options: DENY`. A localhost or deploy-preview URL only works if it is in Directus's frame-src list too.
-
-**Drafts in preview.** If the Preview User is on the Public policy, give it a second, read-only policy (e.g. "Website preview") that can read draft items. Never add draft read to the Public policy itself.
 
 ### Preview vs Visual Editor — Two Separate Features
 
@@ -390,6 +407,7 @@ Same as above, but:
 | `NEXT_PUBLIC_DIRECTUS_URL` | Public | Directus API URL |
 | `DIRECTUS_STATIC_TOKEN` | Server | Read access token for public collections |
 | `DIRECTUS_FORM_BOT_TOKEN` | Server | Token for form submissions to Directus |
+| `DIRECTUS_PREVIEW_TOKEN` | Local only | The Preview User's static token, read by `scripts/set-preview-urls.mjs`. Added by the developer, never printed |
 | `REVALIDATE_SECRET` | Server | Webhook authentication secret |
 | `ENABLE_PROTOTYPES` | Server | Enable prototype routes (controlled by Netlify deploy contexts) |
 
