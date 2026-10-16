@@ -18,6 +18,7 @@ export function PageHero({
   imageAlt,
   children,
   aside,
+  edit,
 }: {
   annotation?: string | null;
   heading: string;
@@ -28,12 +29,22 @@ export function PageHero({
   children?: ReactNode;
   /** Content floated over the photo on large screens. */
   aside?: ReactNode;
+  /** data-directus values for the visual editor, one per editable part. */
+  edit?: {
+    annotation?: string;
+    heading?: string;
+    description?: string;
+    image?: string;
+  };
 }) {
   return (
     <section className="bg-pv-ink relative isolate overflow-hidden text-white">
       {image && (
         <>
-          <div className="absolute inset-y-0 right-0 -z-20 w-full lg:w-[62%]">
+          <div
+            data-directus={edit?.image}
+            className="absolute inset-y-0 right-0 -z-20 w-full lg:w-[62%]"
+          >
             <Image
               src={image}
               alt={imageAlt ?? ""}
@@ -69,15 +80,24 @@ export function PageHero({
       <div className="mx-auto max-w-360 px-5 pt-40 pb-36 lg:px-12 lg:pt-56 lg:pb-44">
         <div className="flex max-w-190 flex-col gap-7 lg:gap-8">
           {annotation && (
-            <p className="font-pv-hand text-pv-sky -rotate-4 self-start text-3xl lg:text-[2.5rem]">
+            <p
+              data-directus={edit?.annotation}
+              className="font-pv-hand text-pv-sky -rotate-4 self-start text-3xl lg:text-[2.5rem]"
+            >
               {annotation}
             </p>
           )}
-          <h1 className="font-pv-display text-[clamp(3.5rem,9vw,7.5rem)] leading-[0.86] font-extrabold tracking-[-0.015em] font-stretch-75%">
+          <h1
+            data-directus={edit?.heading}
+            className="font-pv-display text-[clamp(3.5rem,9vw,7.5rem)] leading-[0.86] font-extrabold tracking-[-0.015em] font-stretch-75%"
+          >
             <Headline text={heading} />
           </h1>
           {description && (
-            <p className="text-pv-haze max-w-150 text-lg leading-normal font-medium lg:text-[1.375rem]">
+            <p
+              data-directus={edit?.description}
+              className="text-pv-haze max-w-150 text-lg leading-normal font-medium lg:text-[1.375rem]"
+            >
               {description}
             </p>
           )}

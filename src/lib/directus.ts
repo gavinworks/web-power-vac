@@ -4,8 +4,9 @@ import { createDirectus, rest, staticToken } from "@directus/sdk";
 // MOCK DATA SUPPORT
 // ============================================================================
 
-// Lazy import mock data only when needed
-async function getMockModule() {
+// Lazy import mock data only when needed. Every collection is live now; new
+// pages start on mock data until they are approved (see .docs/PROCESS.md).
+export async function getMockModule() {
   return import("./mock-data");
 }
 
@@ -78,12 +79,16 @@ export interface Global {
   email_address: string | null;
   address: string | null;
   opening_hours: OpeningHours[] | null;
+  price_prefix: string | null;
   price_from: string | null;
   sticker_text: string | null;
   promises: TrustPoint[] | null;
   social_media_accounts: SocialMediaAccount[] | null;
+  quote_cta_text: string | null;
+  quote_submit_text: string | null;
   quote_heading: Headline | null;
   quote_description: string | null;
+  quote_success_heading: string | null;
   quote_success_message: string | null;
   footer_tagline: string | null;
 }
@@ -117,6 +122,8 @@ export interface HomePage {
   areas_description: string | null;
   areas_cta_text: string | null;
   news_heading: Headline | null;
+  news_cta_text: string | null;
+  facebook_card_text: string | null;
 }
 
 /** Services overview page — singleton collection. */
@@ -133,6 +140,15 @@ export interface ServicesPage {
   extras_description: string | null;
   faqs_heading: Headline | null;
   faqs: Faq[] | null;
+  main_label: string | null;
+  add_on_label: string | null;
+  on_request_label: string | null;
+  service_faqs_heading: Headline | null;
+  priced_card_note: string | null;
+  add_on_card_heading: string | null;
+  on_request_card_heading: string | null;
+  unpriced_card_note: string | null;
+  other_services_annotation: string | null;
 }
 
 export type ServiceKind = "main" | "add_on" | "on_request";
@@ -174,10 +190,17 @@ export interface BeforeAfterPage {
   hero_annotation: string | null;
   hero_heading: Headline | null;
   hero_description: string | null;
+  hero_image: ImageField;
+  hero_image_alt: string | null;
   gallery_heading: Headline | null;
   gallery_note: string | null;
+  before_label: string | null;
+  after_label: string | null;
+  example_label: string | null;
   camera_heading: Headline | null;
   camera_description: string | null;
+  camera_cta_text: string | null;
+  camera_cta_link: string | null;
   camera_image: ImageField;
   camera_image_alt: string | null;
 }
@@ -205,6 +228,7 @@ export interface AreasPage {
   hero_annotation: string | null;
   hero_heading: Headline | null;
   hero_description: string | null;
+  city_annotation: string | null;
   city: string | null;
   towns_heading: string | null;
   towns: string[] | null;
@@ -212,6 +236,7 @@ export interface AreasPage {
   villages: string[] | null;
   coverage_heading: Headline | null;
   coverage_description: string | null;
+  coverage_cta_text: string | null;
 }
 
 /** News page — singleton collection. */
@@ -222,6 +247,9 @@ export interface NewsPage {
   hero_annotation: string | null;
   hero_heading: Headline | null;
   hero_description: string | null;
+  read_more_text: string | null;
+  more_posts_annotation: string | null;
+  empty_text: string | null;
 }
 
 /** News articles — regular collection, shown at /news/[slug]. */
@@ -248,8 +276,10 @@ export interface ContactPage {
   hero_annotation: string | null;
   hero_heading: Headline | null;
   hero_description: string | null;
+  contact_heading: string | null;
   hours_heading: string | null;
   area_heading: string | null;
+  area_cta_text: string | null;
   area_description: string | null;
 }
 
@@ -274,6 +304,7 @@ export interface Submission {
   services: string[];
   subject: string;
   message: string;
+  page: string;
 }
 
 // ============================================================================
@@ -301,8 +332,9 @@ interface Schema {
 // CLIENT SETUP
 // ============================================================================
 
-export const directusUrl =
-  process.env.NEXT_PUBLIC_DIRECTUS_URL || "http://localhost:8055";
+export const directusUrl = (
+  process.env.NEXT_PUBLIC_DIRECTUS_URL || "http://localhost:8055"
+).replace(/\/+$/, "");
 const directusToken = process.env.DIRECTUS_STATIC_TOKEN || "";
 
 export const directus = createDirectus<Schema>(directusUrl)
@@ -383,50 +415,66 @@ async function fetchWithRetry(
 // ============================================================================
 // DATA FETCHERS — ISR (public, cached)
 // ============================================================================
-// Pattern: use fetchWithRetry() with `next: { revalidate: 3600 }`.
-// Directus webhook calls /api/revalidate to clear cache on content changes.
+// Pattern: fetchWithRetry() with `next: { revalidate: 3600 }` and no auth
+// headers. The Directus Public policy reads published content; the
+// "[Website] Revalidate Cache" flow calls /api/revalidate on every change,
+// so the hour is only a safety net.
 //
-// When migrating a fetcher from mock to live, replace the mock body with:
-//
-//   const response = await fetchWithRetry(
-//     `${directusUrl}/items/collection_name`,
-//     { next: { revalidate: 3600 } },
-//     "getFunctionName"
-//   );
-//   if (!response) return null;
-//   const json = await response.json();
-//   return json.data;
-//
-// Also add a throw in the page component if the data is critical:
-//
-//   if (!pageData) {
-//     throw new Error("Failed to fetch page_data from Directus");
-//   }
-//
-// Every fetcher below currently returns mock data.
+// Page components throw when a singleton comes back null, so a deploy fails
+// (and Netlify keeps the last good build) rather than baking empty pages.
 // ============================================================================
 
+const ISR = { next: { revalidate: 3600 } };
+
+/** Builds `/items/...` with a query string, keeping Directus's bracket syntax readable. */
+function itemsUrl(collection: string, query: Record<string, string> = {}) {
+  const params = new URLSearchParams(query).toString();
+  return `${directusUrl}/items/${collection}${params ? `?${params}` : ""}`;
+}
+
+async function getSingleton<T>(collection: string, label: string) {
+  const response = await fetchWithRetry(itemsUrl(collection), ISR, label);
+  if (!response) return null;
+  const json = await response.json();
+  return (json.data ?? null) as T | null;
+}
+
+async function getList<T>(
+  collection: string,
+  query: Record<string, string>,
+  label: string
+) {
+  const response = await fetchWithRetry(
+    itemsUrl(collection, { limit: "-1", ...query }),
+    ISR,
+    label
+  );
+  if (!response) return [] as T[];
+  const json = await response.json();
+  return (json.data ?? []) as T[];
+}
+
+const PUBLISHED = { "filter[status][_eq]": "published" };
+
 export async function getGlobal(): Promise<Global | null> {
-  const mock = await getMockModule();
-  return mock.mockGlobal;
+  return getSingleton<Global>("global", "getGlobal");
 }
 
 export async function getHomePage(): Promise<HomePage | null> {
-  const mock = await getMockModule();
-  return mock.mockHomePage;
+  return getSingleton<HomePage>("home_page", "getHomePage");
 }
 
 export async function getServicesPage(): Promise<ServicesPage | null> {
-  const mock = await getMockModule();
-  return mock.mockServicesPage;
+  return getSingleton<ServicesPage>("services_page", "getServicesPage");
 }
 
 /** Published services, in sort order. */
 export async function getServices(): Promise<Service[]> {
-  const mock = await getMockModule();
-  return mock.mockServices
-    .filter((s) => s.status === "published")
-    .sort((a, b) => a.sort - b.sort);
+  return getList<Service>(
+    "services",
+    { ...PUBLISHED, sort: "sort" },
+    "getServices"
+  );
 }
 
 /** A published service that has its own page. */
@@ -436,34 +484,36 @@ export async function getService(slug: string): Promise<Service | null> {
 }
 
 export async function getBeforeAfterPage(): Promise<BeforeAfterPage | null> {
-  const mock = await getMockModule();
-  return mock.mockBeforeAfterPage;
+  return getSingleton<BeforeAfterPage>(
+    "before_after_page",
+    "getBeforeAfterPage"
+  );
 }
 
 /** Published before and after pairs, in sort order. */
 export async function getBeforeAfterItems(): Promise<BeforeAfterItem[]> {
-  const mock = await getMockModule();
-  return mock.mockBeforeAfterItems
-    .filter((i) => i.status === "published")
-    .sort((a, b) => a.sort - b.sort);
+  return getList<BeforeAfterItem>(
+    "before_after",
+    { ...PUBLISHED, sort: "sort" },
+    "getBeforeAfterItems"
+  );
 }
 
 export async function getAreasPage(): Promise<AreasPage | null> {
-  const mock = await getMockModule();
-  return mock.mockAreasPage;
+  return getSingleton<AreasPage>("areas_page", "getAreasPage");
 }
 
 export async function getNewsPage(): Promise<NewsPage | null> {
-  const mock = await getMockModule();
-  return mock.mockNewsPage;
+  return getSingleton<NewsPage>("news_page", "getNewsPage");
 }
 
 /** Published posts, newest first. */
 export async function getPosts(): Promise<Post[]> {
-  const mock = await getMockModule();
-  return mock.mockPosts
-    .filter((p) => p.status === "published")
-    .sort((a, b) => b.date_published.localeCompare(a.date_published));
+  return getList<Post>(
+    "posts",
+    { ...PUBLISHED, sort: "-date_published" },
+    "getPosts"
+  );
 }
 
 export async function getPost(slug: string): Promise<Post | null> {
@@ -472,23 +522,126 @@ export async function getPost(slug: string): Promise<Post | null> {
 }
 
 export async function getContactPage(): Promise<ContactPage | null> {
-  const mock = await getMockModule();
-  return mock.mockContactPage;
+  return getSingleton<ContactPage>("contact_page", "getContactPage");
 }
 
 export async function getLegalPage(slug: string): Promise<LegalPage | null> {
-  const mock = await getMockModule();
-  return (
-    mock.mockLegalPages.find(
-      (p) => p.slug === slug && p.status === "published"
-    ) ?? null
+  const pages = await getList<LegalPage>(
+    "legal_pages",
+    { ...PUBLISHED, "filter[slug][_eq]": slug },
+    "getLegalPage"
   );
+  return pages[0] ?? null;
 }
 
 // ============================================================================
 // DATA FETCHERS — PREVIEW (authenticated, uncached)
 // ============================================================================
-// Pattern: fetch with Bearer token + cache: "no-store" for live preview.
-// Used by preview routes at /preview/[page]. Preview fetchers for each
-// collection are added as it migrates to Directus (see .docs/PROCESS.md).
+// Pattern: Bearer token from the preview URL + cache: "no-store", so editors
+// see their saved changes immediately. Used only by the /preview routes.
+//
+// Lists show published items, as the live site does. The item being previewed
+// (a service, article or legal page) is fetched whatever its status, so a
+// draft can be checked before it is published; that needs the Preview User's
+// "Website preview" policy, which can read drafts.
 // ============================================================================
+
+async function previewFetch<T>(
+  url: string,
+  token: string,
+  label: string
+): Promise<T | null> {
+  try {
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      console.error(`${label}: ${response.status} ${response.statusText}`);
+      return null;
+    }
+    const json = await response.json();
+    return (json.data ?? null) as T | null;
+  } catch (error) {
+    console.error(`${label}: request failed`, error);
+    return null;
+  }
+}
+
+const previewSingleton = <T>(collection: string, token: string) =>
+  previewFetch<T>(itemsUrl(collection), token, `preview ${collection}`);
+
+const previewList = async <T>(
+  collection: string,
+  query: Record<string, string>,
+  token: string
+) =>
+  (await previewFetch<T[]>(
+    itemsUrl(collection, { limit: "-1", ...query }),
+    token,
+    `preview ${collection}`
+  )) ?? [];
+
+export const getGlobalPreview = (token: string) =>
+  previewSingleton<Global>("global", token);
+
+export const getHomePagePreview = (token: string) =>
+  previewSingleton<HomePage>("home_page", token);
+
+export const getServicesPagePreview = (token: string) =>
+  previewSingleton<ServicesPage>("services_page", token);
+
+export const getServicesPreview = (token: string) =>
+  previewList<Service>("services", { ...PUBLISHED, sort: "sort" }, token);
+
+/** A service by slug, whatever its status. */
+export async function getServicePreview(slug: string, token: string) {
+  const [service] = await previewList<Service>(
+    "services",
+    { "filter[slug][_eq]": slug },
+    token
+  );
+  return service ?? null;
+}
+
+export const getBeforeAfterPagePreview = (token: string) =>
+  previewSingleton<BeforeAfterPage>("before_after_page", token);
+
+export const getBeforeAfterItemsPreview = (token: string) =>
+  previewList<BeforeAfterItem>(
+    "before_after",
+    { ...PUBLISHED, sort: "sort" },
+    token
+  );
+
+export const getAreasPagePreview = (token: string) =>
+  previewSingleton<AreasPage>("areas_page", token);
+
+export const getNewsPagePreview = (token: string) =>
+  previewSingleton<NewsPage>("news_page", token);
+
+export const getPostsPreview = (token: string) =>
+  previewList<Post>("posts", { ...PUBLISHED, sort: "-date_published" }, token);
+
+/** An article by slug, whatever its status. */
+export async function getPostPreview(slug: string, token: string) {
+  const [post] = await previewList<Post>(
+    "posts",
+    { "filter[slug][_eq]": slug },
+    token
+  );
+  return post ?? null;
+}
+
+export const getContactPagePreview = (token: string) =>
+  previewSingleton<ContactPage>("contact_page", token);
+
+/** A legal page by slug, whatever its status. */
+export async function getLegalPagePreview(slug: string, token: string) {
+  const [page] = await previewList<LegalPage>(
+    "legal_pages",
+    { "filter[slug][_eq]": slug },
+    token
+  );
+  return page ?? null;
+}

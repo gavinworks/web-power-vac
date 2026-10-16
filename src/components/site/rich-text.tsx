@@ -7,12 +7,16 @@ import { cn } from "@/lib/utils";
 export function RichText({
   html,
   className,
+  editAttr,
 }: {
   html: string;
   className?: string;
+  /** data-directus value, so the text can be edited in the visual editor. */
+  editAttr?: string;
 }) {
   return (
     <div
+      data-directus={editAttr}
       className={cn("pv-prose", className)}
       dangerouslySetInnerHTML={{ __html: html }}
     />

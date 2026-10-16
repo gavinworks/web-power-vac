@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { focusRing } from "@/components/site/styles";
 import type { Post } from "@/lib/directus";
+import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 
 export function formatDate(iso: string) {
@@ -22,6 +23,12 @@ export function PostCard({
   return (
     <Link
       href={`/news/${post.slug}`}
+      data-directus={editable(
+        "posts",
+        post.id,
+        ["title", "topic", "date_published", "excerpt"],
+        "drawer"
+      )}
       className={cn(
         "text-pv-navy flex min-h-80 flex-col justify-between gap-10 rounded-4xl bg-white p-8 transition-transform hover:-translate-y-1",
         focusRing,

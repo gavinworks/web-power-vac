@@ -11,6 +11,7 @@ import { SiteHeader } from "@/components/site/site-header";
 import { focusRing, pill } from "@/components/site/styles";
 import { useGlobal } from "@/context/GlobalContext";
 import { getImageUrl, type HomePage } from "@/lib/directus";
+import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -21,6 +22,8 @@ export function Hero({ page }: { page: HomePage }) {
   const image = getImageUrl(page.hero_image);
   const camera = getImageUrl(page.hero_camera_image);
   const headingLines = (page.hero_heading ?? "").split("\n");
+  const edit = (fields: string | string[], mode?: "popover" | "drawer") =>
+    editable("home_page", page.id, fields, mode);
 
   // One orchestrated load sequence: copy rises line by line, then the price sticker lands.
   const rise: Variants = {
@@ -36,6 +39,7 @@ export function Hero({ page }: { page: HomePage }) {
 
   const monitor = camera && (
     <CameraMonitor
+      editAttr={edit(["hero_camera_image", "hero_camera_image_alt"], "drawer")}
       src={camera}
       alt={page.hero_camera_image_alt ?? ""}
       priority
@@ -46,7 +50,10 @@ export function Hero({ page }: { page: HomePage }) {
   return (
     <section className="bg-pv-ink relative isolate min-h-212 overflow-hidden text-white lg:min-h-250">
       {image && (
-        <div className="absolute inset-y-0 right-0 -z-20 w-full lg:w-[69.5%]">
+        <div
+          data-directus={edit(["hero_image", "hero_image_alt"], "drawer")}
+          className="absolute inset-y-0 right-0 -z-20 w-full lg:w-[69.5%]"
+        >
           <Image
             src={image}
             alt={page.hero_image_alt ?? ""}
@@ -90,12 +97,16 @@ export function Hero({ page }: { page: HomePage }) {
               initial="hidden"
               animate="show"
               custom={0}
+              data-directus={edit("hero_annotation")}
               className="font-pv-hand text-pv-sky -rotate-4 self-start text-3xl lg:text-[2.5rem]"
             >
               {page.hero_annotation}
             </motion.p>
           )}
-          <h1 className="font-pv-display text-[clamp(3.75rem,10.4vw,9.375rem)] leading-[0.86] font-extrabold tracking-[-0.015em] font-stretch-75%">
+          <h1
+            data-directus={edit("hero_heading")}
+            className="font-pv-display text-[clamp(3.75rem,10.4vw,9.375rem)] leading-[0.86] font-extrabold tracking-[-0.015em] font-stretch-75%"
+          >
             {headingLines.map((line, i) => (
               <motion.span
                 key={i}
@@ -126,6 +137,7 @@ export function Hero({ page }: { page: HomePage }) {
               initial="hidden"
               animate="show"
               custom={headingLines.length + 2}
+              data-directus={edit("hero_description")}
               className="text-pv-haze max-w-150 text-lg leading-normal font-medium lg:text-[1.375rem]"
             >
               {page.hero_description}
@@ -140,6 +152,7 @@ export function Hero({ page }: { page: HomePage }) {
           >
             {page.hero_cta_text && (
               <Link
+                data-directus={edit(["hero_cta_text", "hero_cta_link"])}
                 href={page.hero_cta_link ?? "#quote"}
                 className={cn(pill.sky, focusRing)}
               >
@@ -153,6 +166,10 @@ export function Hero({ page }: { page: HomePage }) {
             )}
             {page.hero_secondary_cta_text && (
               <Link
+                data-directus={edit([
+                  "hero_secondary_cta_text",
+                  "hero_secondary_cta_link",
+                ])}
                 href={page.hero_secondary_cta_link ?? "/services"}
                 className={cn(pill.outline, focusRing)}
               >
@@ -179,6 +196,7 @@ export function Hero({ page }: { page: HomePage }) {
       {page.hero_camera_note && (
         <div
           aria-hidden="true"
+          data-directus={edit("hero_camera_note")}
           className="absolute top-140 right-90 hidden w-85 lg:block xl:top-150 xl:right-110"
         >
           <svg viewBox="0 0 200 120" className="mb-1 ml-30 w-40 text-white">
@@ -212,6 +230,12 @@ export function Hero({ page }: { page: HomePage }) {
               ? { duration: 0 }
               : { type: "spring", stiffness: 140, damping: 14, delay: 0.85 }
           }
+          data-directus={editable(
+            "global",
+            global.id,
+            ["price_prefix", "price_from", "sticker_text"],
+            "drawer"
+          )}
           className="bg-pv-sky text-pv-navy absolute right-5 bottom-20 flex size-40 items-center justify-center rounded-full lg:right-27.5 lg:bottom-22.5 lg:size-62.5"
         >
           {global.sticker_text && (
@@ -240,7 +264,9 @@ export function Hero({ page }: { page: HomePage }) {
             </svg>
           )}
           <p className="flex flex-col items-center leading-none">
-            <span className="text-xs font-semibold lg:text-lg">from just</span>
+            <span className="text-xs font-semibold lg:text-lg">
+              {global.price_prefix}
+            </span>
             <span className="font-pv-display text-[2.5rem] font-extrabold font-stretch-75% lg:text-[3.875rem]">
               {global.price_from}
             </span>

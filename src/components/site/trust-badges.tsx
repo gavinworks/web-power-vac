@@ -25,12 +25,16 @@ const STYLES = [
 export function TrustBadges({
   points,
   className,
+  editAttr,
 }: {
   points: TrustPoint[];
   className?: string;
+  /** data-directus value, so the badges can be edited in the visual editor. */
+  editAttr?: string;
 }) {
   return (
     <ul
+      data-directus={editAttr}
       className={cn(
         "flex flex-wrap justify-center gap-4 lg:relative lg:block lg:h-155",
         className

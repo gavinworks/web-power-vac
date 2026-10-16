@@ -25,7 +25,8 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "DENY"
+    # Only Directus may frame the site (live preview and the visual editor)
+    Content-Security-Policy = "frame-ancestors 'self' https://directus-production-6867.up.railway.app"
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"

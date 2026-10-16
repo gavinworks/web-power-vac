@@ -24,12 +24,12 @@ const STATIC_PATHS = [
 
 // Map Directus collections to the site paths they affect
 const COLLECTION_PATH_MAP: Record<string, string[]> = {
-  home_page: ["/"],
-  services_page: ["/services"],
-  before_after_page: ["/before-and-after"],
+  // The homepage's camera screen also appears on the main service's page
+  home_page: ["/", "/services/gutter-vacuum-cleaning"],
+  // The slider labels appear on the homepage too
+  before_after_page: ["/", "/before-and-after"],
   before_after: ["/", "/before-and-after"],
   areas_page: ["/areas"],
-  news_page: ["/news"],
   contact_page: ["/contact"],
   legal_pages: ["/privacy", "/cookies"],
 };
@@ -44,7 +44,17 @@ async function getDynamicPaths(collection: string): Promise<string[] | null> {
       ...services.filter((s) => s.has_page).map((s) => `/services/${s.slug}`),
     ];
   }
-  if (collection === "posts") {
+  if (collection === "services_page") {
+    // Its shared labels and price card copy appear on every service page
+    const services = await getServices();
+    return [
+      "/",
+      "/services",
+      ...services.filter((s) => s.has_page).map((s) => `/services/${s.slug}`),
+    ];
+  }
+  if (collection === "posts" || collection === "news_page") {
+    // news_page holds the labels used on every article
     const posts = await getPosts();
     return ["/", "/news", ...posts.map((p) => `/news/${p.slug}`)];
   }

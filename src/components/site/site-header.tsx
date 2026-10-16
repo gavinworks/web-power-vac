@@ -9,6 +9,7 @@ import { Menu, Phone, X } from "lucide-react";
 import { NAV_LINKS } from "@/config/site";
 import { useGlobal } from "@/context/GlobalContext";
 import { getImageUrl } from "@/lib/directus";
+import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 import { focusRing, telHref } from "./styles";
 
@@ -33,6 +34,12 @@ export function SiteHeader() {
         <Link
           href="/"
           aria-label={`${global?.site_name ?? "Power-Vac"} home`}
+          data-directus={editable(
+            "global",
+            global?.id,
+            ["logo", "site_name"],
+            "drawer"
+          )}
           className={cn("shrink-0 rounded-full", focusRing)}
         >
           {logo && (
@@ -75,6 +82,7 @@ export function SiteHeader() {
             {contact.phone && (
               <a
                 href={telHref(contact.phone)}
+                data-directus={editable("global", global?.id, "phone")}
                 className={cn(
                   "bg-pv-sky text-pv-navy flex h-13 items-center gap-2.5 rounded-full px-4 font-extrabold whitespace-nowrap transition-colors hover:bg-white sm:px-6.5 lg:h-15 lg:text-lg",
                   focusRing

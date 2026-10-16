@@ -7,12 +7,18 @@ import { focusRing } from "./styles";
 export function FaqList({
   faqs,
   className,
+  editAttr,
 }: {
   faqs: Faq[];
   className?: string;
+  /** data-directus value, so the questions can be edited in the visual editor. */
+  editAttr?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-3", className)}>
+    <div
+      data-directus={editAttr}
+      className={cn("flex flex-col gap-3", className)}
+    >
       {faqs.map((faq) => (
         <details
           key={faq.question}

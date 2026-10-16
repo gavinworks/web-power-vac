@@ -8,15 +8,19 @@ export function CameraMonitor({
   sizes,
   priority,
   className,
+  editAttr,
 }: {
   src: string;
   alt: string;
   sizes: string;
   priority?: boolean;
   className?: string;
+  /** data-directus value, so the photo can be swapped in the visual editor. */
+  editAttr?: string;
 }) {
   return (
     <figure
+      data-directus={editAttr}
       className={cn(
         "bg-pv-navy rounded-4xl p-2.5 shadow-[0_30px_60px_-15px_rgb(0_0_0/0.75)] ring-1 ring-white/20",
         className

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { LEGAL_LINKS, NAV_LINKS } from "@/config/site";
 import { useGlobal } from "@/context/GlobalContext";
+import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 import { focusRing, telHref } from "./styles";
 
@@ -13,7 +14,9 @@ const linkClass =
 
 export function SiteFooter() {
   const { global, contact } = useGlobal();
-  const facebook = contact.socialMedia.find((s) => s.name === "Facebook");
+  const socials = contact.socialMedia.filter((s) => s.link);
+  const edit = (fields: string | string[], mode?: "popover" | "drawer") =>
+    editable("global", global?.id, fields, mode);
 
   return (
     <footer className="bg-pv-sky text-pv-navy overflow-hidden px-5 pt-18 pb-10 lg:px-12">
@@ -21,11 +24,20 @@ export function SiteFooter() {
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-10">
           <div className="flex flex-col gap-6">
             {global?.footer_tagline && (
-              <p className="font-pv-hand max-w-130 text-4xl leading-[1.1] lg:text-[2.5rem]">
+              <p
+                data-directus={edit("footer_tagline")}
+                className="font-pv-hand max-w-130 text-4xl leading-[1.1] lg:text-[2.5rem]"
+              >
                 {global.footer_tagline}
               </p>
             )}
-            <div className="flex flex-col gap-1 text-lg font-semibold">
+            <div
+              data-directus={edit(
+                ["phone", "phone_mobile", "email_address"],
+                "drawer"
+              )}
+              className="flex flex-col gap-1 text-lg font-semibold"
+            >
               {contact.phone && (
                 <a
                   href={telHref(contact.phone)}
@@ -65,13 +77,18 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
-              {facebook && (
-                <li>
-                  <a href={facebook.link} className={cn(linkClass, focusRing)}>
-                    Facebook
+              {socials.map((social) => (
+                <li key={social.link}>
+                  <a
+                    href={social.link}
+                    rel="noopener"
+                    data-directus={edit("social_media_accounts", "drawer")}
+                    className={cn(linkClass, focusRing)}
+                  >
+                    {social.name}
                   </a>
                 </li>
-              )}
+              ))}
             </ul>
           </nav>
         </div>

@@ -185,6 +185,10 @@ When setting up previews for a new project, ensure this user exists and the toke
 
 Creating the Preview User and its static token are done by the developer in the Directus UI. Granting its policy read access to draft items can be done via the REST API (see "Permissions and Access Policies").
 
+**Directus must allow the site in a frame.** Directus's `CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC` lists the sites it may show in the preview pane and the visual editor, and the site must send `Content-Security-Policy: frame-ancestors 'self' <directus-origin>` (in `netlify.toml` and `next.config.ts`) instead of `X-Frame-Options: DENY`. A localhost or deploy-preview URL only works if it is in Directus's frame-src list too.
+
+**Drafts in preview.** If the Preview User is on the Public policy, give it a second, read-only policy (e.g. "Website preview") that can read draft items. Never add draft read to the Public policy itself.
+
 ### Preview vs Visual Editor — Two Separate Features
 
 These are **independent Directus features** that must not be conflated:
@@ -595,6 +599,8 @@ When creating or updating Directus fields, **always** configure proper validatio
 2. **Validation rule** — Use a RegExp validation to enforce character limits:
    - Pattern: `^.{0,N}$` where `N` is the max character count
    - Example for 250 chars: field **Matches RegExp** `^.{0,250}$`
+   - **Multi-line fields** (`input-multiline`, headings with line breaks) use `^[\s\S]{0,N}$`, because `.` doesn't match a new line, so `^.{0,N}$` rejects any value with a line break in it
+   - **Always let the field be empty.** Wrap the RegExp in `_or` with `_null`, as in the example below. A bare `_regex` rule fails on `null` with "Value is required", so an editor who clears an optional field can't save (tested on Directus 12.5.0)
 
 3. **Custom validation message** — A human-readable message explaining the constraint:
    - Example: `"Description must be 250 characters or less."`
@@ -629,9 +635,10 @@ These are defaults — adjust limits based on the specific design requirements. 
     "validation": {
       "_and": [
         {
-          "hero_description": {
-            "_regex": "^.{0,250}$"
-          }
+          "_or": [
+            { "hero_description": { "_null": true } },
+            { "hero_description": { "_regex": "^[\\s\\S]{0,250}$" } }
+          ]
         }
       ]
     },
@@ -1024,6 +1031,8 @@ Update `to` with the client's email address and `url` with the site domain.
   }
 }
 ```
+
+**Operation permissions.** Operations that read or write system data (such as `notification`, or `item-*` on another collection) run with the triggering user's permissions by default. A submission is created by the Form Bot, which can't create notifications, so set `"permissions": "$full"` on those operations. Give a notification step a `reject` path to the next step too, so an email still goes out if the notification fails.
 
 ### Flow Creation Order (Important)
 

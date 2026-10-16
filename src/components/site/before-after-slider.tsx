@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ChevronsLeftRight } from "lucide-react";
+import type { BeforeAfterPage } from "@/lib/directus";
 import { cn } from "@/lib/utils";
 
 export interface BeforeAfterSliderProps {
@@ -12,7 +13,14 @@ export interface BeforeAfterSliderProps {
   afterAlt: string;
   isExample: boolean;
   label: string;
+  /** Before, after and example labels, edited on the before & after page. */
+  labels: Pick<
+    BeforeAfterPage,
+    "before_label" | "after_label" | "example_label"
+  > | null;
   className?: string;
+  /** data-directus value, so the photos can be swapped in the visual editor. */
+  editAttr?: string;
 }
 
 /** Drag, tap or use the arrow keys to compare a gutter before and after cleaning. */
@@ -23,12 +31,15 @@ export function BeforeAfterSlider({
   afterAlt,
   isExample,
   label,
+  labels,
   className,
+  editAttr,
 }: BeforeAfterSliderProps) {
   const [split, setSplit] = useState(50);
 
   return (
     <div
+      data-directus={editAttr}
       className={cn(
         "relative h-90 overflow-hidden rounded-[2.5rem] select-none sm:h-120 lg:h-140",
         className
@@ -55,17 +66,21 @@ export function BeforeAfterSlider({
       </div>
 
       {/* Stock photos stay labelled until they're swapped for Tommy's own jobs */}
-      {isExample && (
+      {isExample && labels?.example_label && (
         <span className="bg-pv-ink/75 absolute top-6 left-6 rounded-full px-4 py-2 text-base font-bold text-white backdrop-blur-sm lg:top-8 lg:left-8">
-          Example photos
+          {labels.example_label}
         </span>
       )}
-      <span className="bg-pv-navy absolute bottom-6 left-6 rounded-full px-5.5 py-3 text-lg font-extrabold text-white lg:bottom-8 lg:left-8 lg:text-[1.375rem]">
-        Before
-      </span>
-      <span className="bg-pv-sky text-pv-navy absolute right-6 bottom-6 rounded-full px-5.5 py-3 text-lg font-extrabold lg:right-8 lg:bottom-8 lg:text-[1.375rem]">
-        After
-      </span>
+      {labels?.before_label && (
+        <span className="bg-pv-navy absolute bottom-6 left-6 rounded-full px-5.5 py-3 text-lg font-extrabold text-white lg:bottom-8 lg:left-8 lg:text-[1.375rem]">
+          {labels.before_label}
+        </span>
+      )}
+      {labels?.after_label && (
+        <span className="bg-pv-sky text-pv-navy absolute right-6 bottom-6 rounded-full px-5.5 py-3 text-lg font-extrabold lg:right-8 lg:bottom-8 lg:text-[1.375rem]">
+          {labels.after_label}
+        </span>
+      )}
 
       <div
         aria-hidden="true"

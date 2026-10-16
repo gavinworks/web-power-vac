@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Headline } from "@/components/site/headline";
 import { heading } from "@/components/site/styles";
 import type { TitledText } from "@/lib/directus";
+import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 
 // Staggered card heights along the pipe (xl and up).
@@ -58,10 +59,12 @@ function tracePipe(list: HTMLOListElement): Pipe | null {
 }
 
 export function HowItWorks({
+  pageId,
   title,
   annotation,
   steps,
 }: {
+  pageId: number;
   title: string | null;
   annotation: string | null;
   steps: TitledText[];
@@ -92,12 +95,18 @@ export function HowItWorks({
       <div className="mx-auto flex max-w-336 flex-col gap-12 lg:gap-16">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           {title && (
-            <h2 className={heading.section}>
+            <h2
+              data-directus={editable("home_page", pageId, "steps_heading")}
+              className={heading.section}
+            >
               <Headline text={title} accentClassName="text-pv-link" />
             </h2>
           )}
           {annotation && (
-            <p className="font-pv-hand text-pv-link -rotate-3 self-start text-3xl sm:self-auto lg:text-4xl">
+            <p
+              data-directus={editable("home_page", pageId, "steps_annotation")}
+              className="font-pv-hand text-pv-link -rotate-3 self-start text-3xl sm:self-auto lg:text-4xl"
+            >
               {annotation}
             </p>
           )}
@@ -105,6 +114,7 @@ export function HowItWorks({
 
         <ol
           ref={listRef}
+          data-directus={editable("home_page", pageId, "steps", "drawer")}
           style={pipe ? { minHeight: pipe.height } : undefined}
           className="border-pv-navy relative flex flex-col gap-5 border-l-[1.25rem] pl-6 xl:flex-row xl:items-start xl:gap-25 xl:border-l-0 xl:pr-33.5 xl:pl-0"
         >
