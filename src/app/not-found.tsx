@@ -1,18 +1,29 @@
 import Link from "next/link";
+import { PageHero } from "@/components/site/page-hero";
+import { SiteFooter } from "@/components/site/site-footer";
+import { focusRing, pill } from "@/components/site/styles";
+import { cn } from "@/lib/utils";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h2 className="text-2xl font-semibold">Not Found</h2>
-      <p className="text-muted-foreground">
-        Could not find requested resource
-      </p>
-      <Link
-        href="/"
-        className="rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
-      >
-        Return Home
-      </Link>
-    </div>
+    <>
+      <main>
+        <PageHero
+          annotation="nothing in this gutter"
+          heading={"Page not\n*found*"}
+          description="The page you’re looking for has moved or doesn’t exist."
+        >
+          <div className="flex flex-wrap gap-3.5">
+            <Link href="/" className={cn(pill.sky, focusRing)}>
+              Go to the homepage
+            </Link>
+            <Link href="/contact" className={cn(pill.outline, focusRing)}>
+              Get a quote
+            </Link>
+          </div>
+        </PageHero>
+      </main>
+      <SiteFooter />
+    </>
   );
 }

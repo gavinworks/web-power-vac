@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { getPages } from "@/lib/directus";
+import { getPosts, getServices } from "@/lib/directus";
 
 /**
  * POST /api/revalidate-visual-editor
@@ -11,19 +11,44 @@ import { getPages } from "@/lib/directus";
  * Add your collections to COLLECTION_PATH_MAP as you build pages.
  */
 
+const STATIC_PATHS = [
+  "/",
+  "/services",
+  "/before-and-after",
+  "/areas",
+  "/news",
+  "/contact",
+  "/privacy",
+  "/cookies",
+];
+
 // Map Directus collections to the site paths they affect
 const COLLECTION_PATH_MAP: Record<string, string[]> = {
   home_page: ["/"],
-  global: ["/"], // Global affects header/footer — add all page paths here
-  // Add more mappings as you create pages:
-  // about_page: ["/about"],
-  // contact_page: ["/contact"],
+  services_page: ["/services"],
+  before_after_page: ["/before-and-after"],
+  before_after: ["/", "/before-and-after"],
+  areas_page: ["/areas"],
+  news_page: ["/news"],
+  contact_page: ["/contact"],
+  legal_pages: ["/privacy", "/cookies"],
 };
 
-// Get dynamic page paths from CMS
-async function getDynamicPagePaths(): Promise<string[]> {
-  const pages = await getPages();
-  return pages.map((p) => `/${p.slug}`);
+// Collections whose items have their own pages, plus the static pages they appear on
+async function getDynamicPaths(collection: string): Promise<string[] | null> {
+  if (collection === "services") {
+    const services = await getServices();
+    // The homepage, services page and every quote form list the services
+    return [
+      ...STATIC_PATHS,
+      ...services.filter((s) => s.has_page).map((s) => `/services/${s.slug}`),
+    ];
+  }
+  if (collection === "posts") {
+    const posts = await getPosts();
+    return ["/", "/news", ...posts.map((p) => `/news/${p.slug}`)];
+  }
+  return null;
 }
 
 export async function POST(request: NextRequest) {
@@ -38,17 +63,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    let paths: string[] = [];
-
-    if (collection === "pages") {
-      // For dynamic collections, fetch all paths + revalidate layout for nav
-      paths = await getDynamicPagePaths();
+    // Global (header, footer, quote form) and the areas list (structured data) affect every page
+    if (collection === "global") {
       revalidatePath("/", "layout");
-    } else {
-      paths = COLLECTION_PATH_MAP[collection] || [];
+      return NextResponse.json({
+        revalidated: true,
+        collection,
+        paths: ["/ (layout)"],
+        timestamp: Date.now(),
+      });
     }
 
-    if (paths.length === 0 && collection !== "pages") {
+    const paths =
+      (await getDynamicPaths(collection)) ??
+      COLLECTION_PATH_MAP[collection] ??
+      [];
+
+    if (paths.length === 0) {
       return NextResponse.json(
         { error: "Unknown collection", collection },
         { status: 400 }
@@ -67,9 +98,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Visual editor revalidation error:", error);
-    return NextResponse.json(
-      { error: "Revalidation failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Revalidation failed" }, { status: 500 });
   }
 }

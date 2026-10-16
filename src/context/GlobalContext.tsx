@@ -1,16 +1,13 @@
 "use client";
 
 import { createContext, useContext, ReactNode } from "react";
-import { Global, SocialMediaAccount } from "@/lib/directus";
+import { Global, OpeningHours, SocialMediaAccount } from "@/lib/directus";
 
 interface ContactInfo {
   phone: string;
   email: string;
   address: string[];
-  officeHours: {
-    days: string;
-    times: string;
-  };
+  openingHours: OpeningHours[];
   socialMedia: SocialMediaAccount[];
 }
 
@@ -23,10 +20,7 @@ const defaultContact: ContactInfo = {
   phone: "",
   email: "",
   address: [],
-  officeHours: {
-    days: "Mon-Fri",
-    times: "9am-5pm",
-  },
+  openingHours: [],
   socialMedia: [],
 };
 
@@ -50,10 +44,7 @@ export function GlobalProvider({
     phone: global?.phone ?? defaultContact.phone,
     email: global?.email_address ?? defaultContact.email,
     address: addressLines,
-    officeHours: {
-      days: global?.office_hours_days ?? defaultContact.officeHours.days,
-      times: global?.office_hours_times ?? defaultContact.officeHours.times,
-    },
+    openingHours: global?.opening_hours ?? defaultContact.openingHours,
     socialMedia: global?.social_media_accounts ?? defaultContact.socialMedia,
   };
 

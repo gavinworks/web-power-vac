@@ -1,5 +1,8 @@
 "use client";
 
+import { focusRing, pill } from "@/components/site/styles";
+import { cn } from "@/lib/utils";
+
 export default function Error({
   reset,
 }: {
@@ -7,14 +10,16 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h2 className="text-xl font-semibold">Something went wrong!</h2>
-      <button
-        onClick={reset}
-        className="rounded-md bg-primary px-4 py-2 text-primary-foreground transition-colors hover:bg-primary/90"
-      >
+    <main className="bg-pv-ink flex min-h-svh flex-col items-start justify-center gap-7 px-5 text-white lg:px-12">
+      <h1 className="font-pv-display text-[clamp(3.5rem,9vw,7.5rem)] leading-[0.86] font-extrabold font-stretch-75%">
+        This page didn’t load
+      </h1>
+      <p className="text-pv-haze max-w-150 text-xl">
+        Try again, or ring us if you need us now.
+      </p>
+      <button type="button" onClick={reset} className={cn(pill.sky, focusRing)}>
         Try again
       </button>
-    </div>
+    </main>
   );
 }

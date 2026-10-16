@@ -110,3 +110,32 @@
   --font-pv-display: var(--font-pv-bricolage), ui-sans-serif, sans-serif;
   --font-pv-hand: var(--font-pv-caveat), cursive;
 }
+
+/* Rich text from Directus (service pages, news articles, legal pages) */
+@layer components {
+  .pv-prose {
+    @apply flex max-w-170 flex-col gap-5 text-lg leading-relaxed text-pv-navy lg:text-xl;
+  }
+  .pv-prose h2 {
+    @apply mt-6 font-pv-display text-[2.5rem] leading-none font-extrabold font-stretch-75% tracking-[-0.015em] first:mt-0 lg:text-5xl;
+  }
+  .pv-prose h3 {
+    @apply mt-3 font-pv-display text-3xl leading-tight font-extrabold font-stretch-80% tracking-[-0.02em];
+  }
+  .pv-prose ul,
+  .pv-prose ol {
+    @apply flex flex-col gap-2 pl-6;
+  }
+  .pv-prose ul {
+    @apply list-disc marker:text-pv-sky;
+  }
+  .pv-prose ol {
+    @apply list-decimal marker:font-bold marker:text-pv-link;
+  }
+  .pv-prose a {
+    @apply font-semibold text-pv-link underline underline-offset-4 hover:text-pv-navy;
+  }
+  .pv-prose strong {
+    @apply font-bold;
+  }
+}
