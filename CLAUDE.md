@@ -3,7 +3,7 @@
 ## Stack
 
 - **Framework**: Next.js 16 (App Router, React 19)
-- **CMS**: Directus (headless, hosted on Railway)
+- **CMS**: Directus **12.5 or higher** (headless, hosted on Railway). The automated image field and permission workflows below were verified on 12.5.0 and must not be used on older instances; check the version with `GET /server/info` before relying on them.
 - **Styling**: Tailwind CSS v4 with shadcn/ui design tokens
 - **Language**: TypeScript (strict mode)
 - **Package Manager**: pnpm
@@ -65,7 +65,7 @@ Each data fetcher in `src/lib/directus.ts` is in one of two states:
 
 **Migrating to Directus:** Follow these steps in order:
 
-1. Create the collection in Directus and set public read access on all needed fields
+1. Create the collection in Directus and grant the Public policy read access to it (see "Permissions and Access Policies")
 2. Populate the collection with content
 3. In `src/lib/directus.ts`, replace the fetcher's mock body with a live Directus fetch using `fetchWithRetry()`:
    ```typescript
@@ -183,6 +183,8 @@ For live preview to work, the preview URL on each Directus collection must conta
 
 When setting up previews for a new project, ensure this user exists and the token is embedded in the collection's preview URL. If preview returns empty data or 403s, check that the Preview User has the correct access policy and that the token in the URL matches the user's static token.
 
+Creating the Preview User and its static token are done by the developer in the Directus UI. Granting its policy read access to draft items can be done via the REST API (see "Permissions and Access Policies").
+
 ### Preview vs Visual Editor — Two Separate Features
 
 These are **independent Directus features** that must not be conflated:
@@ -200,7 +202,7 @@ These are **independent Directus features** that must not be conflated:
 
 When preview, visual editor, or any data fetching feature isn't working, the cause is **almost always a Directus permissions issue** — not a code bug. Before investigating code:
 
-1. **Stop and ask the developer** to check Directus permissions on the relevant collection (Settings > Access Control > Public role or the role used by the static token)
+1. **Check the permissions yourself** by reading them via the REST API (`GET /permissions?filter[policy][_eq]=<policy-id>`) for the Public policy or the policy used by the token. If they are missing or wrong, fix them following "Permissions and Access Policies", then confirm with an unauthenticated request
 2. Common permission issues:
    - Collection not readable by the public role or API token role
    - Specific fields not included in the role's field permissions
@@ -209,7 +211,7 @@ When preview, visual editor, or any data fetching feature isn't working, the cau
 
 **Never "fix" ISR fetchers by adding auth headers.** If a public page returns empty data or errors, the answer is almost certainly that the Directus public role lacks read access to the collection — not that the fetcher needs a `Bearer` token. Adding static token auth to ISR fetchers is wrong and breaks the architecture (public pages should not depend on a server-side secret for basic reads).
 
-Do not spend time debugging fetch errors, empty responses, or 403s in code — ask about permissions first.
+Do not spend time debugging fetch errors, empty responses, or 403s in code — check permissions first.
 
 ### Visual Editor Integration
 
@@ -640,29 +642,51 @@ These are defaults — adjust limits based on the specific design requirements. 
 
 ### Image / File Fields
 
-**Do NOT create image or file fields via the API or MCP.** The Directus UI creates file fields as an atomic operation (field + relation to `directus_files` + interface registration) in a single transaction. Creating these via the API requires two separate calls (field, then relation), which can leave the system in an inconsistent state — in one case it caused a login-blocking loop.
+On Directus 12.5 or higher, create image and file fields with the MCP, in two calls: the field, then its relation to `directus_files`. This was tested end to end on 12.5.0 (field, relation, file attached, admin app and login unaffected). On older Directus versions, do not create file fields via the API or MCP: there it once left the system in a login-blocking loop, so report the fields to the developer to add in the UI instead.
 
-**What you CAN do:**
-- Upload images to the Directus file library via the API (file import / upload endpoints)
-- Assign an existing file UUID to an image field via the API (e.g., `PATCH /items/collection { "image_field": "file-uuid" }`)
+**Every image field must set the `file-image` interface option `crop` to `false`** (the "Crop to Fit" option in the UI). Directus defaults it to `true`, which crops the thumbnail in the editor and hides parts of the image from editors.
 
-**Uploading files — use the Directus URL, not the production site URL.** File uploads go directly to Directus (`NEXT_PUBLIC_DIRECTUS_URL`), not the Next.js site URL. The Next.js `/files/:id` route is a read-only proxy rewrite — it cannot accept uploads.
+**Step 1: create the field** (`fields` tool, `create`):
 
-**What you CANNOT do:**
-- Create the image/file field itself via the API or MCP
-- Create the relation to `directus_files` via the API or MCP
+```json
+{
+  "field": "hero_image",
+  "type": "uuid",
+  "schema": { "is_nullable": true },
+  "meta": {
+    "special": ["file"],
+    "interface": "file-image",
+    "options": { "crop": false },
+    "display": "image",
+    "width": "full",
+    "group": "hero",
+    "note": "Background photo for the hero. Landscape, at least 1600px wide."
+  }
+}
+```
 
-**Workflow when a collection needs image fields:**
+**Step 2: create the relation** (`relations` tool, `create`), straight after the field:
 
-1. Create all non-image fields via the API/MCP as normal
-2. Upload any images to the Directus file library via the API
-3. Report back to the developer with a list of image fields to add manually, including:
-   - Field name (e.g., `intro_image`)
-   - Which group it belongs to (e.g., "Intro")
-   - Position within the group (e.g., "after `intro_cta_link`, last field in group")
-   - Field note to add (e.g., "Image displayed alongside the intro text.")
-   - The uploaded file UUID to assign after creation
-4. Once the developer confirms the fields are created, assign the uploaded images via the API
+```json
+{
+  "collection": "home_page",
+  "field": "hero_image",
+  "related_collection": "directus_files",
+  "meta": { "sort_field": null },
+  "schema": { "on_delete": "SET NULL" }
+}
+```
+
+**Step 3: verify.** Read the collection back with the `schema` tool and confirm the field shows `interface: file-image` and `relation: m2o → directus_files`. If the relation call fails, delete the half-made field before retrying so it is never left without its relation.
+
+**Uploading files.** The MCP cannot upload file content, and its URL import may fail to fetch. Upload local files with the REST API (`POST /files`, multipart, with `title` before `file`), then assign the returned UUID to the field via the MCP `items` tool. Uploads go to the Directus URL (`NEXT_PUBLIC_DIRECTUS_URL`), never the production site URL: the Next.js `/files/:id` route is a read-only proxy rewrite.
+
+```bash
+curl -s -X POST "$DIRECTUS_URL/files" -H "Authorization: Bearer $ADMIN_TOKEN" \
+  -F "title=Hero photo" -F "file=@public/images/hero.jpg"
+```
+
+Images are only visible on the public site once the Public policy can read `directus_files` (see "Permissions and Access Policies").
 
 ### Dynamic Icon Fields (Lucide Icons)
 
@@ -752,6 +776,44 @@ import { DynamicIcon } from "@/components/shared/dynamic-icon";
 }
 ```
 
+### Permissions and Access Policies
+
+On Directus 12.5 or higher you may create and change permissions on access policies yourself. The MCP has no permissions or policies tool, so this is one of the operations that uses the REST API directly (see "When MCP Fails"). This was tested on 12.5.0: granting Public read made an anonymous request succeed, and removing it returned 403 again.
+
+**Rules:**
+- Only add or change permissions a task needs: Public **read** on content collections and `directus_files`, read on drafts for the Preview User's policy, and **create only** on `submissions` for the Form Bot policy. Never give the Public policy create, update or delete on anything, and never touch the Administrator policy, admin or app access flags, roles, or users.
+- Read the policy's current permissions first, and verify every change with an unauthenticated (or token) request afterwards.
+- Never print tokens. Read the admin token from the `directus` MCP entry or the environment without echoing it.
+
+**Find the policies:**
+
+```bash
+curl -s "$DIRECTUS_URL/policies?fields=id,name,admin_access,app_access" -H "Authorization: Bearer $ADMIN_TOKEN"
+```
+
+The Public policy is named `$t:public_label`.
+
+**Read a policy's permissions:**
+
+```bash
+curl -s "$DIRECTUS_URL/permissions?filter%5Bpolicy%5D%5B_eq%5D=$POLICY_ID&fields=id,collection,action,fields" -H "Authorization: Bearer $ADMIN_TOKEN"
+```
+
+Entries with `system: true` and no `id` are Directus's built-in app defaults, not stored permissions. Ignore them.
+
+**Grant read access** (one entry per collection, sent as an array):
+
+```bash
+curl -s -X POST "$DIRECTUS_URL/permissions" -H "Authorization: Bearer $ADMIN_TOKEN" -H "Content-Type: application/json" \
+  -d '[{"policy":"<public-policy-id>","collection":"home_page","action":"read","fields":["*"],"permissions":{},"validation":{}}]'
+```
+
+For collections with a `status` field, limit Public read to published items with `"permissions":{"status":{"_eq":"published"}}`. The Form Bot gets `"action":"create"` on `submissions` only.
+
+**Verify** with a request that has no `Authorization` header (`GET /items/home_page` should return data, and `GET /assets/<file-id>` should return 200). Quote URLs containing `?` or `[` in zsh.
+
+**Remove a permission** with `DELETE /permissions` and a JSON array of the permission ids.
+
 ## Directus MCP Server
 
 A Directus MCP server should be configured so you can query the Directus schema and collections directly. This helps when adding new pages or keeping type definitions in `src/lib/directus.ts` in sync with the actual Directus schema. See README.md for MCP setup instructions.
@@ -759,6 +821,8 @@ A Directus MCP server should be configured so you can query the Directus schema 
 ### MCP-First Rule
 
 **Always use the Directus MCP server as the primary method for all Directus operations.** Never default to bash/curl for Directus interactions. The MCP server is the correct tool — bash is only a last-resort fallback.
+
+**Exceptions where the REST API is the expected route** (the MCP has no tool for them): permissions and access policies (see "Permissions and Access Policies") and uploading file content (see "Image / File Fields"). Use an admin token for these, never `DIRECTUS_STATIC_TOKEN`, and never print it.
 
 ### Before Making Changes
 
@@ -782,7 +846,7 @@ If a Directus MCP operation fails, follow this escalation path in order:
      "${NEXT_PUBLIC_DIRECTUS_URL}/items/collection_name"
    ```
 
-The bash/curl fallback is a **last resort only**. Always explain why MCP failed before resorting to it.
+The bash/curl fallback is a **last resort only** for operations the MCP supports. Always explain why MCP failed before resorting to it.
 
 ## Directus Flows Setup
 
@@ -984,7 +1048,7 @@ The contact form flow expects a `submissions` collection with these fields:
 | `subject` | string | input | Required. Max 150 chars. |
 | `message` | text | input-multiline | Required. Max 2000 chars. |
 
-Create a dedicated Directus user/role ("Form Bot") with **create-only** permissions on the `submissions` collection. Use its static token as `DIRECTUS_FORM_BOT_TOKEN` in `.env.local`. This ensures the form endpoint can only create submissions — not read, update, or delete them.
+Create a dedicated Directus user/role ("Form Bot") with **create-only** permissions on the `submissions` collection. The developer creates the user and its token in the UI; you may grant its policy create on `submissions` via the REST API (see "Permissions and Access Policies"). Use its static token as `DIRECTUS_FORM_BOT_TOKEN` in `.env.local`. This ensures the form endpoint can only create submissions — not read, update, or delete them.
 
 ## Critical Rules
 
@@ -1005,9 +1069,10 @@ Create a dedicated Directus user/role ("Form Bot") with **create-only** permissi
 - **Do not commit `.env.local`** — use `.env.example` as reference
 - **Do not install with npm or yarn** — this project uses pnpm
 - **Do not conflate live preview with visual editor** — they are separate features; implement preview first, then visual editor
-- **Do not debug data fetching issues without first asking about Directus permissions** — permission misconfiguration is the most common cause of preview/editor/fetch failures
+- **Do not debug data fetching issues without first checking Directus permissions** — permission misconfiguration is the most common cause of preview/editor/fetch failures
 - **Do not add auth headers to ISR/public fetchers** — public pages use unauthenticated requests; if data is missing, the Directus public role needs read access, not a Bearer token
 - **Do not use bare `fetch()` in live ISR fetchers** — always use `fetchWithRetry()` for resilience against Directus cold starts and transient failures
 - **Do not implement previews or visual editor without reading the how-to guides first** — consult `.docs/how-to/` before implementing; they document real challenges and solutions
-- **Do not modify Directus permissions or access policies** — never add, change, or remove public read access, role permissions, or access policies via the API or MCP. When a task requires permission changes, report what's needed to the developer and let them handle it manually in the Directus UI
+- **Do not change Directus permissions beyond what a task needs, or on Directus older than 12.5** — only grant Public read, Preview User draft read and Form Bot create on `submissions` as described in "Permissions and Access Policies"; never change the Administrator policy, admin/app access, roles or users. On older versions, report what's needed to the developer instead
+- **Do not create an image field without `crop: false`** — every `file-image` field sets "Crop to Fit" off, and always gets its `directus_files` relation straight after
 - **Do not upload files to the production site URL** — file uploads go to the Directus URL (`NEXT_PUBLIC_DIRECTUS_URL`), not the Next.js site; the `/files/:id` route is a read-only proxy
