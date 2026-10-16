@@ -103,21 +103,40 @@ export function SiteFooter() {
             © {new Date().getFullYear()}{" "}
             {global?.site_name ?? "Power-Vac Gutter Cleaning"}, Norwich
           </p>
-          <ul className="flex gap-5">
-            {LEGAL_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "underline underline-offset-4 hover:text-white",
-                    focusRing
-                  )}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-8">
+            <ul className="flex gap-5">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "underline underline-offset-4 hover:text-white",
+                      focusRing
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            {/* Agency credit, the same on every Build 76 site, so it lives in code */}
+            <p>
+              Made with{" "}
+              <span role="img" aria-label="love">
+                ❤️
+              </span>{" "}
+              by{" "}
+              <a
+                href="https://www.build76.co.uk/"
+                className={cn(
+                  "underline underline-offset-4 hover:text-white",
+                  focusRing
+                )}
+              >
+                Build 76
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
