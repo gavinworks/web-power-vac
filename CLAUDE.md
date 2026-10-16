@@ -839,6 +839,24 @@ For collections with a `status` field, limit Public read to published items with
 
 **Remove a permission** with `DELETE /permissions` and a JSON array of the permission ids.
 
+## DNS (DNSimple)
+
+Client domains are managed in DNSimple. There is no official DNSimple MCP server or CLI, so DNS changes use the DNSimple REST API (`https://api.dnsimple.com/v2`) with curl.
+
+**Where the token lives.** The developer's DNSimple account API token is saved on the developer's Mac at `~/.config/dnsimple/env`, outside every project, as one line: `DNSIMPLE_TOKEN=…`. The file is `chmod 600`, so only the developer's user can read it. It was created with:
+
+```bash
+mkdir -p ~/.config/dnsimple && printf 'DNSIMPLE_TOKEN=your-token-here\n' > ~/.config/dnsimple/env && chmod 600 ~/.config/dnsimple/env
+```
+
+**Rules:**
+- Never print, echo, copy or commit the token, and never ask for it in chat. Load it into a command without showing it, e.g. `set -a; source ~/.config/dnsimple/env; set +a`, then use `-H "Authorization: Bearer $DNSIMPLE_TOKEN"`.
+- Find the account ID with `GET /v2/whoami` (`data.account.id`).
+- Always read the zone first (`GET /v2/{account}/zones/{domain}/records`) and show the developer every record you will add, change or delete, with its current value. Only write after a clear yes. DNS changes are outward-facing and can take a site or mailbox offline.
+- Never touch the records that point the site at its host (the apex `ALIAS`/`A` and `www` `CNAME` for Netlify) unless the task is to change hosting.
+- Create a record with `POST /v2/{account}/zones/{domain}/records` and a JSON body such as `{"name":"","type":"MX","content":"mx.example.com","ttl":3600,"priority":10}` (an empty `name` is the apex). Update with `PATCH .../records/{id}` and delete with `DELETE .../records/{id}`.
+- After writing, read the zone back and check the record resolves (`dig +short TXT example.com`), allowing for propagation.
+
 ## Directus MCP Server
 
 A Directus MCP server should be configured so you can query the Directus schema and collections directly. This helps when adding new pages or keeping type definitions in `src/lib/directus.ts` in sync with the actual Directus schema. See README.md for MCP setup instructions.
