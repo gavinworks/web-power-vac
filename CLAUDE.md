@@ -321,7 +321,7 @@ const url = getFileUrl(file);
 ### Icons, Share Images, Sitemap and IndexNow
 
 - **Icons** are generated from the house emblem by `node scripts/make-icons.mjs`, which writes `src/app/icon.svg`, `favicon.ico`, `apple-icon.png` and the manifest icons in `public/icons/`. `src/app/manifest.ts` is the Android home screen manifest. Don't set `icons` in the layout metadata: it overrides these files.
-- **Share images** are `opengraph-image.tsx` files in each route, all drawn by `renderOgImage()` in `src/lib/og-image.tsx` from the page's `hero_annotation` and `hero_heading` (posts use `topic` and `title`). Fonts and the logo it uses live in `src/assets/og/`. Don't set `openGraph.images` in page metadata, or it replaces the generated image.
+- **Share images** are `opengraph-image.tsx` files in each route, all drawn by `renderOgImage()` in `src/lib/og-image.tsx` from the page's `hero_annotation` and `hero_heading` (posts use `topic` and `title`). Every image ends with the quote button text and phone number from `global`. Meta descriptions are capped at 125 characters in Directus so link previews show them in full. Fonts and the logo it uses live in `src/assets/og/`. Don't set `openGraph.images` in page metadata, or it replaces the generated image.
 - **Sitemap** (`src/app/sitemap.ts`) is cleared by `/api/revalidate` on every Directus change. Add new routes or collections to it.
 - **IndexNow** (`src/lib/indexnow.ts`) reports changed pages to Bing after each revalidation. The Directus flow sends `{"collection", "keys"}`; when adding a collection, add its paths to `SINGLETON_PATHS` or `ITEM_PATHS`. The key file is `public/<key>.txt`.
 

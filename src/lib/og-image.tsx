@@ -1,12 +1,13 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { siteConfig } from "@/config/site";
+import { getGlobal } from "@/lib/directus";
 
 /**
  * Shared renderer for the social share images (opengraph-image.tsx in each
  * route). Each page passes its own annotation and headline, so a shared link
- * shows the page's title next to the Power-Vac badge.
+ * shows the page's title next to the Power-Vac badge, with the quote button
+ * and phone number from Global as a call to action.
  */
 
 export const ogSize = { width: 1200, height: 630 };
@@ -34,12 +35,14 @@ export async function renderOgImage({
   heading,
   strapline = "Gutter cleaning from the ground · Norwich & Norfolk",
 }: OgImageProps) {
-  const [condensed, regular, hand, logo] = await Promise.all([
+  const [condensed, regular, hand, logo, global] = await Promise.all([
     asset("bricolage-800-condensed.ttf"),
     asset("bricolage-600.ttf"),
     asset("caveat-700.ttf"),
     asset("logo.png"),
+    getGlobal(),
   ]);
+  const ctaText = global?.quote_cta_text ?? "Get my free quote";
 
   const lines = heading.split("\n");
   const length = heading.replace(/\*/g, "").length;
@@ -113,6 +116,33 @@ export async function renderOgImage({
         >
           {strapline}
         </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 36,
+            fontSize: 30,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              padding: "16px 34px",
+              borderRadius: 9999,
+              background: SKY,
+              color: NAVY,
+              fontFamily: "Bricolage Condensed",
+              fontSize: 36,
+            }}
+          >
+            {`${ctaText} →`}
+          </div>
+          {global?.phone && (
+            <div style={{ display: "flex", marginLeft: 28, color: "white" }}>
+              {`or call ${global.phone}`}
+            </div>
+          )}
+        </div>
       </div>
 
       <div
@@ -150,17 +180,6 @@ export async function renderOgImage({
           background: SKY,
         }}
       />
-      <div
-        style={{
-          position: "absolute",
-          left: 72,
-          bottom: 36,
-          fontSize: 24,
-          color: SKY,
-        }}
-      >
-        {new URL(siteConfig.url).host.replace(/^www\./, "")}
-      </div>
     </div>,
     {
       ...ogSize,
