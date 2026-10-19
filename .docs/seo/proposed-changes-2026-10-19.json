@@ -1,0 +1,315 @@
+[
+  {
+    "collection": "home_page",
+    "item": null,
+    "field": "meta_title",
+    "current": "Power-Vac Gutter Cleaning | Norwich & Norfolk",
+    "proposed": "Gutter Cleaning Norwich & Norfolk | Power-Vac",
+    "reason": "Puts the primary keyword 'gutter cleaning norwich' (260/mo, difficulty 2) at the front of the title instead of the brand. Brand stays at the end. Top-ranking local competitors all lead with 'Gutter Cleaning Norwich'."
+  },
+  {
+    "collection": "home_page",
+    "item": null,
+    "field": "meta_description",
+    "current": "Gutter vacuum cleaning from the ground, with a camera on the pole so you can see inside your gutters. Norwich and the whole of Norfolk, from just £34.99.",
+    "proposed": "Gutter cleaning in Norwich and across Norfolk from £34.99. We vacuum from the ground with a camera on the pole, so no ladders. Get a free quote today.",
+    "reason": "Opens with 'gutter cleaning in Norwich' (the exact local phrase searchers use), keeps the price hook and adds a call to action."
+  },
+  {
+    "collection": "home_page",
+    "item": null,
+    "field": "hero_annotation",
+    "current": "Live camera inspection",
+    "proposed": "Gutter cleaning in Norwich",
+    "reason": "The hand-written note sits right above the page's main heading (H1 'See what we see'), which has no keyword in it. Putting the primary phrase here gets it into the first line of visible text without changing the headline the design is built around."
+  },
+  {
+    "collection": "home_page",
+    "item": null,
+    "field": "hero_description",
+    "current": "We vacuum your gutters from the ground with a camera on the pole, so you can watch inside them in real time while we clean. No ladders, no mess, and before & after photos and videos as proof.",
+    "proposed": "We vacuum your gutters from the ground with a camera on the pole, so you can watch inside them while we clean. Gutter clearing with no ladders and no mess, plus before & after photos as proof.",
+    "reason": "Works in 'gutter clearing' (the alternative phrasing used by Checkatrade and other local listings) and keeps the 'no ladders' message, which matches 'how to clean gutters without a ladder' searches (210/mo)."
+  },
+  {
+    "collection": "home_page",
+    "item": null,
+    "field": "areas_description",
+    "current": "Based in Norwich and covering all of Norfolk and the surrounding areas. From the Broads to the coast, if it’s got gutters, we’ll come.",
+    "proposed": "Based in Norwich and covering all of Norfolk, from Wymondham and Dereham to Aylsham and Thetford. From the Broads to the coast, if it’s got gutters, we’ll come.",
+    "reason": "Names the towns with measurable search demand for gutter cleaning (Thetford and Dereham 20/mo each, Wymondham and Aylsham 10/mo) on the homepage, which carries the most authority."
+  },
+  {
+    "collection": "services_page",
+    "item": null,
+    "field": "meta_title",
+    "current": "Gutter cleaning services in Norwich & Norfolk",
+    "proposed": "Gutter Cleaning Services in Norwich",
+    "reason": "'Gutter cleaning services' (120/mo) plus 'gutter cleaning service' (140/mo) is the commercial phrase for this page. Shortened so the brand suffix still shows in results."
+  },
+  {
+    "collection": "services_page",
+    "item": null,
+    "field": "meta_description",
+    "current": "Gutter vacuum cleaning from £34.99, plus downpipe unblocking, fascia and soffit cleaning, roof cleaning and minor roofline repairs across Norfolk.",
+    "proposed": "Gutter cleaning from £34.99, plus downpipe unblocking, fascia and soffit cleaning, roof moss removal and minor gutter repairs across Norwich and Norfolk.",
+    "reason": "Lists every service under the names people search for: 'roof moss removal' (990/mo, difficulty 7) and 'gutter repairs' (2,400/mo) rather than only 'roof cleaning' and 'roofline repairs'."
+  },
+  {
+    "collection": "services_page",
+    "item": null,
+    "field": "hero_description",
+    "current": "Gutter vacuum cleaning is the main event. Add your downpipes, fascias and soffits or your roof, and we’ll take care of them while we’re there.",
+    "proposed": "Gutter vacuum cleaning is the main event. Add downpipe unblocking, fascia and soffit cleaning or roof moss removal, and we’ll take care of them while we’re there.",
+    "reason": "Uses the searched service names in the page intro so the page is relevant for each of them."
+  },
+  {
+    "collection": "services_page",
+    "item": null,
+    "field": "faqs (add)",
+    "current": null,
+    "proposed": {
+      "question": "How often should gutters be cleaned?",
+      "answer": "Once a year suits most homes, ideally in late autumn after the leaves have fallen. If you have trees nearby, twice a year (autumn and spring) keeps the water flowing."
+    },
+    "reason": "'How often should gutters be cleaned' and its variants total about 500 searches a month. Answering it on the services page gives it a chance at the People Also Ask box shown for 'gutter cleaning norwich'."
+  },
+  {
+    "collection": "services_page",
+    "item": null,
+    "field": "faqs (add)",
+    "current": null,
+    "proposed": {
+      "question": "Can you clean my gutters without a ladder?",
+      "answer": "Yes, that’s how we always work. A SkyVac gutter vacuum on a long carbon pole reaches the gutters from the ground, so nothing leans on your walls, windows or conservatory."
+    },
+    "reason": "'How to clean gutters without a ladder' and 'from the ground' variants are each searched about 210 times a month, and it’s Power-Vac’s main point of difference."
+  },
+  {
+    "collection": "services",
+    "item": "c8e9f9bc-32ce-4225-bb8e-1ad6d8384056",
+    "field": "meta_title",
+    "current": "Gutter vacuum cleaning in Norwich & Norfolk",
+    "proposed": "Gutter Vacuum Cleaning Norwich",
+    "reason": "'Gutter vacuum' is searched 2,400 times a month and 'skyvac gutter cleaning' 390. Pairing it with Norwich targets local people looking for this method. Shortened so the brand suffix shows."
+  },
+  {
+    "collection": "services",
+    "item": "c8e9f9bc-32ce-4225-bb8e-1ad6d8384056",
+    "field": "meta_description",
+    "current": "Gutters vacuum cleaned from the ground with a camera on the pole, so you can see inside them. No ladders, no mess. From just £34.99.",
+    "proposed": "SkyVac gutter vacuum cleaning in Norwich and Norfolk from £34.99. Cleared from the ground with a camera, so no ladders and no mess. Ask for a free quote.",
+    "reason": "Adds 'SkyVac' (390/mo, difficulty 9), the location and a call to action."
+  },
+  {
+    "collection": "services",
+    "item": "c8e9f9bc-32ce-4225-bb8e-1ad6d8384056",
+    "field": "hero_description",
+    "current": "A SkyVac pole reaches your gutters from the ground and vacuums out the leaves, moss and muck. The camera on the pole shows exactly what’s up there, before and after.",
+    "proposed": "A SkyVac gutter vacuum reaches your gutters from the ground and sucks out the leaves, moss and muck. The camera on the pole shows exactly what’s up there, before and after.",
+    "reason": "Puts the exact phrase 'gutter vacuum' in the opening paragraph."
+  },
+  {
+    "collection": "services",
+    "item": "c8e9f9bc-32ce-4225-bb8e-1ad6d8384056",
+    "field": "faqs (add)",
+    "current": null,
+    "proposed": {
+      "question": "How much does gutter cleaning cost in Norwich?",
+      "answer": "Our gutter cleaning starts from £34.99. The final price depends on the size of your home and how full the gutters are, so we’ll give you a free, no-obligation quote first."
+    },
+    "reason": "'How much does gutter cleaning cost' and its variants are the biggest question cluster (590/mo, difficulty 5). Replaces the shorter 'How much does it cost?' so the question itself contains the search phrase. Swap rather than add."
+  },
+  {
+    "collection": "services",
+    "item": "f4114480-c040-4ba2-8676-79253971ee51",
+    "field": "meta_title",
+    "current": "Downpipe unblocking in Norwich & Norfolk",
+    "proposed": "Blocked Downpipe Unblocking Norwich",
+    "reason": "'Blocked downpipe' (260/mo) is the phrase people actually search; 'downpipe unblocking' on its own shows no measurable volume. Uses both."
+  },
+  {
+    "collection": "services",
+    "item": "f4114480-c040-4ba2-8676-79253971ee51",
+    "field": "meta_description",
+    "current": "Blocked downpipe? We clear it as an add-on to your gutter clean, so rainwater drains away from your home. Free quotes across Norfolk.",
+    "proposed": "Blocked downpipe? We unblock downpipes as an add-on to your gutter clean in Norwich and Norfolk, so rainwater drains away from your home. Free quotes.",
+    "reason": "Adds 'unblock downpipe' (140/mo) and the location."
+  },
+  {
+    "collection": "services",
+    "item": "f4114480-c040-4ba2-8676-79253971ee51",
+    "field": "hero_description",
+    "current": "A clean gutter only works if the water can get away. We clear blocked downpipes so the rain runs off your roof and into the drain.",
+    "proposed": "A clean gutter only works if the water can get away. We clear blocked downpipes and blocked gutters so the rain runs off your roof and into the drain.",
+    "reason": "Adds 'blocked gutters' (480/mo), a closely related problem search."
+  },
+  {
+    "collection": "services",
+    "item": "85a20f96-7a91-43b8-af21-4b743c83eeb9",
+    "field": "meta_title",
+    "current": "Fascia & soffit cleaning in Norwich & Norfolk",
+    "proposed": "Fascia & Soffit Cleaning Norwich",
+    "reason": "'Fascia and soffit cleaning' (590/mo, difficulty 9), 'fascia cleaning' (360) and 'soffit cleaning' (320) all have low difficulty. Shortened so the brand suffix shows."
+  },
+  {
+    "collection": "services",
+    "item": "85a20f96-7a91-43b8-af21-4b743c83eeb9",
+    "field": "meta_description",
+    "current": "Fascias and soffits cleaned as an add-on to your gutter clean, so your whole roofline looks fresh. Free quotes across Norfolk.",
+    "proposed": "Fascia and soffit cleaning in Norwich and Norfolk, added to your gutter clean so your whole roofline looks fresh. Ask for a free, no-obligation quote.",
+    "reason": "Leads with the exact keyword and location; 'fascia and gutter cleaning' (480/mo) is also covered by the wording."
+  },
+  {
+    "collection": "services",
+    "item": "eadf6e1b-1bc1-470e-ab82-94a975c525d6",
+    "field": "meta_title",
+    "current": "Roof cleaning in Norwich & Norfolk",
+    "proposed": "Roof Cleaning & Moss Removal Norwich",
+    "reason": "'Roof cleaning' (4,400/mo nationally, 70/mo with Norwich) and 'roof moss removal' (990/mo, difficulty 7) describe exactly what this service does."
+  },
+  {
+    "collection": "services",
+    "item": "eadf6e1b-1bc1-470e-ab82-94a975c525d6",
+    "field": "meta_description",
+    "current": "Roof cleaning as an add-on to your gutter clean. Clear the moss and debris that end up blocking your gutters. Free quotes across Norfolk.",
+    "proposed": "Roof cleaning and moss removal in Norwich and Norfolk, added to your gutter clean. Clear the moss before it blocks your gutters again. Free quotes.",
+    "reason": "Adds 'moss removal' and the location."
+  },
+  {
+    "collection": "services",
+    "item": "eadf6e1b-1bc1-470e-ab82-94a975c525d6",
+    "field": "hero_heading",
+    "current": "Roofs cleared\nof *moss*",
+    "proposed": "Roof moss\n*removal*",
+    "reason": "The H1 on this page carries no searched phrase. 'Roof moss removal' is the lowest-difficulty, highest-volume phrase for this service. Optional: keep the current heading if Tommy prefers it, as the meta title already covers the keyword."
+  },
+  {
+    "collection": "before_after_page",
+    "item": null,
+    "field": "meta_title",
+    "current": "Before & after gutter cleaning photos",
+    "proposed": "Gutter Cleaning Before & After Photos",
+    "reason": "'Gutter cleaning before and after' (110/mo) leads with the keyword phrase in the order people type it."
+  },
+  {
+    "collection": "before_after_page",
+    "item": null,
+    "field": "meta_description",
+    "current": "See the difference a gutter vacuum clean makes. Every Power-Vac job ends with before and after photos.",
+    "proposed": "See the difference gutter cleaning makes. Every Power-Vac job in Norwich and Norfolk ends with before and after photos from our pole camera.",
+    "reason": "Adds the keyword, the location and the camera, which ties into 'gutter cleaning with camera' (50/mo)."
+  },
+  {
+    "collection": "areas_page",
+    "item": null,
+    "field": "meta_title",
+    "current": "Areas we cover: Norwich & the whole of Norfolk",
+    "proposed": "Gutter Cleaning Across Norwich & Norfolk",
+    "reason": "The current title doesn’t say what service the areas are for. 'Gutter cleaning norfolk' (40/mo, difficulty 2) and 'gutter cleaning norwich' both fit."
+  },
+  {
+    "collection": "areas_page",
+    "item": null,
+    "field": "meta_description",
+    "current": "Power-Vac is based in Norwich and covers the whole of Norfolk, including Wymondham, Dereham, Aylsham, Thetford, Taverham, Sprowston and more.",
+    "proposed": "Gutter cleaning in Norwich and all of Norfolk, including Wymondham, Dereham, Aylsham, Thetford, Attleborough, Taverham and Sprowston. Free quotes.",
+    "reason": "Adds the service keyword; keeps the towns, which are what people add to their search (Thetford and Dereham 20/mo each)."
+  },
+  {
+    "collection": "areas_page",
+    "item": null,
+    "field": "hero_description",
+    "current": "Based in Norwich and covering the whole of Norfolk and the surrounding areas. These are the towns and villages we visit most.",
+    "proposed": "Gutter cleaning based in Norwich and covering the whole of Norfolk and the surrounding areas. These are the towns and villages we visit most.",
+    "reason": "Puts the service keyword in the intro of a page that otherwise only lists place names."
+  },
+  {
+    "collection": "news_page",
+    "item": null,
+    "field": "meta_title",
+    "current": "Gutter talk: news & advice",
+    "proposed": "Gutter Cleaning Advice & News",
+    "reason": "'Gutter talk' isn’t searched. Leading with 'gutter cleaning advice' tells search engines what the articles are about."
+  },
+  {
+    "collection": "news_page",
+    "item": null,
+    "field": "meta_description",
+    "current": "Gutter cleaning advice for Norfolk homes, plus news from Power-Vac Gutter Cleaning.",
+    "proposed": "Gutter cleaning advice for Norfolk homes: how often to clear your gutters, signs of a blocked downpipe and why we clean from the ground.",
+    "reason": "Names the article topics, each of which matches a searched question."
+  },
+  {
+    "collection": "contact_page",
+    "item": null,
+    "field": "meta_title",
+    "current": "Get a free gutter cleaning quote",
+    "proposed": "Free Gutter Cleaning Quote, Norwich",
+    "reason": "Adds the location to the transactional phrase."
+  },
+  {
+    "collection": "contact_page",
+    "item": null,
+    "field": "meta_description",
+    "current": "Ring 01603 339225 or send the form for a free, no-obligation gutter cleaning quote anywhere in Norwich and Norfolk.",
+    "proposed": "Ring 01603 339225 or send the form for a free, no-obligation gutter cleaning quote anywhere in Norwich and Norfolk.",
+    "reason": "No change needed: already contains the keyword, location, phone number and a call to action."
+  },
+  {
+    "collection": "posts",
+    "item": "6675e2bb-4a1f-4f90-8001-007962d2688e",
+    "field": "meta_title",
+    "current": "Why we clean gutters from the ground",
+    "proposed": "How to Clean Gutters Without a Ladder",
+    "reason": "Matches the question cluster 'how to clean gutters without a ladder' / 'from the ground' (about 210/mo each, difficulty 2 to 22). The article already answers it."
+  },
+  {
+    "collection": "posts",
+    "item": "6675e2bb-4a1f-4f90-8001-007962d2688e",
+    "field": "meta_description",
+    "current": "No ladders, no mess and a camera that shows you the result. Why Power-Vac vacuums gutters from the ground.",
+    "proposed": "How to clean gutters without a ladder: why we vacuum from the ground in Norwich, with no mess and a camera that shows you the result.",
+    "reason": "Uses the question phrasing at the start of the description."
+  },
+  {
+    "collection": "posts",
+    "item": "86606921-5511-4ebe-aba0-febc1912d482",
+    "field": "meta_title",
+    "current": "Five signs your downpipe is blocked",
+    "proposed": "Blocked Downpipe? Five Signs to Look For",
+    "reason": "'Blocked downpipe' (260/mo, difficulty 6) leads the title."
+  },
+  {
+    "collection": "posts",
+    "item": "86606921-5511-4ebe-aba0-febc1912d482",
+    "field": "meta_description",
+    "current": "Overflowing gutters aren’t always the gutter’s fault. Five signs your downpipe is blocked, and what to do about it.",
+    "proposed": "Overflowing gutters aren’t always the gutter’s fault. Five signs of a blocked downpipe, and how to get it unblocked in Norwich and Norfolk.",
+    "reason": "Adds 'unblock' wording and the location."
+  },
+  {
+    "collection": "posts",
+    "item": "a1cefcd1-debb-4d32-82c1-88a9241411a8",
+    "field": "meta_title",
+    "current": "How often should you clean your gutters?",
+    "proposed": "How Often Should Gutters Be Cleaned?",
+    "reason": "Matches the exact searched question 'how often should gutters be cleaned' (170/mo, difficulty 3)."
+  },
+  {
+    "collection": "posts",
+    "item": "a1cefcd1-debb-4d32-82c1-88a9241411a8",
+    "field": "meta_description",
+    "current": "Once a year suits most Norfolk homes. Here’s when twice a year makes more sense, and the signs your gutters need clearing.",
+    "proposed": "How often should gutters be cleaned? Once a year suits most Norfolk homes. Here’s when twice a year makes sense, and signs your gutters need clearing.",
+    "reason": "Opens with the question so it matches the search and the People Also Ask box."
+  },
+  {
+    "collection": "global",
+    "item": null,
+    "field": "site_description",
+    "current": "Gutter vacuum cleaning from the ground across Norwich and Norfolk. No ladders, no mess, just results.",
+    "proposed": "Gutter cleaning in Norwich and across Norfolk, vacuumed from the ground with a SkyVac and a pole camera. No ladders, no mess, just results.",
+    "reason": "Used in structured data and as the fallback description. Adds the primary keyword and SkyVac."
+  }
+]

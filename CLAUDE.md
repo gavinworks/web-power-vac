@@ -318,6 +318,13 @@ import { getFileUrl } from "@/lib/directus";
 const url = getFileUrl(file);
 ```
 
+### Icons, Share Images, Sitemap and IndexNow
+
+- **Icons** are generated from the house emblem by `node scripts/make-icons.mjs`, which writes `src/app/icon.svg`, `favicon.ico`, `apple-icon.png` and the manifest icons in `public/icons/`. `src/app/manifest.ts` is the Android home screen manifest. Don't set `icons` in the layout metadata: it overrides these files.
+- **Share images** are `opengraph-image.tsx` files in each route, all drawn by `renderOgImage()` in `src/lib/og-image.tsx` from the page's `hero_annotation` and `hero_heading` (posts use `topic` and `title`). Fonts and the logo it uses live in `src/assets/og/`. Don't set `openGraph.images` in page metadata, or it replaces the generated image.
+- **Sitemap** (`src/app/sitemap.ts`) is cleared by `/api/revalidate` on every Directus change. Add new routes or collections to it.
+- **IndexNow** (`src/lib/indexnow.ts`) reports changed pages to Bing after each revalidation. The Directus flow sends `{"collection", "keys"}`; when adding a collection, add its paths to `SINGLETON_PATHS` or `ITEM_PATHS`. The key file is `public/<key>.txt`.
+
 ### Global Context
 
 Global data (contact info, shared settings) is fetched once in the root layout and provided via React Context:
@@ -1121,3 +1128,13 @@ Create a dedicated Directus user/role ("Form Bot") with **create-only** permissi
 - **Do not change Directus permissions beyond what a task needs, or on Directus older than 12.5** — only grant Public read, Preview User draft read and Form Bot create on `submissions` as described in "Permissions and Access Policies"; never change the Administrator policy, admin/app access, roles or users. On older versions, report what's needed to the developer instead
 - **Do not create an image field without `crop: false`** — every `file-image` field sets "Crop to Fit" off, and always gets its `directus_files` relation straight after
 - **Do not upload files to the production site URL** — file uploads go to the Directus URL (`NEXT_PUBLIC_DIRECTUS_URL`), not the Next.js site; the `/files/:id` route is a read-only proxy
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
