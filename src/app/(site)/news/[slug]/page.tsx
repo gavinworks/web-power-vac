@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PostView } from "@/components/views/post-view";
 import {
-  getImageUrl,
   getNewsPage,
   getPost,
   getPosts,
@@ -24,7 +23,6 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPost(slug);
   if (!post) return {};
-  const image = getImageUrl(post.image);
   return {
     title: post.meta_title ?? post.title,
     description: post.meta_description ?? post.excerpt ?? undefined,
@@ -32,7 +30,6 @@ export async function generateMetadata({
     openGraph: {
       type: "article",
       publishedTime: post.date_published,
-      images: image ? [image] : undefined,
     },
   };
 }
