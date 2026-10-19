@@ -1,5 +1,8 @@
 export const siteConfig = {
   name: "Power-Vac Gutter Cleaning",
+  /** Label under the icon when the site is saved to a phone's home screen. */
+  shortName: "Power-Vac",
+  themeColor: "#071a33",
   url: "https://www.powervacguttercleaning.co.uk",
   description:
     "Gutter vacuum cleaning from the ground across Norwich and Norfolk.",

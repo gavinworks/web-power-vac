@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Caveat } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
@@ -22,16 +22,21 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
+    template: `%s | ${siteConfig.shortName}`,
   },
   description: siteConfig.description,
   openGraph: {
     siteName: siteConfig.name,
     locale: "en_GB",
     type: "website",
-    images: ["/images/hero.jpg"],
   },
-  icons: { icon: "/images/logo.png", apple: "/images/logo.png" },
+  twitter: { card: "summary_large_image" },
+  // Icons come from icon.svg, favicon.ico, apple-icon.png and manifest.ts
+  appleWebApp: { title: siteConfig.shortName },
+};
+
+export const viewport: Viewport = {
+  themeColor: siteConfig.themeColor,
 };
 
 export default async function RootLayout({
