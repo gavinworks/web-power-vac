@@ -33,7 +33,7 @@ export function SiteFooter() {
             )}
             <div
               data-directus={edit(
-                ["phone", "phone_mobile", "email_address"],
+                ["phone", "phone_second", "email_address"],
                 "drawer"
               )}
               className="flex flex-col gap-1 text-lg font-semibold"
@@ -46,12 +46,12 @@ export function SiteFooter() {
                   {contact.phone}
                 </a>
               )}
-              {global?.phone_mobile && (
+              {global?.phone_second && (
                 <a
-                  href={telHref(global.phone_mobile)}
+                  href={telHref(global.phone_second)}
                   className={cn("self-start hover:text-white", focusRing)}
                 >
-                  {global.phone_mobile}
+                  {global.phone_second}
                 </a>
               )}
               {contact.email && (

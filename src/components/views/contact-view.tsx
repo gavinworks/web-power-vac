@@ -59,7 +59,7 @@ export function ContactView({ page, global, services }: ContactViewProps) {
             <div
               data-directus={editGlobal([
                 "phone",
-                "phone_mobile",
+                "phone_second",
                 "email_address",
                 "social_media_accounts",
               ])}
@@ -73,12 +73,12 @@ export function ContactView({ page, global, services }: ContactViewProps) {
                   {global.phone}
                 </a>
               )}
-              {global?.phone_mobile && (
+              {global?.phone_second && (
                 <a
-                  href={telHref(global.phone_mobile)}
+                  href={telHref(global.phone_second)}
                   className={cn(linkClass, "text-2xl", focusRing)}
                 >
-                  {global.phone_mobile}
+                  {global.phone_second}
                 </a>
               )}
               {global?.email_address && (

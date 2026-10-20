@@ -75,7 +75,7 @@ export interface Global {
   site_description: string | null;
   logo: ImageField;
   phone: string | null;
-  phone_mobile: string | null;
+  phone_second: string | null;
   email_address: string | null;
   address: string | null;
   opening_hours: OpeningHours[] | null;
