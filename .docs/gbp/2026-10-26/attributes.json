@@ -1,0 +1,6 @@
+[
+  { "name": "attributes/url_facebook", "valueType": "URL", "uriValues": [{ "uri": "https://www.facebook.com/people/Power-Vac-Gutter-Cleaning/61594096245738/" }] },
+  { "name": "attributes/url_tiktok", "valueType": "URL", "uriValues": [{ "uri": "https://www.tiktok.com/@powervac.gutter.c" }] },
+  { "name": "attributes/has_onsite_services", "valueType": "BOOL", "values": [true] },
+  { "name": "attributes/offers_online_estimates", "valueType": "BOOL", "values": [true] }
+]

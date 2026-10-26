@@ -1,0 +1,6 @@
+{
+  "categories": {
+    "primaryCategory": { "name": "categories/gcid:gutter_cleaning_service" },
+    "additionalCategories": [{ "name": "categories/gcid:pressure_washing_service" }]
+  }
+}

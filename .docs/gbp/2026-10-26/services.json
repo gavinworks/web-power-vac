@@ -1,0 +1,56 @@
+{
+  "serviceItems": [
+    {
+      "structuredServiceItem": {
+        "serviceTypeId": "job_type_id:gutter_cleaning",
+        "description": "Gutters vacuum cleaned from the ground with a SkyVac. Leaves, moss, silt and debris out, with no ladders and no mess. A camera on the pole shows inside your gutters, and you get before and after photos. Three-storey houses and flats are no problem. From £34.99."
+      }
+    },
+    {
+      "freeFormServiceItem": {
+        "category": "categories/gcid:gutter_cleaning_service",
+        "label": {
+          "displayName": "Downpipe unblocking",
+          "description": "Blocked downpipes cleared with your gutter clean, so the water in your gutters has somewhere to go and drains away properly.",
+          "languageCode": "en-GB"
+        }
+      }
+    },
+    {
+      "freeFormServiceItem": {
+        "category": "categories/gcid:gutter_cleaning_service",
+        "label": {
+          "displayName": "Fascia and soffit cleaning",
+          "description": "Grimy, green fascias and soffits cleaned, so your roofline looks fresh again. The perfect finishing touch after a gutter clean.",
+          "languageCode": "en-GB"
+        }
+      }
+    },
+    {
+      "freeFormServiceItem": {
+        "category": "categories/gcid:gutter_cleaning_service",
+        "label": {
+          "displayName": "Roof cleaning",
+          "description": "Roof moss and debris cleared at the source, before it washes down and blocks your gutters again.",
+          "languageCode": "en-GB"
+        }
+      }
+    },
+    {
+      "structuredServiceItem": {
+        "serviceTypeId": "job_type_id:power_pressure_washing",
+        "description": "Driveways, patios, paths and steps power washed. Moss, algae and ground-in dirt lifted from block paving, so it looks like new again."
+      }
+    },
+    {
+      "freeFormServiceItem": {
+        "category": "categories/gcid:gutter_cleaning_service",
+        "label": {
+          "displayName": "Minor roofline repairs",
+          "description": "Spotted a small problem with your gutters or roofline? Ask us and we'll let you know if we can fix it.",
+          "languageCode": "en-GB"
+        }
+      }
+    }
+  ]
+}

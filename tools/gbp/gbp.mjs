@@ -11,6 +11,7 @@
  *   pnpm gbp post <post.json> [--confirm]
  *   pnpm gbp delete-post <post-id> [--confirm]
  *   pnpm gbp update <mask> <patch.json> [--confirm]
+ *   pnpm gbp attributes <attributes.json> [--confirm]
  *   pnpm gbp performance [days]
  *   pnpm gbp keywords [months]
  *   pnpm gbp locations
@@ -25,7 +26,7 @@
  *              client can never point this at the wrong profile.
  *
  * A PERSON APPROVES EVERY CHANGE. Anything that writes to a live profile
- * (reply, unreply, post, delete-post, update) prints a preview and stops.
+ * (reply, unreply, post, delete-post, update, attributes) prints a preview and stops.
  * It only sends with --confirm, and --confirm is added after the client or
  * Gavin has approved exactly what the preview shows. Everything else is read
  * only.
@@ -414,8 +415,9 @@ async function cmdUpdate(mask, file) {
   const current = await api(`${INFO_API}/${loc}?readMask=title,${top.join(',')}`);
 
   console.log(`\n  ${current.title}  (${loc})`);
+  const pretty = (v) => JSON.stringify(v ?? null, null, 2).replace(/\n/g, '\n      ');
   for (const f of top) {
-    console.log(`\n  ${f}\n    now: ${JSON.stringify(current[f] ?? null)}\n    new: ${JSON.stringify(patch[f] ?? null)}`);
+    console.log(`\n  ${f}\n    now:\n      ${pretty(current[f])}\n    new:\n      ${pretty(patch[f])}`);
   }
   const risky = top.filter((f) => RISKY.includes(f));
   if (risky.length) {
@@ -428,6 +430,41 @@ async function cmdUpdate(mask, file) {
   console.log(`\n  Updated ${top.join(', ')} on ${updated.title ?? current.title}.`);
   if (after.metadata?.hasPendingEdits) console.log(`  Google is reviewing the change before it shows publicly.`);
   console.log();
+}
+
+/** One attribute's value as text, whatever its type. */
+function attributeValue(a) {
+  if (!a) return '(not set)';
+  if (a.uriValues) return a.uriValues.map((u) => u.uri).join(', ');
+  if (a.repeatedEnumValue) return `set: ${a.repeatedEnumValue.setValues?.join(', ') ?? '—'}`;
+  return (a.values ?? []).join(', ');
+}
+
+/**
+ * attributes.json is a list of attributes, each as Google expects it:
+ *   [{ "name": "attributes/url_facebook", "valueType": "URL", "uriValues": [{ "uri": "https://..." }] },
+ *    { "name": "attributes/has_onsite_services", "valueType": "BOOL", "values": [true] }]
+ * Only the attributes in the file are changed; the rest are left alone.
+ */
+async function cmdAttributes(file) {
+  const wanted = readJson(file);
+  if (!Array.isArray(wanted) || !wanted.length) die('the file should be a list of attributes.');
+  const loc = await location();
+  const current = await api(`${INFO_API}/${loc}/attributes`);
+  const now = Object.fromEntries((current.attributes ?? []).map((a) => [a.name, a]));
+
+  console.log(`\n  ${NAME}  (${loc})`);
+  for (const a of wanted) {
+    console.log(`\n  ${a.name}\n    now: ${attributeValue(now[a.name])}\n    new: ${attributeValue(a)}`);
+  }
+  confirmOrStop('this change');
+
+  const mask = wanted.map((a) => a.name).join(',');
+  await api(`${INFO_API}/${loc}/attributes?attributeMask=${encodeURIComponent(mask)}`, {
+    method: 'PATCH',
+    body: { name: `${loc}/attributes`, attributes: wanted },
+  });
+  console.log(`\n  Updated ${wanted.length} attribute${wanted.length === 1 ? '' : 's'}.\n`);
 }
 
 const METRICS = {
@@ -524,6 +561,7 @@ function help() {
     post <post.json>                  publish a post: {"summary","url","action","photo"}
     delete-post <post-id>             delete a post
     update <mask> <patch.json>        edit profile fields, e.g. update websiteUri patch.json
+    attributes <attributes.json>      set links and attributes, e.g. Facebook, on-site services
 `);
 }
 
@@ -541,6 +579,7 @@ const COMMANDS = {
   post: cmdPost,
   'delete-post': cmdDeletePost,
   update: cmdUpdate,
+  attributes: cmdAttributes,
   performance: cmdPerformance,
   keywords: cmdKeywords,
   help,

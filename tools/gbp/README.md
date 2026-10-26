@@ -17,14 +17,17 @@ pnpm gbp help                     every command
 
 ## Changing the live profile
 
-`reply`, `unreply`, `post`, `delete-post` and `update` print a preview and send nothing. Run the same command again with `--confirm` only once Gavin or the client has approved exactly what the preview shows.
+`reply`, `unreply`, `post`, `delete-post`, `update` and `attributes` print a preview and send nothing. Run the same command again with `--confirm` only once Gavin or the client has approved exactly what the preview shows.
 
 ```
 pnpm gbp reply <review-id> reply.txt        preview a reply
 pnpm gbp reply <review-id> reply.txt --confirm
 pnpm gbp post post.json                     preview a post
 pnpm gbp update websiteUri patch.json       preview a profile edit
+pnpm gbp attributes attributes.json         preview links (Facebook, TikTok) and attributes
 ```
+
+The patch files for each round of changes are kept in `.docs/gbp/<date>/`, so there's a record of exactly what was sent.
 
 A post file is `{"summary": "...", "url": "...", "action": "LEARN_MORE", "photo": "https://..."}`. Tag the link with `utm_source=google&utm_medium=organic&utm_campaign=gbp-post&utm_content=<date>-<topic>`, and use the client's own job photos. Changing the name, address, categories or service area can make Google re-verify the profile, so check with the client first.
 
