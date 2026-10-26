@@ -4,7 +4,7 @@ For the request "Three quick questions about your Google Business Profile" (Buil
 
 Send it as a reply through Directus, not from hello@. Choose `then_set_status` when sending: `resolved` if nothing is left open, or `waiting` if a question is still unanswered.
 
-Attach both QR code files from `.docs/gbp/review-qr/` to the request (the request's Files field, so they go to the private Projects/Added folder): `powervac-google-review-qr.png` for screens and email, and `powervac-google-review-qr.svg` for printing. Both open his review link, checked by scanning on 26 October 2026.
+Attach both QR code files from `.docs/gbp/review-qr/` to the reply itself (`request_replies.files`, in the same save that creates the reply), not to the request: `powervac-google-review-qr.png` for screens and email, and `powervac-google-review-qr.svg` for printing. Both open his review link, checked by scanning on 26 October 2026. The email doesn't carry the files: it lists their names, linked to his Requests page in the portal, where he opens and downloads them under this message or on the request's Files tab.
 
 ```html
 <p>Hi Tommy,</p>
@@ -29,7 +29,18 @@ Attach both QR code files from `.docs/gbp/review-qr/` to the request (the reques
 <p>Google checks changes like these before they go live, so some may take a day or two to appear on your profile.</p>
 <h3>Getting Google reviews</h3>
 <p>Your profile doesn't have any reviews yet, and they're one of the things Google uses to decide which local businesses to show in Maps. They're also what most people read before choosing who to call, so this is where you'll see the quickest difference.</p>
-<p>We've attached a QR code that takes customers straight to the page for leaving you a review. If you'd rather send a link, it's <a href="https://search.google.com/local/writereview?placeid=ChIJz6hOSKXd2UcRP3K0X7fg_9c">https://search.google.com/local/writereview?placeid=ChIJz6hOSKXd2UcRP3K0X7fg_9c</a></p>
+<p>We've made you a QR code that takes customers straight to the page for leaving you a review. There are two versions:</p>
+<ul>
+<li><strong>powervac-google-review-qr.png:</strong> for your phone, emails and anything on screen.</li>
+<li><strong>powervac-google-review-qr.svg:</strong> for printing, so give this one to your printer.</li>
+</ul>
+<p>The files aren't attached to this email itself. To get them:</p>
+<ol>
+<li>Click either file name under "Attachments" in this email, or sign in at <a href="https://app.build76.co.uk">app.build76.co.uk</a> and open <strong>Requests</strong>.</li>
+<li>Open this request, "Three quick questions about your Google Business Profile".</li>
+<li>You'll see both files under this message. Tap one to open it, or go to the <strong>Files</strong> tab and use the download button next to each file to save it.</li>
+</ol>
+<p>It's worth saving the PNG to your phone's photos, so you can show it to customers on the spot. If you'd rather send a link, it's <a href="https://search.google.com/local/writereview?placeid=ChIJz6hOSKXd2UcRP3K0X7fg_9c">https://search.google.com/local/writereview?placeid=ChIJz6hOSKXd2UcRP3K0X7fg_9c</a></p>
 <p>A few tips for asking:</p>
 <ul>
 <li><strong>Ask at the end of every job,</strong> while the customer is looking at their clear gutters or your before and after photos. That's when people are happiest to help.</li>
