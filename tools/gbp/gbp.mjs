@@ -12,6 +12,7 @@
  *   pnpm gbp delete-post <post-id> [--confirm]
  *   pnpm gbp update <mask> <patch.json> [--confirm]
  *   pnpm gbp attributes <attributes.json> [--confirm]
+ *   pnpm gbp photo <file | url> [category] [--confirm]
  *   pnpm gbp performance [days]
  *   pnpm gbp keywords [months]
  *   pnpm gbp locations
@@ -26,7 +27,7 @@
  *              client can never point this at the wrong profile.
  *
  * A PERSON APPROVES EVERY CHANGE. Anything that writes to a live profile
- * (reply, unreply, post, delete-post, update, attributes) prints a preview and stops.
+ * (reply, unreply, post, delete-post, update, attributes, photo) prints a preview and stops.
  * It only sends with --confirm, and --confirm is added after the client or
  * Gavin has approved exactly what the preview shows. Everything else is read
  * only.
@@ -467,6 +468,59 @@ async function cmdAttributes(file) {
   console.log(`\n  Updated ${wanted.length} attribute${wanted.length === 1 ? '' : 's'}.\n`);
 }
 
+const PHOTO_CATEGORIES = ['LOGO', 'COVER', 'PROFILE', 'EXTERIOR', 'INTERIOR', 'PRODUCT', 'AT_WORK', 'TEAMS', 'ADDITIONAL'];
+
+/**
+ * Add a photo from a local JPG/PNG or a public URL, e.g. `photo logo.jpg LOGO`.
+ * Google wants JPG or PNG, at least 250x250 (720x720 recommended), under 5 MB.
+ */
+async function cmdPhoto(src, category = 'ADDITIONAL') {
+  if (!src) die('no photo given: a local JPG/PNG or a public URL.');
+  category = category.toUpperCase();
+  if (!PHOTO_CATEGORIES.includes(category)) die(`category must be one of ${PHOTO_CATEGORIES.join(', ')}`);
+  const isUrl = /^https?:\/\//.test(src);
+  let bytes;
+  if (!isUrl) {
+    try {
+      bytes = readFileSync(src);
+    } catch (e) {
+      die(`could not read ${src}\n  ${e.message}`);
+    }
+    if (bytes.length > 5 * 1024 * 1024) die(`${src} is over 5 MB.`);
+  }
+  const v4 = await v4Location();
+  const media = await pages(`${V4_API}/${v4}/media?pageSize=100`, 'mediaItems');
+  const same = media.filter((m) => m.locationAssociation?.category === category);
+
+  console.log(`\n  ${NAME}: add a ${category} photo`);
+  console.log(`  From: ${src}${bytes ? ` (${Math.round(bytes.length / 1024)} KB)` : ''}`);
+  console.log(`  The profile has ${media.length} photos, ${same.length} of them ${category}.`);
+  for (const m of same) console.log(`    ${m.createTime?.slice(0, 10)}  ${m.googleUrl}`);
+  if (['LOGO', 'COVER'].includes(category) && same.length) {
+    console.log(`  Google shows one ${category}: the new one should take its place.`);
+  }
+  confirmOrStop('this photo');
+
+  let body = { mediaFormat: 'PHOTO', locationAssociation: { category } };
+  if (isUrl) {
+    body.sourceUrl = src;
+  } else {
+    // Three steps for a local file: reserve an upload, send the bytes, then attach it.
+    const ref = await api(`${V4_API}/${v4}/media:startUpload`, { method: 'POST', body: {} });
+    const token = (api._token ??= await getToken());
+    const up = await fetch(`https://mybusiness.googleapis.com/upload/v1/media/${ref.resourceName}?upload_type=media`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: bytes,
+    });
+    if (!up.ok) die(`photo upload failed (${up.status})\n  ${await up.text()}`);
+    body.dataRef = { resourceName: ref.resourceName };
+  }
+  const made = await api(`${V4_API}/${v4}/media`, { method: 'POST', body });
+  console.log(`\n  Added. ${made.googleUrl ?? made.name}`);
+  console.log(`  Google checks new photos before they show publicly.\n`);
+}
+
 const METRICS = {
   BUSINESS_IMPRESSIONS_MOBILE_SEARCH: 'Views, mobile Search',
   BUSINESS_IMPRESSIONS_DESKTOP_SEARCH: 'Views, desktop Search',
@@ -562,6 +616,7 @@ function help() {
     delete-post <post-id>             delete a post
     update <mask> <patch.json>        edit profile fields, e.g. update websiteUri patch.json
     attributes <attributes.json>      set links and attributes, e.g. Facebook, on-site services
+    photo <file|url> [category]       add a photo: LOGO, COVER, AT_WORK, ADDITIONAL (default) and so on
 `);
 }
 
@@ -580,6 +635,7 @@ const COMMANDS = {
   'delete-post': cmdDeletePost,
   update: cmdUpdate,
   attributes: cmdAttributes,
+  photo: cmdPhoto,
   performance: cmdPerformance,
   keywords: cmdKeywords,
   help,

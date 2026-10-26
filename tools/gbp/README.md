@@ -17,7 +17,7 @@ pnpm gbp help                     every command
 
 ## Changing the live profile
 
-`reply`, `unreply`, `post`, `delete-post`, `update` and `attributes` print a preview and send nothing. Run the same command again with `--confirm` only once Gavin or the client has approved exactly what the preview shows.
+`reply`, `unreply`, `post`, `delete-post`, `update`, `attributes` and `photo` print a preview and send nothing. Run the same command again with `--confirm` only once Gavin or the client has approved exactly what the preview shows.
 
 ```
 pnpm gbp reply <review-id> reply.txt        preview a reply
@@ -25,6 +25,7 @@ pnpm gbp reply <review-id> reply.txt --confirm
 pnpm gbp post post.json                     preview a post
 pnpm gbp update websiteUri patch.json       preview a profile edit
 pnpm gbp attributes attributes.json         preview links (Facebook, TikTok) and attributes
+pnpm gbp photo job.jpg AT_WORK              preview adding a photo (LOGO, COVER, AT_WORK, ADDITIONAL...)
 ```
 
 The patch files for each round of changes are kept in `.docs/gbp/<date>/`, so there's a record of exactly what was sent.
