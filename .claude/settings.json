@@ -74,5 +74,8 @@
       "Bash(ncu:*)",
       "Bash(playwright:*)"
     ]
+  },
+  "worktree": {
+    "bgIsolation": "none"
   }
 }

@@ -21,5 +21,8 @@ Send it as a reply through Directus, not from hello@. Choose `then_set_status` w
 <li><strong>How you work:</strong> your profile now says you come to the customer and give quotes online.</li>
 </ul>
 <p>Google checks changes like these before they go live, so some may take a day or two to appear on your profile.</p>
+<h3>Weekly posts</h3>
+<p>From now on we'll add a post to your profile every week, about a recent job or one of your services. Regular posts keep your profile fresh and give people who find you on Google something new to see.</p>
+<p>You're very welcome to add more posts yourself, like the one you put up on 25 October. Photos of jobs you've just finished work really well. If it's easier, just send us your photos and a line or two about the job, by replying to one of our emails or on your dashboard, and we'll turn them into a post for you.</p>
 <p>Thanks,<br>Gavin</p>
 ```
