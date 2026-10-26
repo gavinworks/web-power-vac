@@ -153,6 +153,12 @@ export interface ServicesPage {
 
 export type ServiceKind = "main" | "add_on" | "on_request";
 
+/** A row of a service's photo gallery (the services_gallery junction). */
+export interface GalleryPhoto {
+  directus_files_id:
+    (DirectusFile & { width: number | null; height: number | null }) | null;
+}
+
 /**
  * Services — regular collection. Each published service with `has_page`
  * gets its own page at /services/[slug].
@@ -177,6 +183,10 @@ export interface Service {
   hero_image: ImageField;
   hero_image_alt: string | null;
   body: string | null; // rich text (HTML)
+  gallery_heading: Headline | null;
+  gallery_description: string | null;
+  /** Photos in sort order. Each file's title is its alt text. */
+  gallery: GalleryPhoto[] | null;
   benefits_heading: Headline | null;
   benefits: TitledText[] | null;
   faqs: Faq[] | null;
@@ -456,6 +466,13 @@ async function getList<T>(
 
 const PUBLISHED = { "filter[status][_eq]": "published" };
 
+/** Services with their gallery photos expanded, in the editor's order. */
+const SERVICE_FIELDS = {
+  fields:
+    "*,gallery.directus_files_id.id,gallery.directus_files_id.title,gallery.directus_files_id.width,gallery.directus_files_id.height",
+  "deep[gallery][_sort]": "sort",
+};
+
 export async function getGlobal(): Promise<Global | null> {
   return getSingleton<Global>("global", "getGlobal");
 }
@@ -472,7 +489,7 @@ export async function getServicesPage(): Promise<ServicesPage | null> {
 export async function getServices(): Promise<Service[]> {
   return getList<Service>(
     "services",
-    { ...PUBLISHED, sort: "sort" },
+    { ...PUBLISHED, ...SERVICE_FIELDS, sort: "sort" },
     "getServices"
   );
 }
@@ -592,13 +609,17 @@ export const getServicesPagePreview = (token: string) =>
   previewSingleton<ServicesPage>("services_page", token);
 
 export const getServicesPreview = (token: string) =>
-  previewList<Service>("services", { ...PUBLISHED, sort: "sort" }, token);
+  previewList<Service>(
+    "services",
+    { ...PUBLISHED, ...SERVICE_FIELDS, sort: "sort" },
+    token
+  );
 
 /** A service by slug, whatever its status. */
 export async function getServicePreview(slug: string, token: string) {
   const [service] = await previewList<Service>(
     "services",
-    { "filter[slug][_eq]": slug },
+    { ...SERVICE_FIELDS, "filter[slug][_eq]": slug },
     token
   );
   return service ?? null;

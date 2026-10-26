@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { serviceHref } from "@/components/home/services-grid";
@@ -44,6 +45,10 @@ export function ServiceView({
   const isMain = service.kind === "main";
   const camera = getImageUrl(home?.hero_camera_image ?? null);
   const others = services.filter((s) => s.id !== service.id);
+  const photos = (service.gallery ?? []).flatMap((row) =>
+    row.directus_files_id ? [row.directus_files_id] : []
+  );
+  const hasBenefits = !!service.benefits?.length;
 
   return (
     <>
@@ -175,7 +180,66 @@ export function ServiceView({
         </div>
       </section>
 
-      {service.benefits && service.benefits.length > 0 && (
+      {photos.length > 0 && (
+        <section
+          className={cn(
+            "bg-pv-navy relative z-10 -mt-14 rounded-t-[3.5rem] px-5 pt-20 text-white lg:px-12 lg:pt-27.5",
+            // Runs straight on into the navy benefits section when there is one
+            hasBenefits ? "pb-4" : "pb-28 lg:pb-36"
+          )}
+        >
+          <div className="mx-auto flex max-w-336 flex-col gap-10">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              {service.gallery_heading && (
+                <h2
+                  data-directus={edit("gallery_heading")}
+                  className={heading.section}
+                >
+                  <Headline text={service.gallery_heading} />
+                </h2>
+              )}
+              {service.gallery_description && (
+                <p
+                  data-directus={edit("gallery_description")}
+                  className="text-pv-haze max-w-100 text-lg leading-normal"
+                >
+                  {service.gallery_description}
+                </p>
+              )}
+            </div>
+
+            {/* Portrait tiles show off the height; the first photo leads at double size */}
+            <ul
+              data-directus={edit("gallery", "drawer")}
+              className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4"
+            >
+              {photos.map((photo, i) => (
+                <li
+                  key={photo.id}
+                  className={cn(
+                    "bg-pv-navy-soft relative aspect-3/4 overflow-hidden rounded-4xl",
+                    i === 0 && "col-span-2 lg:row-span-2 lg:aspect-auto"
+                  )}
+                >
+                  <Image
+                    src={getImageUrl(photo) ?? ""}
+                    alt={photo.title ?? ""}
+                    fill
+                    sizes={
+                      i === 0
+                        ? "(min-width: 1440px) 662px, (min-width: 1024px) 50vw, 100vw"
+                        : "(min-width: 1440px) 321px, (min-width: 1024px) 25vw, 50vw"
+                    }
+                    className="object-cover"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {hasBenefits && (
         <section className="bg-pv-navy px-5 pt-24 pb-28 text-white lg:px-12 lg:pt-30 lg:pb-36">
           <div className="mx-auto flex max-w-336 flex-col gap-12">
             {service.benefits_heading && (
@@ -190,7 +254,7 @@ export function ServiceView({
               data-directus={edit("benefits", "drawer")}
               className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
             >
-              {service.benefits.map((benefit, i) => (
+              {service.benefits?.map((benefit, i) => (
                 <li
                   key={benefit.title}
                   className={cn(
@@ -217,7 +281,7 @@ export function ServiceView({
       <section
         className={cn(
           "bg-pv-mist relative px-5 pt-20 pb-24 lg:px-12 lg:pt-27.5 lg:pb-30",
-          service.benefits?.length && "-mt-14 rounded-t-[3.5rem]"
+          (hasBenefits || photos.length > 0) && "-mt-14 rounded-t-[3.5rem]"
         )}
       >
         <div className="mx-auto flex max-w-336 flex-col gap-20">
