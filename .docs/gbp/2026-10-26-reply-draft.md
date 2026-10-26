@@ -1,6 +1,6 @@
 # Draft reply: Google Business Profile questions
 
-For the request "Three quick questions about your Google Business Profile" (Build 76 Directus `requests/af48150c-c27c-4352-b0e9-39e7523d4641`, Google Business add-on). Send it once Tommy has answered, after filling in the bracketed parts from his answers and making those changes on the profile. Delete any bracketed line that doesn't apply.
+For the request "Three quick questions about your Google Business Profile" (Build 76 Directus `requests/af48150c-c27c-4352-b0e9-39e7523d4641`, Google Business add-on). Tommy answered on 26 October 2026: hours 8am to 7pm Monday to Saturday everywhere, no visitors to his house, both numbers on the profile, remove the texting number (the phone was lost), and asked us to check who owns mrfrostysnorwich.co.uk. All the changes below are made. Ready to send once Gavin approves.
 
 Send it as a reply through Directus, not from hello@. Choose `then_set_status` when sending: `resolved` if nothing is left open, or `waiting` if a question is still unanswered.
 
@@ -8,12 +8,16 @@ Attach both QR code files from `.docs/gbp/review-qr/` to the request (the reques
 
 ```html
 <p>Hi Tommy,</p>
-<p>Thanks for getting back to us. Here's what we've done with your answers:</p>
+<p>Thanks for getting back to us, and don't worry, that's what we're here for! Here's what we've done with your answers:</p>
 <ul>
-<li><strong>Opening hours:</strong> [your profile and your website now both show HOURS.]</li>
-<li><strong>Address:</strong> [thanks for hiding your address. Your profile now shows the areas you cover instead. / As customers come to you, we've left your address showing.]</li>
-<li><strong>Phone numbers:</strong> [your Wymondham number, 01953 573595, is now on your profile alongside 01603 339225.] [Texts now go to NUMBER. / We've left 07338 083121 as your number for texts.]</li>
+<li><strong>Opening hours:</strong> your Google profile and your website now both show 8am to 7pm, Monday to Saturday.</li>
+<li><strong>Address:</strong> as you don't want customers coming to your house, we've hidden your address from your Google profile, which is what Google asks of businesses that go out to their customers. People now see the areas you cover instead. Google still has your address on file, it just isn't shown to the public. If Google ever asks you to confirm your business again because of this, let us know and we'll help.</li>
+<li><strong>Phone numbers:</strong> your profile now shows both 01603 339225 and your Wymondham number, 01953 573595.</li>
+<li><strong>Text number:</strong> we've taken 07338 083121 off your profile, so nobody can text the lost phone. Just let us know when you'd like a texting number added again.</li>
 </ul>
+<h3>mrfrostysnorwich.co.uk</h3>
+<p>The domain is still registered and safe until 24 January 2027. It was registered on 24 January 2020 through IONOS, and it was renewed for another year in January. The public record doesn't show whose name it's in, so please check you can log in to your IONOS account and that it's listed there. If you can't get in or can't find it, let us know and we'll help you get it back and move it over to us, so it's looked after with your other domain.</p>
+<p>Either way, it needs renewing before 24 January 2027, so it's worth sorting out around Christmas as you planned.</p>
 <p>While we were waiting, we also filled in the rest of your profile so it matches your website and gives Google more to go on when people search:</p>
 <ul>
 <li><strong>Services:</strong> your profile listed two services. It now lists all six you offer, each with a short description: gutter cleaning (from £34.99), downpipe unblocking, fascia and soffit cleaning, roof cleaning, driveway and patio power washing, and minor roofline repairs. Someone searching for any of these can now find you.</li>

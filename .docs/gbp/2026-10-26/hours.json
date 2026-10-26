@@ -1,0 +1,12 @@
+{
+  "regularHours": {
+    "periods": [
+      { "openDay": "MONDAY", "openTime": { "hours": 8 }, "closeDay": "MONDAY", "closeTime": { "hours": 19 } },
+      { "openDay": "TUESDAY", "openTime": { "hours": 8 }, "closeDay": "TUESDAY", "closeTime": { "hours": 19 } },
+      { "openDay": "WEDNESDAY", "openTime": { "hours": 8 }, "closeDay": "WEDNESDAY", "closeTime": { "hours": 19 } },
+      { "openDay": "THURSDAY", "openTime": { "hours": 8 }, "closeDay": "THURSDAY", "closeTime": { "hours": 19 } },
+      { "openDay": "FRIDAY", "openTime": { "hours": 8 }, "closeDay": "FRIDAY", "closeTime": { "hours": 19 } },
+      { "openDay": "SATURDAY", "openTime": { "hours": 8 }, "closeDay": "SATURDAY", "closeTime": { "hours": 19 } }
+    ]
+  }
+}

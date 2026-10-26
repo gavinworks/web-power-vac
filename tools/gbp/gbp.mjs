@@ -445,6 +445,7 @@ function attributeValue(a) {
  * attributes.json is a list of attributes, each as Google expects it:
  *   [{ "name": "attributes/url_facebook", "valueType": "URL", "uriValues": [{ "uri": "https://..." }] },
  *    { "name": "attributes/has_onsite_services", "valueType": "BOOL", "values": [true] }]
+ * To remove one, list it as { "name": "attributes/url_text_messaging", "remove": true }.
  * Only the attributes in the file are changed; the rest are left alone.
  */
 async function cmdAttributes(file) {
@@ -456,14 +457,16 @@ async function cmdAttributes(file) {
 
   console.log(`\n  ${NAME}  (${loc})`);
   for (const a of wanted) {
-    console.log(`\n  ${a.name}\n    now: ${attributeValue(now[a.name])}\n    new: ${attributeValue(a)}`);
+    const next = a.remove ? '(removed)' : attributeValue(a);
+    console.log(`\n  ${a.name}\n    now: ${attributeValue(now[a.name])}\n    new: ${next}`);
   }
   confirmOrStop('this change');
 
+  // An attribute named in the mask but left out of the body is removed.
   const mask = wanted.map((a) => a.name).join(',');
   await api(`${INFO_API}/${loc}/attributes?attributeMask=${encodeURIComponent(mask)}`, {
     method: 'PATCH',
-    body: { name: `${loc}/attributes`, attributes: wanted },
+    body: { name: `${loc}/attributes`, attributes: wanted.filter((a) => !a.remove) },
   });
   console.log(`\n  Updated ${wanted.length} attribute${wanted.length === 1 ? '' : 's'}.\n`);
 }
