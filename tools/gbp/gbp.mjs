@@ -3,6 +3,8 @@
  * Google Business Profile from the command line. Zero dependencies.
  *
  *   pnpm gbp info
+ *   pnpm gbp pending
+ *   pnpm gbp verification
  *   pnpm gbp reviews [limit]
  *   pnpm gbp unreplied
  *   pnpm gbp reply <review-id> <text | file | -> [--confirm]
@@ -56,6 +58,7 @@ const ACCOUNTS_API = 'https://mybusinessaccountmanagement.googleapis.com/v1';
 const INFO_API = 'https://mybusinessbusinessinformation.googleapis.com/v1';
 const V4_API = 'https://mybusiness.googleapis.com/v4';
 const PERF_API = 'https://businessprofileperformance.googleapis.com/v1';
+const VERIFY_API = 'https://mybusinessverifications.googleapis.com/v1';
 
 /* --------------------------------------------------------------- auth --- */
 
@@ -267,6 +270,94 @@ async function cmdInfo() {
     console.log(`\n  Description (${l.profile.description.length}/750)\n`);
     console.log(`  ${l.profile.description.replace(/\n/g, '\n  ')}`);
   }
+  console.log();
+}
+
+/** Fields `pending` compares between our saved profile and the one Google shows. */
+const PROFILE_FIELDS =
+  'title,phoneNumbers,websiteUri,categories,profile,regularHours,specialHours,' +
+  'storefrontAddress,serviceArea,serviceItems,openInfo,metadata';
+
+/** A profile field as one short line, so ours and Google's sit side by side. */
+function summarise(field, v) {
+  if (v == null) return '(not set)';
+  const t = (x) => `${String(x?.hours ?? 0).padStart(2, '0')}:${String(x?.minutes ?? 0).padStart(2, '0')}`;
+  switch (field) {
+    case 'phoneNumbers':
+      return [v.primaryPhone, ...(v.additionalPhones ?? [])].filter(Boolean).join(', ');
+    case 'categories':
+      return [v.primaryCategory, ...(v.additionalCategories ?? [])].map((c) => c?.displayName).join(', ');
+    case 'profile':
+      return `${v.description?.slice(0, 80) ?? ''}… (${v.description?.length ?? 0} characters)`;
+    case 'regularHours':
+      return (v.periods ?? []).map((p) => `${p.openDay.slice(0, 3)} ${t(p.openTime)}–${t(p.closeTime)}`).join(', ');
+    case 'storefrontAddress':
+      return [...(v.addressLines ?? []), v.locality, v.postalCode].filter(Boolean).join(', ');
+    case 'serviceArea':
+      return `${v.places?.placeInfos?.length ?? 0} places, ${v.businessType}`;
+    case 'serviceItems':
+      return `${v.length}: ${v.map((s) => s.freeFormServiceItem?.label?.displayName ?? s.structuredServiceItem?.serviceTypeId?.replace(/^job_type_id:/, '')).join(', ')}`;
+    case 'metadata':
+      return 'logo, photos, attributes or other metadata (Google does not say which)';
+    default:
+      return typeof v === 'string' ? v : JSON.stringify(v);
+  }
+}
+
+/** Which edits Google is still reviewing, and where the public profile differs from ours. */
+async function cmdPending() {
+  const loc = await location();
+  const [ours, google] = await Promise.all([
+    api(`${INFO_API}/${loc}?readMask=${PROFILE_FIELDS}`),
+    api(`${INFO_API}/${loc}:getGoogleUpdated?readMask=${PROFILE_FIELDS}`),
+  ]);
+  const split = (m) => (m ? [...new Set(m.split(',').map((f) => f.split('.')[0]))] : []);
+  const pending = split(google.pendingMask);
+  const diff = split(google.diffMask);
+
+  console.log(`\n  ${NAME}  (${loc})`);
+  if (!pending.length && !diff.length) {
+    console.log(`\n  Nothing pending: the public profile matches ours.\n`);
+    return;
+  }
+  for (const [label, fields] of [
+    ['Waiting on Google\'s review', pending],
+    ['Different on the public profile (Google or a user changed it)', diff.filter((f) => !pending.includes(f))],
+  ]) {
+    if (!fields.length) continue;
+    console.log(`\n  ${label}`);
+    for (const f of fields) {
+      if (f === 'metadata') {
+        console.log(`\n  ${f}\n    ${summarise(f, {})}`);
+        continue;
+      }
+      console.log(`\n  ${f}\n    ours:   ${summarise(f, ours[f])}\n    public: ${summarise(f, google.location?.[f])}`);
+    }
+  }
+  console.log();
+}
+
+/** Whether the business controls the profile, and every verification it has had. */
+async function cmdVerification() {
+  const loc = await location();
+  const [vom, list] = await Promise.all([
+    api(`${VERIFY_API}/${loc}/VoiceOfMerchantState`),
+    api(`${VERIFY_API}/${loc}/verifications`),
+  ]);
+  const row = (k, v) => console.log(`  ${k.padEnd(22)} ${v ?? '—'}`);
+
+  console.log(`\n  ${NAME}  (${loc})\n`);
+  row('Business controls it', vom.hasVoiceOfMerchant ? 'yes' : 'no: edits will not go live');
+  row('Business authority', vom.hasBusinessAuthority ? 'yes' : 'no');
+  // Only present when something is wrong, each with what Google wants done.
+  if (vom.waitForVoiceOfMerchant) row('Waiting', 'verification is being processed');
+  if (vom.verify) row('Needs verifying', vom.verify.hasPendingVerification ? 'yes, a verification is in progress' : 'yes, start one in Business Profile');
+  if (vom.resolveOwnershipConflict) row('Ownership conflict', 'another account claims this profile');
+  if (vom.complyWithGuidelines) row('Guidelines', `${vom.complyWithGuidelines.recommendationReason ?? 'suspended or disabled'}: fix it in Business Profile`);
+
+  const verifications = list.verifications ?? [];
+  console.log(`\n  ${verifications.length} verification${verifications.length === 1 ? '' : 's'}`);
+  for (const v of verifications) console.log(`    ${v.createTime?.slice(0, 10)}  ${v.method.padEnd(10)} ${v.state}`);
   console.log();
 }
 
@@ -606,6 +697,8 @@ function help() {
   Read only
     locations                         every profile build76ltd@gmail.com manages
     info                              name, category, phone, website, hours, description
+    pending                           edits Google is still reviewing, ours against the public profile
+    verification                      whether the business controls the profile, and its verifications
     reviews [limit]                   latest reviews and their replies (default 10)
     unreplied                         every review with no reply
     posts [limit]                     latest posts (default 10)
@@ -629,6 +722,8 @@ const [cmd, ...rest] = ARGS;
 const COMMANDS = {
   locations: cmdLocations,
   info: cmdInfo,
+  pending: cmdPending,
+  verification: cmdVerification,
   reviews: cmdReviews,
   unreplied: cmdUnreplied,
   reply: cmdReply,

@@ -6,6 +6,8 @@
 
 ```
 pnpm gbp info                     name, category, phone, website, hours, description
+pnpm gbp pending                  edits Google is still reviewing, ours against the public profile
+pnpm gbp verification             whether the business controls the profile, and its verifications
 pnpm gbp reviews [limit]          latest reviews and their replies
 pnpm gbp unreplied                every review with no reply
 pnpm gbp posts [limit]            latest posts
