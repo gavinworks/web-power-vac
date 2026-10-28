@@ -7,7 +7,9 @@
 
 Hi Tommy,
 
-Your roof cleaning and roof repairs pages are done and live on the site now.
+Sorry these have taken an extra day to come over. Sorting out your Google Business Profile had to come first. Your roof cleaning and roof repairs pages are done and live on the site now.
+
+**Your Google profile:** good news here too. We checked this afternoon, and all 14 of those reviews have now gone from your profile, so whatever you said to him worked. Some of the updates we made on Monday (your services, description and logo) are still waiting for Google to check them, which can take a few days, and they'll show up on their own once it has. We'll keep an eye on it every day. Now's the time to start asking your real customers for reviews with the QR code, one job at a time.
 
 **Roof cleaning:** https://www.powervacguttercleaning.co.uk/services/roof-cleaning
 
