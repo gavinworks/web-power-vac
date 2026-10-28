@@ -1,7 +1,7 @@
 # Reply to Tommy: roof cleaning and roof repairs pages
 
 **Request:** "Three quick questions about your Google Business Profile" (Tommy asked for these pages there on 27 October, 10:20)
-**Status:** draft, not sent
+**Status:** sent 28 October 2026 at 15:25 with Gavin's go-ahead, request left waiting on Tommy
 
 ---
 
