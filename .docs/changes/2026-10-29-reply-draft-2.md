@@ -1,7 +1,7 @@
 # Reply to Tommy: Google Ads and photos
 
 **Request:** "Three quick questions about your Google Business Profile" (Tommy's reply of 29 October, 16:45)
-**Status:** draft, not sent
+**Status:** sent 29 October 2026 at 16:55 with Gavin's go-ahead, request left waiting on Tommy
 
 ---
 
