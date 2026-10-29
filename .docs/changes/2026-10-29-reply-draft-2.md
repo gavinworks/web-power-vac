@@ -9,7 +9,9 @@ Hi Tommy,
 
 Honestly, you're not alone there. Google really doesn't make it easy, and setting up Ads can drive anyone up the wall. Luckily we've done plenty of them, so leave it with us. We'll start the research tomorrow and send over a request to add us as managers on your account, so we can get it set up properly for you.
 
-Thanks for the photos too. The before and after of the bungalow roof from the front are great, so we'll add them to your roof cleaning page. The other three (the town houses and the flats) are already on your gutter cleaning page, so you're all good there.
+Thanks for the photos too. The before and after of that bungalow roof are great, and there was just enough time to get them on your roof cleaning page before we close for the day, so they're live now: https://www.powervacguttercleaning.co.uk/services/roof-cleaning
+
+The other three (the town houses and the flats) are already on your gutter cleaning page, so you're all good there.
 
 Thanks,
 Gavin
