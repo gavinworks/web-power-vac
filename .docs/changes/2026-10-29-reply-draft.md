@@ -1,7 +1,7 @@
 # Reply to Tommy: repairs page and Google Ads
 
 **Request:** "Three quick questions about your Google Business Profile" (Tommy's reply of 28 October, 18:28)
-**Status:** draft, not sent
+**Status:** sent 29 October 2026 at 16:37 with Gavin's go-ahead, request left waiting on Tommy
 
 ---
 
