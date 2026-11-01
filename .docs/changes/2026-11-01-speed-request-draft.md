@@ -2,7 +2,7 @@
 
 **Project:** POWER-VAC (order 162), not linked to an add-on
 **Subject:** Your website is quicker, and Google can find every page
-**Status:** draft, not sent. Tommy doesn't need to reply, so the request is created and then set to resolved, so the email doesn't ask him for one.
+**Status:** sent 1 November 2026 at 10:59 with Gavin's go-ahead (request e8c17bb0-a6cc-4565-84d4-e0543c86b105), created as resolved. The scores table went out as a list, as tables don't come through reliably in email.
 
 Figures: Lighthouse 12 on the live site, 1 November 2026, without throttling (B76-300). Search Console sitemap and index status, 1 November 2026 (B76-298).
 
