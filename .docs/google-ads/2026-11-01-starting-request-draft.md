@@ -21,7 +21,7 @@ Once that's done, we'll suggest a few budget options, each balanced to get you t
 
 **Giving us access to your account**
 
-To set up and run the campaign, we need to be added as managers on your Google Ads account. The good news is that, just like your Google Business Profile, you don't need to go through any settings yourself. We send the request from our side, and you just accept it. All we need from you is your Google Ads customer ID.
+To set up and run the campaign, we need to be added as managers on your Google Ads account. Luckily, just like your Google Business Profile, you don't need to go through any settings yourself. We send the request from our side, and you just accept it. All we need from you is your Google Ads customer ID.
 
 1. Open Google Ads on your phone (the app or ads.google.com) and sign in to the account you set up.
 2. Look for a 10-digit number that looks like 123-456-7890, shown near your business name at the top. That's your customer ID.
