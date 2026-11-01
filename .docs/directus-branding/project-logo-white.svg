@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 110 470 270" width="40" height="40" preserveAspectRatio="xMidYMid meet">
+  
+  <g transform="translate(256 256) scale(1.04) translate(-256 -256)">
+  <g transform="translate(8 4)">
+    
+    <path d="M36 252 L166 150" stroke="#ffffff" stroke-width="24" fill="none"/>
+    
+    <rect x="300" y="150" width="30" height="70" fill="#ffffff"/>
+    <rect x="290" y="132" width="50" height="22" fill="#ffffff"/>
+    
+    <path d="M362 262 H446 V290 H384 Q366 290 362 274 Z" fill="#ffffff"/>
+    
+    <path d="M40 312 L236 158 L360 250 H452" stroke="#ffffff" stroke-width="34" fill="none" stroke-linejoin="miter" stroke-miterlimit="10"/>
+    
+    
+    <rect x="440" y="233" width="20" height="74" fill="#ffffff"/>
+    
+    <path d="M450 316 C450 316 430 342 430 356 A20 20 0 0 0 470 356 C470 342 450 316 450 316 Z" fill="#ffffff"/>
+    
+    <rect x="207" y="210" width="26" height="26" fill="#ffffff"/>
+    <rect x="239" y="210" width="26" height="26" fill="#ffffff"/>
+    <rect x="207" y="242" width="26" height="26" fill="#ffffff"/>
+    <rect x="239" y="242" width="26" height="26" fill="#ffffff"/>
+  </g></g></svg>
