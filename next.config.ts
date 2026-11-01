@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    // Next's defaults plus 160, so the 80px header logo gets a close match on phones instead of jumping to 256
+    imageSizes: [32, 48, 64, 96, 128, 160, 256, 384],
     remotePatterns: [
       {
         protocol: "https",

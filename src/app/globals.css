@@ -96,10 +96,10 @@
   --animate-pv-nudge: pv-nudge 1.6s ease-in-out infinite;
   --animate-pv-rise: pv-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 
-  /* Hero copy rising into place. CSS rather than Framer Motion, so it plays from the first paint instead of waiting for hydration */
+  /* Hero copy rising into place. CSS rather than Framer Motion, so it plays from the first paint instead of waiting for hydration. Starts at 0.01, not 0: Chrome skips fully transparent elements when it picks the LCP */
   @keyframes pv-rise {
     from {
-      opacity: 0;
+      opacity: 0.01;
       transform: translateY(36px);
     }
   }
