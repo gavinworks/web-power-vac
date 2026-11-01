@@ -24,7 +24,7 @@ Bing hears about every change straight away too, which also covers Yahoo and Duc
 
 We tested every main page with Google Lighthouse, the tool Google uses to score how quickly and smoothly a website works. It scores out of 100, and anything over 90 is good. We made a few improvements:
 
-- Your logo was loading a much bigger file than it needed on phones. It's now about a sixth of the size.
+- Your logo was loading a much bigger file than it needed on phones. It's now about a fifth of the size.
 - The photos at the top of each page now load first, ahead of everything else.
 - The headline and text at the top of your homepage now show the moment the page opens, instead of waiting for the animation to load.
 - The text on your Facebook boxes is now easier to read.
