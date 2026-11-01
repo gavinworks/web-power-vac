@@ -94,6 +94,15 @@
   --color-pv-leaf: #f28c28;
 
   --animate-pv-nudge: pv-nudge 1.6s ease-in-out infinite;
+  --animate-pv-rise: pv-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  /* Hero copy rising into place. CSS rather than Framer Motion, so it plays from the first paint instead of waiting for hydration */
+  @keyframes pv-rise {
+    from {
+      opacity: 0;
+      transform: translateY(36px);
+    }
+  }
 
   @keyframes pv-nudge {
     0%,

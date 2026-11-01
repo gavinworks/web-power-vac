@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { CameraMonitor } from "@/components/site/camera-monitor";
 import { Headline } from "@/components/site/headline";
@@ -26,16 +26,9 @@ export function Hero({ page }: { page: HomePage }) {
     editable("home_page", page.id, fields, mode);
 
   // One orchestrated load sequence: copy rises line by line, then the price sticker lands.
-  const rise: Variants = {
-    hidden: reduce ? { opacity: 1 } : { opacity: 0, y: 36 },
-    show: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: reduce
-        ? { duration: 0 }
-        : { duration: 0.8, ease: EASE, delay: 0.15 + i * 0.1 },
-    }),
-  };
+  // The copy uses a CSS animation so it shows from the first paint (it's the mobile LCP).
+  const rise = "motion-safe:animate-pv-rise";
+  const riseDelay = (i: number) => ({ animationDelay: `${0.15 + i * 0.1}s` });
 
   const monitor = camera && (
     <CameraMonitor
@@ -93,63 +86,54 @@ export function Hero({ page }: { page: HomePage }) {
       <div className="mx-auto max-w-360 px-5 pt-40 pb-72 lg:px-12 lg:pt-50 lg:pb-24">
         <div className="flex max-w-190 flex-col gap-7 lg:gap-8">
           {page.hero_annotation && (
-            <motion.p
-              variants={rise}
-              initial="hidden"
-              animate="show"
-              custom={0}
+            <p
               data-directus={edit("hero_annotation")}
-              className="font-pv-hand text-pv-sky -rotate-4 self-start text-3xl lg:text-[2.5rem]"
+              style={riseDelay(0)}
+              className={cn(
+                "font-pv-hand text-pv-sky -rotate-4 self-start text-3xl lg:text-[2.5rem]",
+                rise
+              )}
             >
               {page.hero_annotation}
-            </motion.p>
+            </p>
           )}
           <h1
             data-directus={edit("hero_heading")}
             className="font-pv-display text-[clamp(3.75rem,10.4vw,9.375rem)] leading-[0.86] font-extrabold tracking-[-0.015em] font-stretch-75%"
           >
             {headingLines.map((line, i) => (
-              <motion.span
+              <span
                 key={i}
-                variants={rise}
-                initial="hidden"
-                animate="show"
-                custom={i + 1}
-                className="block"
+                style={riseDelay(i + 1)}
+                className={cn("block", rise)}
               >
                 <Headline text={line} />
-              </motion.span>
+              </span>
             ))}
           </h1>
           {monitor && (
-            <motion.div
-              variants={rise}
-              initial="hidden"
-              animate="show"
-              custom={headingLines.length + 1}
-              className="max-w-sm -rotate-2 lg:hidden"
+            <div
+              style={riseDelay(headingLines.length + 1)}
+              className={cn("max-w-sm -rotate-2 lg:hidden", rise)}
             >
               {monitor}
-            </motion.div>
+            </div>
           )}
           {page.hero_description && (
-            <motion.p
-              variants={rise}
-              initial="hidden"
-              animate="show"
-              custom={headingLines.length + 2}
+            <p
               data-directus={edit("hero_description")}
-              className="text-pv-haze max-w-150 text-lg leading-normal font-medium lg:text-[1.375rem]"
+              style={riseDelay(headingLines.length + 2)}
+              className={cn(
+                "text-pv-haze max-w-150 text-lg leading-normal font-medium lg:text-[1.375rem]",
+                rise
+              )}
             >
               {page.hero_description}
-            </motion.p>
+            </p>
           )}
-          <motion.div
-            variants={rise}
-            initial="hidden"
-            animate="show"
-            custom={headingLines.length + 3}
-            className="flex flex-wrap items-center gap-3.5"
+          <div
+            style={riseDelay(headingLines.length + 3)}
+            className={cn("flex flex-wrap items-center gap-3.5", rise)}
           >
             {page.hero_cta_text && (
               <Link
@@ -177,7 +161,7 @@ export function Hero({ page }: { page: HomePage }) {
                 {page.hero_secondary_cta_text}
               </Link>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
 
