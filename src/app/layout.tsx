@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { preconnect } from "react-dom";
 import { Bricolage_Grotesque, Caveat } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
@@ -45,6 +46,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const global = await getGlobal();
+  // Service icons are fetched from Iconify at runtime, so open the connection early
+  preconnect("https://api.iconify.design");
 
   return (
     <html lang="en-GB">

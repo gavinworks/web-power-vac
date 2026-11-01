@@ -32,6 +32,7 @@ export function CameraMonitor({
           alt={alt}
           fill
           loading={priority ? "eager" : undefined}
+          fetchPriority={priority ? "high" : undefined}
           sizes={sizes}
           className="object-cover"
         />

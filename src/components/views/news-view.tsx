@@ -111,7 +111,7 @@ export function NewsView({ page, posts, global, services }: NewsViewProps) {
                     href={facebook.link}
                     rel="noopener"
                     className={cn(
-                      "flex min-h-80 flex-col justify-between gap-10 rounded-4xl bg-[#1877f2] p-8 text-white transition-transform hover:-translate-y-1",
+                      "flex min-h-80 flex-col justify-between gap-10 rounded-4xl bg-[#0866ff] p-8 text-white transition-transform hover:-translate-y-1",
                       focusRing
                     )}
                   >

@@ -4,7 +4,7 @@ export function FacebookIcon({ className }: { className?: string }) {
       <circle cx="12" cy="12" r="11" fill="#ffffff" />
       <path
         d="M13.3 20v-6.2h2.1l.3-2.5h-2.4V9.8c0-.7.2-1.2 1.2-1.2h1.3V6.4c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3v1.8H8.6v2.5h2.1V20z"
-        fill="#1877f2"
+        fill="#0866ff"
       />
     </svg>
   );

@@ -49,7 +49,7 @@ export function PageHero({
               src={image}
               alt={imageAlt ?? ""}
               fill
-              priority
+              preload
               sizes="(min-width: 1024px) 62vw, 100vw"
               className="object-cover object-[60%_50%] brightness-85 contrast-108 saturate-110"
             />

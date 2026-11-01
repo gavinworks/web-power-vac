@@ -58,7 +58,8 @@ export function Hero({ page }: { page: HomePage }) {
             src={image}
             alt={page.hero_image_alt ?? ""}
             fill
-            priority
+            loading="eager"
+            fetchPriority="high"
             sizes="(min-width: 1024px) 70vw, 100vw"
             className="object-cover object-[60%_50%] brightness-85 contrast-108 saturate-110"
           />

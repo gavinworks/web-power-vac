@@ -48,7 +48,8 @@ export function SiteHeader() {
               alt={global?.site_name ?? "Power-Vac Gutter Cleaning"}
               width={480}
               height={468}
-              priority
+              loading="eager"
+              sizes="(min-width: 1024px) 128px, (min-width: 640px) 96px, 80px"
               className="h-auto w-20 drop-shadow-[0_8px_20px_rgb(0_0_0/0.5)] sm:w-24 lg:w-32"
             />
           )}
