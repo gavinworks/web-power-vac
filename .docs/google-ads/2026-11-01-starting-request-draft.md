@@ -3,7 +3,7 @@
 **Project:** POWER-VAC (order 162)
 **Add-on:** Google Ads management (`order_services` de64e330-83dd-4b08-969b-b5a514ab50e1), so `order_service_id` is set on the request
 **Subject:** We're starting your Google Ads Campaign
-**Status:** draft, not sent
+**Status:** sent 1 November 2026 at 09:55 with Gavin's go-ahead (request 914ec7a1-1bc1-4603-ab8d-4e8f4bec63ff). Build 76 created its Google Ads manager account, "Build 76 Ltd", the same morning.
 
 How access works (checked 1 November 2026 in Google's help, https://support.google.com/google-ads/answer/7459601): a Google Ads manager account can send a link request to a client's account using its 10-digit customer ID. The owner gets an email with an "Accept request" button, or can accept in Google Ads under Admin > Access and security > Managers, where it's listed under "Link request". Only someone with Admin access to the account can accept. The owner can remove a manager at any time from the same page. Google's help doesn't say whether the Google Ads mobile app can accept a link request, which is why the email button is the route given to Tommy.
 
