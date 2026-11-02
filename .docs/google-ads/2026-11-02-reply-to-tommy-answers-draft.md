@@ -2,7 +2,7 @@
 
 **Project:** POWER-VAC (order 162)
 **Request:** 3d02b98a-8462-408e-a851-fa72a102f843 "Your Google Ads page is ready to look at, plus a few quick questions", sent as a reply with `then_set_status: waiting` (two questions left).
-**Status:** draft, not sent.
+**Status:** sent 2 November 2026 at 15:43 with Gavin's go-ahead (reply b881184f). Tommy answered the two questions at 15:50.
 
 ---
 
