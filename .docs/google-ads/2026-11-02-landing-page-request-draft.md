@@ -3,7 +3,7 @@
 **Project:** POWER-VAC (order 162)
 **Add-on:** Campaign landing page (`order_services` 421eafd4-b145-4c2b-99d0-66448c4960a6), so `order_service_id` is set on the request
 **Subject:** Your Google Ads page is ready to look at, plus a few quick questions
-**Status:** draft, 2 November 2026. Not sent.
+**Status:** sent 2 November 2026 at 11:39 with Gavin's go-ahead (request 3d02b98a-8462-408e-a851-fa72a102f843). Copy in hello@ confirmed: to powervacguttercleaning@gmail.com, reply-to r-9b0e568f-1b74-4b03-91a8-dab808fcbc1d@reply.build76.co.uk.
 
 The answers fill the "Facts to confirm" list in `2026-11-02-landing-page-research.md` and the budget questions in `2026-11-02-campaign-research-plan.md`. The request about his Google Ads customer ID (914ec7a1, sent 1 November 2026) is still unanswered, so this one reminds him gently at the end.
 
