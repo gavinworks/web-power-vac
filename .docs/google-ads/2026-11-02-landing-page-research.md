@@ -78,6 +78,23 @@ The page only says what's true. These are either unconfirmed or need his OK:
 9. **Permission to quote his TrustATrader reviews** (first names and dates only), and his OK to show the TrustATrader rating.
 10. **Google reviews.** With 1 review on Google, asking his customers for Google reviews will do more for the ads than anything on the page. Ads can show a seller rating, and the map pack is ranked on reviews.
 
+## Built (2 November 2026)
+
+The page is at `/gutter-cleaning-norwich` on mock data (`src/lib/mock-data.ts`), until Tommy approves it. It then moves to a `campaign_pages` collection in Directus. What changed alongside it:
+
+- The quote form is now its own component (`QuoteForm` in `src/components/site/quote-section.tsx`). The campaign page uses it without the email field and only offers gutter cleaning and its add-ons. The rest of the site is unchanged.
+- Email is optional in `/api/quote`, and the `submissions.email` field in Directus is no longer required (empty saves as null). The "[Website] New Quote Request" flow now says "Not given, so give them a ring" when there's no email, drops the "Reply by email" button, and sets the reply-to to info@ instead.
+- The quote form hasn't been test-submitted, because a test emails Tommy. Send one from the page once Gavin's happy, with "TEST" in the name, and check the email that arrives.
+
+**Wording on the page that Tommy must confirm before launch** (on top of the list above):
+
+- "We'll give you a fixed price before we start" (step 1 and the first FAQ)
+- "The vacuum pole reaches up to three storeys" (step 2; his own photos show three-storey houses)
+- "Do I need to be at home? No, as long as we can get to the gutters"
+- "Most houses take under an hour"
+- The before and after slider uses the example photos, labelled "Example photos". His own camera stills from a real job should replace them.
+- The camera screen in the hero is the same stock still the homepage uses.
+
 ## Measuring it
 
 - Conversions: form submitted, tap on the phone number, calls from the ad's call button (30 seconds or more). See B76-452.

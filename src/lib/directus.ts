@@ -308,13 +308,72 @@ export interface LegalPage {
 export interface Submission {
   id?: string;
   name: string;
-  email: string;
+  /** Null when sent from a campaign page, which doesn't ask for it. */
+  email: string | null;
   phone: string;
   postcode: string;
   services: string[];
   subject: string;
   message: string;
   page: string;
+}
+
+/** A customer review quoted on a campaign page, copied from where it was left. */
+export interface CampaignReview {
+  quote: string;
+  name: string;
+  /** When it was left, as shown, e.g. "19 October 2026". */
+  date: string;
+}
+
+/**
+ * Campaign landing pages — regular collection, one item per ad campaign.
+ * Each has its own route (e.g. /gutter-cleaning-norwich), no site menu and
+ * noindex, so it only gets traffic from the ads. The research behind the
+ * layout is in .docs/google-ads/2026-11-02-landing-page-research.md.
+ */
+export interface CampaignPage {
+  id: string;
+  status: string;
+  slug: string;
+  meta_title: string | null;
+  meta_description: string | null;
+  /** Repeats the ad's headline, so the click lands where it promised. */
+  hero_heading: Headline | null;
+  hero_description: string | null;
+  hero_image: ImageField;
+  hero_image_alt: string | null;
+  hero_camera_image: ImageField;
+  hero_camera_image_alt: string | null;
+  hero_note: string | null;
+  call_button_text: string | null;
+  quote_button_text: string | null;
+  rating: string | null;
+  rating_count: number | null;
+  rating_source: string | null;
+  rating_url: string | null;
+  /** Short, checkable facts shown under the rating. */
+  proof_points: string[] | null;
+  steps_heading: Headline | null;
+  steps: TitledText[] | null;
+  before_after_heading: Headline | null;
+  before_after_description: string | null;
+  reviews_heading: Headline | null;
+  reviews: CampaignReview[] | null;
+  form_heading: Headline | null;
+  form_description: string | null;
+  /** The service ticked when the form opens (a service's form label). */
+  form_preselect: string | null;
+  promises_heading: Headline | null;
+  promises: TrustPoint[] | null;
+  owner_heading: Headline | null;
+  owner_body: string | null;
+  owner_image: ImageField;
+  owner_image_alt: string | null;
+  areas_heading: Headline | null;
+  areas: string | null;
+  faqs_heading: Headline | null;
+  faqs: Faq[] | null;
 }
 
 // ============================================================================
@@ -336,6 +395,7 @@ interface Schema {
   contact_page: ContactPage;
   legal_pages: LegalPage[];
   submissions: Submission[];
+  campaign_pages: CampaignPage[];
 }
 
 // ============================================================================
@@ -514,6 +574,17 @@ export async function getBeforeAfterItems(): Promise<BeforeAfterItem[]> {
     { ...PUBLISHED, sort: "sort" },
     "getBeforeAfterItems"
   );
+}
+
+/**
+ * A campaign landing page by slug. Mock until Tommy approves the design
+ * (B76-451), then it moves to a `campaign_pages` collection in Directus.
+ */
+export async function getCampaignPage(
+  slug: string
+): Promise<CampaignPage | null> {
+  const mock = await getMockModule();
+  return mock.mockCampaignPages.find((p) => p.slug === slug) ?? null;
 }
 
 export async function getAreasPage(): Promise<AreasPage | null> {

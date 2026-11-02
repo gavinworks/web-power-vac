@@ -87,16 +87,20 @@ function Field({
  * shown an error. Bots are kept out by a hidden field, a signed token that
  * shows how long the form was open, and a rate limit on the server.
  */
-export function QuoteSection({
+export function QuoteForm({
   services,
   preselect,
+  askEmail = true,
   className,
 }: {
   services: string[];
   preselect?: string;
+  /** Campaign pages leave email out: phone and postcode are all Tommy needs to quote. */
+  askEmail?: boolean;
   className?: string;
 }) {
   const { global, contact } = useGlobal();
+  const optional: QuoteField[] = askEmail ? [] : ["email"];
   const pathname = usePathname();
   const formRef = useRef<HTMLFormElement>(null);
   const tokenRef = useRef<Promise<string | null> | null>(null);
@@ -127,7 +131,7 @@ export function QuoteSection({
     if (touched[field]) {
       setErrors((e) => ({
         ...e,
-        [field]: validateQuoteField(field, value) ?? undefined,
+        [field]: validateQuoteField(field, value, optional) ?? undefined,
       }));
     }
   }
@@ -139,7 +143,7 @@ export function QuoteSection({
     setTouched((t) => ({ ...t, [field]: true }));
     setErrors((errs) => ({
       ...errs,
-      [field]: validateQuoteField(field, values[field]) ?? undefined,
+      [field]: validateQuoteField(field, values[field], optional) ?? undefined,
     }));
   }
 
@@ -166,7 +170,7 @@ export function QuoteSection({
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const found = validateQuote(values);
+    const found = validateQuote(values, optional);
     setErrors(found);
     setTouched({
       name: true,
@@ -226,6 +230,229 @@ export function QuoteSection({
   }
 
   return (
+    <div
+      className={cn(
+        "text-pv-navy rounded-[2.5rem] bg-white p-6 sm:p-11",
+        className
+      )}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {status.state === "sent" ? (
+          <motion.div
+            key="sent"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex min-h-120 flex-col items-start justify-center gap-5"
+            role="status"
+          >
+            <span className="bg-pv-sky flex size-18 items-center justify-center rounded-full">
+              <Check className="size-9" strokeWidth={3} aria-hidden="true" />
+            </span>
+            <h3
+              data-directus={edit("quote_success_heading")}
+              className="font-pv-display text-5xl leading-none font-extrabold font-stretch-75%"
+            >
+              {global?.quote_success_heading}
+            </h3>
+            <p
+              data-directus={edit("quote_success_message")}
+              className="max-w-110 text-lg leading-normal"
+            >
+              Thanks, {status.firstName}. {global?.quote_success_message}
+              {contact.phone && <> Need us sooner? Call {contact.phone}.</>}
+            </p>
+            <button
+              type="button"
+              onClick={() => setStatus({ state: "idle" })}
+              className={cn(
+                "text-pv-link rounded-md font-bold underline underline-offset-4",
+                focusRing
+              )}
+            >
+              Send another request
+            </button>
+          </motion.div>
+        ) : (
+          <motion.form
+            key="form"
+            ref={formRef}
+            exit={{ opacity: 0, y: -12 }}
+            onSubmit={handleSubmit}
+            onFocus={() => void getToken()}
+            noValidate
+            className="flex flex-col gap-4.5"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Field id="quote-name" label="Your name" error={errors.name}>
+                <input
+                  {...inputProps("name")}
+                  type="text"
+                  required
+                  maxLength={QUOTE_LIMITS.name}
+                  autoComplete="name"
+                  className={inputClass}
+                />
+              </Field>
+              <Field id="quote-phone" label="Phone" error={errors.phone}>
+                <input
+                  {...inputProps("phone")}
+                  type="tel"
+                  required
+                  maxLength={QUOTE_LIMITS.phone}
+                  autoComplete="tel"
+                  inputMode="tel"
+                  className={inputClass}
+                />
+              </Field>
+              {askEmail && (
+                <Field id="quote-email" label="Email" error={errors.email}>
+                  <input
+                    {...inputProps("email")}
+                    type="email"
+                    required
+                    maxLength={QUOTE_LIMITS.email}
+                    autoComplete="email"
+                    className={inputClass}
+                  />
+                </Field>
+              )}
+              <Field
+                id="quote-postcode"
+                label="Postcode"
+                error={errors.postcode}
+              >
+                <input
+                  {...inputProps("postcode")}
+                  type="text"
+                  required
+                  maxLength={QUOTE_LIMITS.postcode}
+                  autoComplete="postal-code"
+                  autoCapitalize="characters"
+                  className={cn(inputClass, "uppercase")}
+                />
+              </Field>
+            </div>
+
+            {/* Spam trap: hidden from people, filled in by bots */}
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="quote-website">Website</label>
+              <input
+                id="quote-website"
+                name="website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            {services.length > 0 && (
+              <fieldset className="flex flex-col gap-2.5">
+                <legend className="mb-2.5 font-bold">
+                  What can we help with?
+                </legend>
+                <div className="flex flex-wrap gap-2.5">
+                  {services.map((service) => {
+                    const on = selected.includes(service);
+                    return (
+                      <label
+                        key={service}
+                        className={cn(
+                          "has-focus-visible:outline-pv-link flex h-12 cursor-pointer items-center gap-2.5 rounded-full border-2 px-4.5 font-semibold transition-colors has-focus-visible:outline-3 has-focus-visible:outline-offset-2",
+                          on
+                            ? "border-pv-sky bg-pv-sky font-bold"
+                            : "border-pv-line hover:border-pv-sky"
+                        )}
+                      >
+                        <input
+                          type="checkbox"
+                          name="services"
+                          value={service}
+                          checked={on}
+                          onChange={() => toggle(service)}
+                          className="accent-pv-navy size-4.5"
+                        />
+                        {service}
+                      </label>
+                    );
+                  })}
+                </div>
+              </fieldset>
+            )}
+
+            <Field
+              id="quote-message"
+              label="Anything we should know?"
+              error={errors.message}
+            >
+              <textarea
+                {...inputProps("message")}
+                rows={3}
+                maxLength={QUOTE_LIMITS.message}
+                className={cn(inputClass, "h-auto resize-none py-3.5")}
+              />
+            </Field>
+
+            {status.state === "error" && (
+              <p
+                role="alert"
+                className="bg-pv-mist rounded-2xl px-4.5 py-3.5 font-semibold"
+              >
+                {status.message}
+                {contact.phone && (
+                  <>
+                    {" "}
+                    <a
+                      href={telHref(contact.phone)}
+                      className="underline underline-offset-4"
+                    >
+                      {contact.phone}
+                    </a>
+                  </>
+                )}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={status.state === "sending"}
+              data-directus={edit("quote_submit_text")}
+              className={cn(
+                "bg-pv-navy font-pv-display hover:bg-pv-link flex h-17 items-center justify-center gap-3 rounded-full text-[1.375rem] font-extrabold text-white transition-colors disabled:opacity-70",
+                focusRing
+              )}
+            >
+              {status.state === "sending" && (
+                <LoaderCircle
+                  className="size-6 animate-spin"
+                  aria-hidden="true"
+                />
+              )}
+              {status.state === "sending"
+                ? "Sending your request"
+                : global?.quote_submit_text}
+            </button>
+          </motion.form>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/** The quote section that closes most pages: the copy and phone number beside the form. */
+export function QuoteSection({
+  services,
+  preselect,
+  className,
+}: {
+  services: string[];
+  preselect?: string;
+  className?: string;
+}) {
+  const { global, contact } = useGlobal();
+  const edit = (fields: string | string[]) =>
+    editable("global", global?.id, fields);
+
+  return (
     <section
       id="quote"
       className={cn(
@@ -280,208 +507,7 @@ export function QuoteSection({
           )}
         </div>
 
-        <div className="text-pv-navy rounded-[2.5rem] bg-white p-6 sm:p-11">
-          <AnimatePresence mode="wait" initial={false}>
-            {status.state === "sent" ? (
-              <motion.div
-                key="sent"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex min-h-120 flex-col items-start justify-center gap-5"
-                role="status"
-              >
-                <span className="bg-pv-sky flex size-18 items-center justify-center rounded-full">
-                  <Check
-                    className="size-9"
-                    strokeWidth={3}
-                    aria-hidden="true"
-                  />
-                </span>
-                <h3
-                  data-directus={edit("quote_success_heading")}
-                  className="font-pv-display text-5xl leading-none font-extrabold font-stretch-75%"
-                >
-                  {global?.quote_success_heading}
-                </h3>
-                <p
-                  data-directus={edit("quote_success_message")}
-                  className="max-w-110 text-lg leading-normal"
-                >
-                  Thanks, {status.firstName}. {global?.quote_success_message}
-                  {contact.phone && <> Need us sooner? Call {contact.phone}.</>}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setStatus({ state: "idle" })}
-                  className={cn(
-                    "text-pv-link rounded-md font-bold underline underline-offset-4",
-                    focusRing
-                  )}
-                >
-                  Send another request
-                </button>
-              </motion.div>
-            ) : (
-              <motion.form
-                key="form"
-                ref={formRef}
-                exit={{ opacity: 0, y: -12 }}
-                onSubmit={handleSubmit}
-                onFocus={() => void getToken()}
-                noValidate
-                className="flex flex-col gap-4.5"
-              >
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field id="quote-name" label="Your name" error={errors.name}>
-                    <input
-                      {...inputProps("name")}
-                      type="text"
-                      required
-                      maxLength={QUOTE_LIMITS.name}
-                      autoComplete="name"
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field id="quote-phone" label="Phone" error={errors.phone}>
-                    <input
-                      {...inputProps("phone")}
-                      type="tel"
-                      required
-                      maxLength={QUOTE_LIMITS.phone}
-                      autoComplete="tel"
-                      inputMode="tel"
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field id="quote-email" label="Email" error={errors.email}>
-                    <input
-                      {...inputProps("email")}
-                      type="email"
-                      required
-                      maxLength={QUOTE_LIMITS.email}
-                      autoComplete="email"
-                      className={inputClass}
-                    />
-                  </Field>
-                  <Field
-                    id="quote-postcode"
-                    label="Postcode"
-                    error={errors.postcode}
-                  >
-                    <input
-                      {...inputProps("postcode")}
-                      type="text"
-                      required
-                      maxLength={QUOTE_LIMITS.postcode}
-                      autoComplete="postal-code"
-                      autoCapitalize="characters"
-                      className={cn(inputClass, "uppercase")}
-                    />
-                  </Field>
-                </div>
-
-                {/* Spam trap: hidden from people, filled in by bots */}
-                <div className="hidden" aria-hidden="true">
-                  <label htmlFor="quote-website">Website</label>
-                  <input
-                    id="quote-website"
-                    name="website"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
-
-                {services.length > 0 && (
-                  <fieldset className="flex flex-col gap-2.5">
-                    <legend className="mb-2.5 font-bold">
-                      What can we help with?
-                    </legend>
-                    <div className="flex flex-wrap gap-2.5">
-                      {services.map((service) => {
-                        const on = selected.includes(service);
-                        return (
-                          <label
-                            key={service}
-                            className={cn(
-                              "has-focus-visible:outline-pv-link flex h-12 cursor-pointer items-center gap-2.5 rounded-full border-2 px-4.5 font-semibold transition-colors has-focus-visible:outline-3 has-focus-visible:outline-offset-2",
-                              on
-                                ? "border-pv-sky bg-pv-sky font-bold"
-                                : "border-pv-line hover:border-pv-sky"
-                            )}
-                          >
-                            <input
-                              type="checkbox"
-                              name="services"
-                              value={service}
-                              checked={on}
-                              onChange={() => toggle(service)}
-                              className="accent-pv-navy size-4.5"
-                            />
-                            {service}
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </fieldset>
-                )}
-
-                <Field
-                  id="quote-message"
-                  label="Anything we should know?"
-                  error={errors.message}
-                >
-                  <textarea
-                    {...inputProps("message")}
-                    rows={3}
-                    maxLength={QUOTE_LIMITS.message}
-                    className={cn(inputClass, "h-auto resize-none py-3.5")}
-                  />
-                </Field>
-
-                {status.state === "error" && (
-                  <p
-                    role="alert"
-                    className="bg-pv-mist rounded-2xl px-4.5 py-3.5 font-semibold"
-                  >
-                    {status.message}
-                    {contact.phone && (
-                      <>
-                        {" "}
-                        <a
-                          href={telHref(contact.phone)}
-                          className="underline underline-offset-4"
-                        >
-                          {contact.phone}
-                        </a>
-                      </>
-                    )}
-                  </p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={status.state === "sending"}
-                  data-directus={edit("quote_submit_text")}
-                  className={cn(
-                    "bg-pv-navy font-pv-display hover:bg-pv-link flex h-17 items-center justify-center gap-3 rounded-full text-[1.375rem] font-extrabold text-white transition-colors disabled:opacity-70",
-                    focusRing
-                  )}
-                >
-                  {status.state === "sending" && (
-                    <LoaderCircle
-                      className="size-6 animate-spin"
-                      aria-hidden="true"
-                    />
-                  )}
-                  {status.state === "sending"
-                    ? "Sending your request"
-                    : global?.quote_submit_text}
-                </button>
-              </motion.form>
-            )}
-          </AnimatePresence>
-        </div>
+        <QuoteForm services={services} preselect={preselect} />
       </div>
     </section>
   );

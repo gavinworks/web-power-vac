@@ -121,7 +121,8 @@ export async function POST(request: NextRequest) {
     postcode: text(body.postcode, QUOTE_LIMITS.postcode),
     message: text(body.message, QUOTE_LIMITS.message),
   };
-  const errors = validateQuote(values);
+  // Campaign landing pages don't ask for an email, so it may be empty
+  const errors = validateQuote(values, ["email"]);
   if (Object.keys(errors).length > 0) {
     return NextResponse.json(
       { error: "Please check the highlighted fields.", errors },
@@ -143,6 +144,7 @@ export async function POST(request: NextRequest) {
 
   const submission: Submission = {
     ...values,
+    email: values.email || null,
     postcode: formatPostcode(values.postcode),
     services,
     subject:

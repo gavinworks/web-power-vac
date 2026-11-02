@@ -28,12 +28,17 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 // Full UK postcode, with or without the space
 const POSTCODE = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2}$/i;
 
-/** The error for one field, or null when it's fine. */
+/**
+ * The error for one field, or null when it's fine. Fields listed in
+ * `optional` may be left empty (campaign pages don't ask for an email).
+ */
 export function validateQuoteField(
   field: QuoteField,
-  raw: string
+  raw: string,
+  optional: readonly QuoteField[] = []
 ): string | null {
   const value = raw.trim();
+  if (!value && optional.includes(field)) return null;
   switch (field) {
     case "name":
       if (!value) return "Enter your name.";
@@ -63,11 +68,12 @@ export function validateQuoteField(
 }
 
 export function validateQuote(
-  values: QuoteValues
+  values: QuoteValues,
+  optional: readonly QuoteField[] = []
 ): Partial<Record<QuoteField, string>> {
   const errors: Partial<Record<QuoteField, string>> = {};
   for (const field of Object.keys(values) as QuoteField[]) {
-    const error = validateQuoteField(field, values[field]);
+    const error = validateQuoteField(field, values[field], optional);
     if (error) errors[field] = error;
   }
   return errors;
