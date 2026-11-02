@@ -130,4 +130,4 @@ The page is at `/gutter-cleaning-norwich` on mock data (`src/lib/mock-data.ts`),
 - **Average job:** about £75. **Capacity:** about 20 extra jobs a week, with a team.
 - **Area:** 15 miles from NR9 3BP (Easton/Great Melton). Every town in the page's area list is inside that.
 - **Google Ads customer ID:** 825-071-8113 (answers request 914ec7a1).
-- **Not answered:** how long an average house takes (the page still says "under an hour"), and which work he wants most.
+- **Later the same day (15:50):** an average gutter clean takes around an hour (the FAQ now says so), and the ads should aim at roof and gutter cleaning, not repairs, because Jack is advertising roof repairs in the same area.

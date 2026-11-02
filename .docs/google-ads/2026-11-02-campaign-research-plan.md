@@ -116,3 +116,11 @@ Google can spend up to twice the daily budget on a busy day but no more than 30.
 3. How far will you travel from Norwich?
 4. Are you fully insured (so we can say so in the ads)?
 5. What hours can you answer the phone? Ads can show the call button only when you can pick up.
+
+## Tommy's answers (2 November 2026)
+
+- **Focus:** roof and gutter cleaning only. No repairs ad group and no repairs keywords: Jack is going to advertise roof repairs in the same area, and Tommy doesn't want the two campaigns competing. Add repair terms (repair, repairs, repointing, slipped tiles, ridge) as negative keywords. The Growth tier drops "plus repairs".
+- **Average job:** about £75, against the estimated £40 of ads per job.
+- **Capacity:** about 20 extra jobs a week.
+- **Area:** 15 miles from NR9 3BP (Easton).
+- **Ads account:** 825-071-8113. Link request sent from Build 76 Ltd (845-310-2733) on 2 November 2026; it expires on 22 November 2026.

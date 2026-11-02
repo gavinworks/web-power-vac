@@ -118,7 +118,7 @@ export const mockCampaignPages: CampaignPage[] = [
       {
         question: "How long does it take?",
         answer:
-          "Most houses take under an hour. Everything is done from the ground, so there's no scaffolding or ladders to set up.",
+          "Most houses take around an hour. Everything is done from the ground, so there's no scaffolding or ladders to set up.",
       },
     ],
   },
