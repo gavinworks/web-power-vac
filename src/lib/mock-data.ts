@@ -26,7 +26,7 @@ export const mockCampaignPages: CampaignPage[] = [
       "Gutter cleaning in Norwich from £34.99. Cleaned from the ground with a camera, so you can see inside your gutters. Free quote.",
     hero_heading: "Gutter cleaning\nin Norwich,\nfrom *£34.99*",
     hero_description:
-      "We clean your gutters from the ground with a camera on the pole, so you can see inside them while we work. No ladders, and you get before and after photos.",
+      "We clean your gutters from the ground with a camera on the pole, so you can see inside them while we work. No ladders, and you can watch the live camera before, during and after.",
     hero_image: "2feeda2d-24fe-42d2-ae56-8be3cf59c678",
     hero_image_alt:
       "Tommy cleaning the gutters of a three-storey house from the pavement with a long vacuum pole",
@@ -49,15 +49,15 @@ export const mockCampaignPages: CampaignPage[] = [
     steps: [
       {
         title: "Ask for a quote",
-        body: "Call or fill in the form. We'll give you a fixed price before we start.",
+        body: "Call or fill in the form. Tommy comes to look at the job and gives you a price before any work starts.",
       },
       {
         title: "We clean from the ground",
         body: "The vacuum pole reaches up to three storeys. Watch the camera screen and see every bit come out.",
       },
       {
-        title: "You get the photos",
-        body: "Before and after photos of your gutters, so you know the job's been done properly.",
+        title: "See the difference",
+        body: "Watch the camera when we finish, or ask for before and after photos, so you know the job's been done properly.",
       },
     ],
     before_after_heading: "See inside *your gutters*",
@@ -85,13 +85,13 @@ export const mockCampaignPages: CampaignPage[] = [
     ],
     form_heading: "Get a free *quote*",
     form_description:
-      "Tell us where you are and we'll come back to you with a price. No obligation.",
+      "Tell us where you are and Tommy will usually get back to you within 30 minutes. No obligation.",
     form_preselect: "Gutter clean",
     promises_heading: "What you can *count on*",
     promises: [
       { label: "No ladders against your house", icon: "House" },
       { label: "Everything goes in the vacuum, not your garden", icon: "Leaf" },
-      { label: "Before and after photos of every job", icon: "Camera" },
+      { label: "See inside your gutters on the live camera", icon: "Camera" },
       { label: "Fully insured", icon: "ShieldCheck" },
     ],
     owner_heading: "A local sole trader, *not a call centre*",
@@ -108,12 +108,12 @@ export const mockCampaignPages: CampaignPage[] = [
       {
         question: "How much will it cost?",
         answer:
-          "Gutter cleaning starts at £34.99. The price depends on the size of your house and how long your gutters are. We give you a fixed price before we start.",
+          "Gutter cleaning starts at £34.99. The price depends on the size of your house and how long your gutters are. Tommy looks at the job first and gives you a price before any work starts.",
       },
       {
         question: "Do I need to be at home?",
         answer:
-          "No, as long as we can get to the gutters. If you are home, you can watch the camera screen while we clean.",
+          "Not on the day, as long as we can get to the gutters. Tommy likes to meet you when he gives the quote, and if you are home while we clean, you can watch the camera screen.",
       },
       {
         question: "How long does it take?",

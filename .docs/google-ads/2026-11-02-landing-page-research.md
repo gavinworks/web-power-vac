@@ -117,3 +117,17 @@ The page is at `/gutter-cleaning-norwich` on mock data (`src/lib/mock-data.ts`),
 - Ladder Association analysis of NHS Hospital Episode Statistics, 2022
 - Which?, trader survey, June 2023; Financial Ombudsman decision DRN-3387966 (2022)
 - Reviews of GutterPRO and Ben's Gutters (Trustpilot), Gutter Force (ReferenceLine); Power-Vac's TrustATrader profile (trustatrader.com/traders/power-vac-gutter-cleaning-gutteringroof-cleaning-specialists-breckland)
+
+## Tommy's answers (2 November 2026, 15:34, request 3d02b98a)
+
+- **Phone:** use 01603 339225 (Norwich). The page already does.
+- **Price:** he never gives a fixed price before seeing the job in person. The page now says Tommy looks at the job and gives a price before any work starts.
+- **At home:** not needed for the clean, but he likes to meet the customer when quoting. FAQ updated.
+- **Photos:** the camera is live, so customers watch before, during and after; before and after photos only if asked. The "photos of every job" promise and step are replaced with the live camera.
+- **Reply time:** genuinely within 30 minutes. Added to the form description; a strong candidate for an ad line too.
+- **Reviews:** happy for all his TrustATrader reviews to be shown.
+- **Camera photos:** coming this week (his wife has been in hospital).
+- **Average job:** about £75. **Capacity:** about 20 extra jobs a week, with a team.
+- **Area:** 15 miles from NR9 3BP (Easton/Great Melton). Every town in the page's area list is inside that.
+- **Google Ads customer ID:** 825-071-8113 (answers request 914ec7a1).
+- **Not answered:** how long an average house takes (the page still says "under an hour"), and which work he wants most.
