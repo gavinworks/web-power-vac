@@ -3,6 +3,7 @@ import { BeforeAfterSection } from "@/components/home/before-after-section";
 import { Hero } from "@/components/home/hero";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { NewsSection } from "@/components/home/news-section";
+import { ReviewsSection } from "@/components/home/reviews-section";
 import { ServicesGrid } from "@/components/home/services-grid";
 import { QuoteSection } from "@/components/site/quote-section";
 import type {
@@ -80,6 +81,7 @@ export function HomeView({
         posts={posts}
         facebookUrl={facebook?.link ?? null}
       />
+      <ReviewsSection global={global} />
       <QuoteSection services={services.map((s) => s.form_label)} />
     </>
   );

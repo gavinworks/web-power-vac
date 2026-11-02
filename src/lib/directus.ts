@@ -91,6 +91,15 @@ export interface Global {
   quote_success_heading: string | null;
   quote_success_message: string | null;
   footer_tagline: string | null;
+  /** Off until the customer agrees to their reviews being quoted. */
+  reviews_enabled: boolean;
+  reviews_heading: Headline | null;
+  reviews_rating: string | null;
+  reviews_count: number | null;
+  reviews_source: string | null;
+  reviews_url: string | null;
+  reviews_proof: string | null;
+  reviews: Review[] | null;
 }
 
 /** Home page — singleton collection. */
@@ -318,8 +327,8 @@ export interface Submission {
   page: string;
 }
 
-/** A customer review quoted on a campaign page, copied from where it was left. */
-export interface CampaignReview {
+/** A customer review quoted on the site, copied from where it was left. */
+export interface Review {
   quote: string;
   name: string;
   /** When it was left, as shown, e.g. "19 October 2026". */
@@ -359,7 +368,7 @@ export interface CampaignPage {
   before_after_heading: Headline | null;
   before_after_description: string | null;
   reviews_heading: Headline | null;
-  reviews: CampaignReview[] | null;
+  reviews: Review[] | null;
   form_heading: Headline | null;
   form_description: string | null;
   /** The service ticked when the form opens (a service's form label). */

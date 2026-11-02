@@ -3,12 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Star } from "lucide-react";
+import { Phone } from "lucide-react";
 import { DynamicIcon } from "@/components/shared/dynamic-icon";
 import { BeforeAfterSlider } from "@/components/site/before-after-slider";
 import { CameraMonitor } from "@/components/site/camera-monitor";
 import { FaqList } from "@/components/site/faq-list";
 import { Headline } from "@/components/site/headline";
+import { Stars } from "@/components/site/stars";
 import { QuoteForm } from "@/components/site/quote-section";
 import { focusRing, heading, pill, telHref } from "@/components/site/styles";
 import { LEGAL_LINKS } from "@/config/site";
@@ -24,17 +25,6 @@ import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 
 const COLLECTION = "campaign_pages";
-
-/** Five filled stars for the rating line. Decorative: the number is the text. */
-function Stars({ className }: { className?: string }) {
-  return (
-    <span aria-hidden="true" className={cn("flex gap-0.5", className)}>
-      {Array.from({ length: 5 }, (_, i) => (
-        <Star key={i} className="size-5 fill-current" strokeWidth={0} />
-      ))}
-    </span>
-  );
-}
 
 /**
  * A Google Ads landing page. Built from the research in
