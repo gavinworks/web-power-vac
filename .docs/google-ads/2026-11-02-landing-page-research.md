@@ -21,7 +21,7 @@ Every design decision below comes from one of two pieces of research done on 2 N
 - Praised: "arrived exactly on time having texted me en route", "showed me photos of the inside of the gutters before and after cleaning", "clean and tidy with no mess", "great value for money", "no pushy sales pitch", "at short notice".
 - Complaints: "an hour late", "after photos, not received anything", "dirty drip marks were left on the fascias", "damaged plants", "took money upfront", "Misleading, NOT a local company".
 
-**Tommy's own customers say the same things.** His TrustATrader profile (checked 2 November 2026) has 6 reviews averaging 5.0, rated 5 for punctuality, cleanliness, quality and value. They say "on time, professional and great value for money" (Kelly, 19 Oct 2026), "explained everything in great detail which gave me great piece mind" (sic, Madison Ward, 1 Oct 2026), "always on time, excellent outcome" (Romany Stewart, 16 Sep 2026) and "fantastic price and work carried out" (Becki Day, 18 May 2026). TrustATrader has verified his identity, address, customer references (22 Oct 2026) and insurance (Simply Business, 21 Oct 2026), and records 0 missed appointments in 6 months. His Google profile has only 1 review, which doesn't describe a job.
+**Tommy's own customers say the same things.** His TrustATrader profile (checked 2 November 2026) has 6 reviews averaging 5.0, rated 5 for punctuality, cleanliness, quality and value. They say "on time, professional and great value for money" (Kelly, 19 Oct 2026), "explained everything in great detail which gave me great piece mind" (sic, Madison Ward, 1 Oct 2026), "always on time, excellent outcome" (Romany Stewart, 16 Sep 2026) and "fantastic price and work carried out" (Becki Day, 18 May 2026). TrustATrader has verified his identity, address, customer references (22 Oct 2026) and insurance (Simply Business, 21 Oct 2026), and records 0 missed appointments in 6 months. His Google profile has no reviews (checked with `pnpm gbp reviews`, 2 November 2026). The 14 fake reviews posted on 27 October 2026 were taken down; SE Ranking still lists one of them ("Sebastian") because its sync lags behind Google, so don't count it.
 
 **Competitors leave clear gaps.** No Norwich competitor shows a price above the fold, none lets you watch the camera live, Gutter Force's newest testimonial is from 2014, and the Ben's Gutters and guttercleanernorfolk.co.uk pages are national templates whose image captions name Bristol streets. [Direct observation, 2 November 2026]
 
@@ -67,7 +67,7 @@ Every design decision below comes from one of two pieces of research done on 2 N
 
 The page only says what's true. These are either unconfirmed or need his OK:
 
-1. **Which phone number the ads should use.** The site uses 01603 339225; TrustATrader shows 07463 919347. A landline looks more local and established; a mobile is what he answers on the job.
+1. **Which phone number the ads should use.** The site shows 01603 339225 and 01953 573595; TrustATrader shows 07463 919347. A landline looks more local and established; a mobile is what he answers on the job.
 2. **Reply time.** Can he reply to every quote request the same day?
 3. **On-the-way text.** Does he text before arriving? Customers praise it and complain when it's missing.
 4. **Payment.** Is it paid after the job, never upfront? "Took money upfront" is a common complaint.
@@ -76,7 +76,7 @@ The page only says what's true. These are either unconfirmed or need his OK:
 7. **"Over 20 years' experience"**, as his TrustATrader profile says. Is that accurate, and in what?
 8. **A photo of Tommy** with his van or the SkyVac, and a few more before and after photos from bungalows and houses around Norwich.
 9. **Permission to quote his TrustATrader reviews** (first names and dates only), and his OK to show the TrustATrader rating.
-10. **Google reviews.** With 1 review on Google, asking his customers for Google reviews will do more for the ads than anything on the page. Ads can show a seller rating, and the map pack is ranked on reviews.
+10. **Google reviews.** With no reviews on Google, asking his customers for Google reviews will do more for the ads than anything on the page. Ads can show a seller rating, and the map pack is ranked on reviews.
 
 ## Built (2 November 2026)
 
@@ -84,7 +84,7 @@ The page is at `/gutter-cleaning-norwich` on mock data (`src/lib/mock-data.ts`),
 
 - The quote form is now its own component (`QuoteForm` in `src/components/site/quote-section.tsx`). The campaign page uses it without the email field and only offers gutter cleaning and its add-ons. The rest of the site is unchanged.
 - Email is optional in `/api/quote`, and the `submissions.email` field in Directus is no longer required (empty saves as null). The "[Website] New Quote Request" flow now says "Not given, so give them a ring" when there's no email, drops the "Reply by email" button, and sets the reply-to to info@ instead.
-- The quote form hasn't been test-submitted, because a test emails Tommy. Send one from the page once Gavin's happy, with "TEST" in the name, and check the email that arrives.
+- Tested on the live page on 2 November 2026 at 11:31, with Gavin's go-ahead: saved in Directus with no email (submission f1fff3bb, then archived), the email reached info@ with Tommy's Gmail copied, said "Not given, so give them a ring", had no "Reply by email" button and had info@ as the reply-to. Tommy received that test email too.
 
 **Wording on the page that Tommy must confirm before launch** (on top of the list above):
 

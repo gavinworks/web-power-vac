@@ -21,7 +21,7 @@ Before it goes in front of anyone, we want to make sure everything on it is righ
 
 **About the page**
 
-1. Which number should the ads use: 01603 339225 (on your website) or 07463 919347 (on TrustATrader)?
+1. Which number should the ads use: 01603 339225 or 01953 573595 (both on your website), or 07463 919347 (on TrustATrader)?
 2. Do you give people a fixed price before you start?
 3. Do customers need to be at home while you clean?
 4. Roughly how long does an average house take? We've said "under an hour".
@@ -39,7 +39,7 @@ Before it goes in front of anyone, we want to make sure everything on it is righ
 
 **One thing that'll help the ads a lot**
 
-Your TrustATrader reviews are great, but your Google profile only has one review so far. Google uses reviews when it decides whose ads and map listing to show, and people read them before they call. Showing customers the QR code we sent you, or texting them this link after a job, makes a big difference: https://search.google.com/local/writereview?placeid=ChIJz6hOSKXd2UcRP3K0X7fg_9c
+Your TrustATrader reviews are great, but your Google profile doesn't have any reviews yet. Google uses reviews when it decides whose ads and map listing to show, and people read them before they call. Showing customers the QR code we sent you, or texting them this link after a job, makes a big difference: https://search.google.com/local/writereview?placeid=ChIJz6hOSKXd2UcRP3K0X7fg_9c
 
 And when you get a chance, we still need your Google Ads customer ID (the 10-digit number at the top of your Google Ads account) so we can link up and get the campaign going.
 
