@@ -3,7 +3,7 @@
 **Project:** POWER-VAC (order 162)
 **Add-on:** Google Ads (`order_services` de64e330-83dd-4b08-969b-b5a514ab50e1), so `order_service_id` is set on the request
 **Subject:** Your Google Ads budget: two options to choose from
-**Status:** draft, not sent. Needs Gavin's go-ahead.
+**Status:** sent 4 November 2026 at 16:26 with Gavin's go-ahead (request 2cdc4bcb-aafd-435a-942d-910bea8a68f2). Copy in hello@ confirmed: to powervacguttercleaning@gmail.com, reply-to r-e96f962c-9cbd-48ef-bf7d-781744f8524e@reply.build76.co.uk. Gavin added the plain cost-per-job line, noting Build 76 is doing the ads as a favour and making nothing either way.
 
 Figures are from `2026-11-04-keyword-planner.md` (Norfolk forecast for December 2026, scaled to about 65% for his 15 miles from NR9 3BP). Enquiries assume 8 to 12% of clicks get in touch, and jobs assume about half of enquiries go ahead.
 
@@ -28,7 +28,7 @@ We ran Google's own planner on your account. Around your area, people search for
 1. **About £10 a day (up to about £300 a month).** The same as you spend now, but moved onto Google searches. Roughly 45 to 50 clicks a month, 4 to 6 enquiries, and 2 to 3 jobs.
 2. **About £20 a day (up to about £600 a month).** Shows your ads on almost every relevant search in your area, but the extra clicks cost more. Roughly 55 to 60 clicks a month, 5 to 7 enquiries, and 3 to 4 jobs.
 
-These are estimates. After the first month we'll have the real numbers from your own ads and can move the budget up or down. Repeat customers who come back every year, and extra work like downpipes and moss, make each new customer worth more than the first job.
+To be straight with you: on these estimates, the ads would cost about £100 to £150 for each first job, more than the £75 the job brings in. It pays off through customers who come back each year and bigger jobs like downpipes and moss, not the first clean on its own. These are estimates, though. After the first month we'll have the real numbers from your own ads and can move the budget up or down.
 
 Google is also offering you £400 of free ad credit if your account spends £400 by 24 December, so either option would get you that if we launch this month.
 
