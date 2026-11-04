@@ -123,4 +123,4 @@ Google can spend up to twice the daily budget on a busy day but no more than 30.
 - **Average job:** about £75, against the estimated £40 of ads per job.
 - **Capacity:** about 20 extra jobs a week.
 - **Area:** 15 miles from NR9 3BP (Easton).
-- **Ads account:** 825-071-8113. Link request sent from Build 76 Ltd (845-310-2733) on 2 November 2026; it expires on 22 November 2026.
+- **Ads account:** 825-071-8113. Link request sent from Build 76 Ltd (845-310-2733) on 3 November 2026 (the first one on 2 November never went) and accepted by Tommy on 4 November 2026. See `2026-11-04-account-audit.md`.
