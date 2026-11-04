@@ -32,14 +32,17 @@ These are estimates. After the first month we'll have the real numbers from your
 
 Google is also offering you £400 of free ad credit if your account spends £400 by 24 December, so either option would get you that if we launch this month.
 
-**To get more than search can bring**
+**Getting more work than search can bring**
 
 The biggest free boost is Google reviews on your Business Profile. They help you show up on the map when people search, which is often above the ads. Texting customers this link after a job makes a big difference: https://search.google.com/local/writereview?placeid=ChIJz6hOSKXd2UcRP3K0X7fg_9c
+
+Facebook and Instagram ads could also do better for volume. Google only reaches people who are already searching, but Facebook can show your before and after camera footage to homeowners around you before they've thought about their gutters, which suits a job like yours. We'll get the Google campaign working properly first, then look at Facebook ads next. You've already got a Facebook page, so we're part of the way there.
 
 **What we need from you**
 
 1. Which option would you like, £10 or £20 a day? Or tell us a different amount.
 2. How did your recent enquiries find you?
+3. For Facebook later: are you an admin on your Power-Vac Facebook page, and have you ever run ads or boosted a post from it?
 
 Next, we'll set things up so every call and quote request from your ads is recorded, then build the campaign and check it with you before it goes live.
 
