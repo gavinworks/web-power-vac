@@ -22,3 +22,17 @@ export const LEGAL_LINKS = [
   { label: "Privacy", href: "/privacy" },
   { label: "Cookies", href: "/cookies" },
 ] as const;
+
+/**
+ * Google Ads conversion tracking (B76-452). The tag ID and conversion labels
+ * come from Tommy's Google Ads account (Goals > Conversions). They are public
+ * values, so they live here rather than in the environment. While `id` is
+ * null, no tag loads and no cookie banner shows.
+ */
+export const googleAds: {
+  id: string | null;
+  labels: { quote: string | null; phone: string | null };
+} = {
+  id: null,
+  labels: { quote: null, phone: null },
+};

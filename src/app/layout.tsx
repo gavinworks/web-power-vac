@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 import { getGlobal } from "@/lib/directus";
 import { GlobalProvider } from "@/context/GlobalContext";
 import { VisualEditorWrapper } from "@/components/visual-editor-wrapper";
+import { CookieBanner } from "@/components/site/cookie-banner";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -56,6 +57,7 @@ export default async function RootLayout({
       >
         <GlobalProvider global={global}>
           <VisualEditorWrapper>{children}</VisualEditorWrapper>
+          <CookieBanner />
         </GlobalProvider>
       </body>
     </html>

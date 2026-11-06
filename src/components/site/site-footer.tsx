@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { LEGAL_LINKS, NAV_LINKS } from "@/config/site";
+import { googleAds, LEGAL_LINKS, NAV_LINKS } from "@/config/site";
 import { useGlobal } from "@/context/GlobalContext";
+import { openConsentSettings } from "@/lib/consent";
 import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 import { focusRing, telHref } from "./styles";
@@ -118,6 +119,20 @@ export function SiteFooter() {
                   </Link>
                 </li>
               ))}
+              {googleAds.id && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={openConsentSettings}
+                    className={cn(
+                      "underline underline-offset-4 hover:text-white",
+                      focusRing
+                    )}
+                  >
+                    Cookie settings
+                  </button>
+                </li>
+              )}
             </ul>
             {/* Agency credit, the same on every Build 76 site, so it lives in code */}
             <p>
