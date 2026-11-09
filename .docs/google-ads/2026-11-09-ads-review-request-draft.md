@@ -3,7 +3,7 @@
 **Project:** POWER-VAC (order 162)
 **Add-on:** Google Ads (`order_services` de64e330-83dd-4b08-969b-b5a514ab50e1), so `order_service_id` is set on the request
 **Subject:** Your Google ads are ready to check
-**Status:** draft, waiting for Gavin's go-ahead. Not sent.
+**Status:** sent 9 November 2026 at 09:27 with Gavin's go-ahead, with an Approve button (`has_approval`), request 0f5d9653-f137-450e-b406-b362fe92197e. Copy in hello@ confirmed: to powervacguttercleaning@gmail.com, reply-to r-8d16cad2-f177-4632-8e16-0c68753f3442@reply.build76.co.uk. The closing line was changed to "press Approve" to match the button.
 
 ---
 
@@ -46,7 +46,7 @@ Google can stop ads that say something that isn't right, so please tell us if an
 5. You're happy to take roof cleaning jobs from these ads. We've said "Roof and Gutters in One Visit", "Bungalows, Houses & Garages" and that you look at the roof and give a price before starting.
 6. 01603 339225 is the best number for people to ring from the ads, and you can answer it during the day.
 
-If it all looks right, just reply "all good" and we'll switch it on. Google is offering £400 of free ad credit if your account spends £400 by 24 December, so the sooner it's live, the better the chance of getting it.
+If it all looks right, just press Approve and we'll switch it on. If anything needs changing, reply and let us know. Google is offering £400 of free ad credit if your account spends £400 by 24 December, so the sooner it's live, the better the chance of getting it.
 
 Thanks,
 Gavin
