@@ -33,6 +33,6 @@ export const googleAds: {
   id: string | null;
   labels: { quote: string | null; phone: string | null };
 } = {
-  id: null,
-  labels: { quote: null, phone: null },
+  id: "AW-18489388881",
+  labels: { quote: "SeHSCI6C7LQdENHetvBE", phone: "CblJCJGC7LQdENHetvBE" },
 };
