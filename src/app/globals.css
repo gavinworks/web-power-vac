@@ -147,4 +147,14 @@
   .pv-prose strong {
     @apply font-bold;
   }
+  .pv-prose table {
+    @apply block w-full overflow-x-auto text-base lg:text-lg;
+  }
+  .pv-prose th,
+  .pv-prose td {
+    @apply border-b border-pv-line py-3 pr-6 text-left align-top last:pr-0;
+  }
+  .pv-prose th {
+    @apply font-bold whitespace-nowrap;
+  }
 }
