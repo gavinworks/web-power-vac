@@ -43,3 +43,7 @@ Negatives added: "step by step" and "tips" (from the DIY searches in Search Cons
 **Optional ad group 4: Fascias and soffits** → `/services/fascia-and-soffit-cleaning`. Smaller, so it could wait until the budget allows.
 
 At £10 a day, more ad groups split the same budget, so the gutter cleaning group stays the priority.
+
+**Decision (Gavin, 9 November 2026):** no downpipes ad group for now. The Search Console impressions are UK-wide organic, not local; locally the downpipe phrases come to roughly 10 searches a month, mostly DIY, so 1 to 3 clicks a month at about £2 each, taken from the £10 budget. The organic downpipe page already appears for them. Revisit if downpipe searches show up in the search terms report or the budget goes up.
+
+**Performance Max-1 paused** on 9 November 2026 with Gavin's go-ahead, because it reached no searchers (see above). Tommy was told on 6 November it would be paused once ours is live; the request with the ads tells him it's been paused early and why.
