@@ -2,7 +2,7 @@
 
 **Date:** 9 November 2026
 **Account:** Tommy's Google Ads 825-071-8113
-**Status:** draft built in Google Ads on 9 November 2026 (campaign draft 281499418780309), not yet published. Ad group 1, its ad, sitelinks, callouts and call asset are in the draft. Ad group 2 and the negative keywords go in after publishing, because the setup flow only allows one ad group. Start date set to 30 November 2026 as a safety net, to bring forward at launch. Launch by about 14 November 2026 to earn the £400 credit (£400 spent by 24 December 2026).
+**Status:** published and **paused** on 9 November 2026 with Gavin's go-ahead (campaign ID 24442110921). Start date 30 November 2026 as a safety net: bring it forward and enable at launch, after Gavin's review. Both ad groups ("Gutter cleaning" and "Roof cleaning and moss"), their ads, the 40 negative keywords, sitelinks, callouts and the 01603 339225 call asset are all in. Google reviewed the roof ad and found no policy issues.
 
 ## Settings
 
@@ -52,7 +52,9 @@ No ad group for downpipes or fascias yet: at £10 a day the budget is better spe
 
 Repairs (Jack is advertising roof repairs in the same area, Tommy's answer 2 November 2026): repair, repairs, repointing, slipped, ridge, replacement, replace, install, installation, fitting, fitters, new gutters, guttering supplies.
 
-Not customers: diy, how to, tool, tools, kit, buy, for sale, hire, rent, karcher, gutter guard, gutter guards, brush, ladder, jobs, job, salary, course, training, franchise, b&q, screwfix, toolstation, wickes, amazon, ebay, youtube, video, reddit.
+Not customers: diy, how to, tool, tools, kit, buy, for sale, rent, karcher, gutter guard, gutter guards, brush, jobs, job, salary, course, training, franchise, b&q, screwfix, toolstation, wickes, amazon, ebay, youtube, video, reddit.
+
+"hire" and "ladder" were left out on purpose: "hire a gutter cleaner" and "gutter cleaning without a ladder" are customers.
 
 Add to this list every few days from the search terms report after launch.
 
@@ -61,7 +63,7 @@ Add to this list every few days from the search terms report after launch.
 - **Call:** 01603 339225, reporting calls from ads ("Calls from ads" conversion).
 - **Sitelinks:** Before and after (/before-and-after), Areas we cover (/areas), All services (/services), Get a free quote (/contact).
 - **Callouts:** Fully insured · Live camera · No ladders against walls · Reply within 30 minutes · Before and after photos · Local to Norwich.
-- **Structured snippet (Services):** Gutter cleaning, Roof moss removal, Downpipe unblocking, Fascia and soffit cleaning.
+- **Structured snippet (Services):** not added yet (optional).
 - **Location:** link the Business Profile if Google offers it.
 
 ## Facts the ads rely on
@@ -71,3 +73,8 @@ From the site and Directus on 9 November 2026: from £34.99 (gutter cleaning), l
 ## At launch
 
 - Enable this campaign and pause Tommy's "Performance Max-1", as told to Tommy on 6 November 2026. Both only with Gavin's go-ahead.
+
+## Notes from the build
+
+- Google pre-fills a new ad group with its own broad keywords ("clean my house", "outside home cleaning") and AI-written headlines ("How To Clean My House"). All of it was replaced with the text above. Check for this whenever adding an ad group.
+- No headline is pinned yet; ad strength is "Good" on both ads.
