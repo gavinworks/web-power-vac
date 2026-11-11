@@ -81,6 +81,7 @@ From the site and Directus on 9 November 2026: from £34.99 (gutter cleaning), l
 
 ## Monitoring
 
+- **Daily report:** "Campaign performance" (report editor, report ID 933809222, owned by the Build 76 Ltd manager account) is emailed as a CSV every day at 08:00 UK time to build76ltd@gmail.com, covering the last 30 days per campaign: clicks, impressions, CTR, average CPC, cost, conversions, cost per conversion. Google only allows recipients who already have access to the account, so it can't go to hello@. Read it with the Gmail connector (search `from:google subject:"Campaign performance"`).
 - Days 1 to 3 (12 to 14 November 2026): ads showing, spend pacing towards £10 a day, first search terms relevant.
 - Twice a week for the first fortnight (to 25 November 2026): search terms report, add negatives, check conversions are recording.
 - Then weekly, and a monthly summary to Tommy.
