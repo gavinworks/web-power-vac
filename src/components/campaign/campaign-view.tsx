@@ -12,7 +12,7 @@ import { Headline } from "@/components/site/headline";
 import { Stars } from "@/components/site/stars";
 import { QuoteForm } from "@/components/site/quote-section";
 import { focusRing, heading, pill, telHref } from "@/components/site/styles";
-import { LEGAL_LINKS } from "@/config/site";
+import { googleAds, LEGAL_LINKS } from "@/config/site";
 import { useGlobal } from "@/context/GlobalContext";
 import {
   getImageUrl,
@@ -21,6 +21,7 @@ import {
   type CampaignPage,
   type Service,
 } from "@/lib/directus";
+import { openConsentSettings } from "@/lib/consent";
 import { editable } from "@/lib/editable";
 import { cn } from "@/lib/utils";
 
@@ -540,6 +541,20 @@ export function CampaignView({
                 </Link>
               </li>
             ))}
+            {googleAds.id && (
+              <li>
+                <button
+                  type="button"
+                  onClick={openConsentSettings}
+                  className={cn(
+                    "rounded-sm underline underline-offset-4 hover:text-white",
+                    focusRing
+                  )}
+                >
+                  Cookie settings
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </footer>
