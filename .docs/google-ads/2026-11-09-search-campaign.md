@@ -2,7 +2,7 @@
 
 **Date:** 9 November 2026
 **Account:** Tommy's Google Ads 825-071-8113
-**Status:** published and **paused** on 9 November 2026 with Gavin's go-ahead (campaign ID 24442110921). Start date 30 November 2026 as a safety net: bring it forward and enable at launch, after Gavin's review. Both ad groups ("Gutter cleaning" and "Roof cleaning and moss"), their ads, the 40 negative keywords, sitelinks, callouts and the 01603 339225 call asset are all in. Google reviewed the roof ad and found no policy issues.
+**Status:** **live since 11 November 2026.** Tommy approved the ads on 9 November 2026 at 19:56 (request 0f5d9653) with no changes. On 11 November the start date was moved from 30 November to 11 November and the campaign enabled ("Eligible (Learning)"); both ads "Eligible". Tommy's Performance Max-1 stays paused (since 9 November). Campaign ID 24442110921.
 
 ## Settings
 
@@ -78,3 +78,10 @@ From the site and Directus on 9 November 2026: from £34.99 (gutter cleaning), l
 
 - Google pre-fills a new ad group with its own broad keywords ("clean my house", "outside home cleaning") and AI-written headlines ("How To Clean My House"). All of it was replaced with the text above. Check for this whenever adding an ad group.
 - No headline is pinned yet; ad strength is "Good" on both ads.
+
+## Monitoring
+
+- Days 1 to 3 (12 to 14 November 2026): ads showing, spend pacing towards £10 a day, first search terms relevant.
+- Twice a week for the first fortnight (to 25 November 2026): search terms report, add negatives, check conversions are recording.
+- Then weekly, and a monthly summary to Tommy.
+- £400 credit: £400 spent by 24 December 2026. At £10 a day from 11 November that's at most about £440, so check spend is close to budget each week; if it's under-spending because the local market is small, consider widening keywords or the radius rather than raising the bid cap.
