@@ -21,6 +21,22 @@
 [context.deploy-preview.environment]
   ENABLE_PROTOTYPES = "true"
 
+# PostHog analytics, proxied at Netlify's edge. These run before the Next.js
+# function: routing them through next.config.ts rewrites on Netlify corrupts
+# PostHog's compressed request bodies (400 "failed to parse request").
+# next.config.ts keeps the same rewrites for local development.
+[[redirects]]
+  from = "/ingest/static/*"
+  to = "https://eu-assets.i.posthog.com/static/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ingest/*"
+  to = "https://eu.i.posthog.com/:splat"
+  status = 200
+  force = true
+
 # Security headers
 [[headers]]
   for = "/*"
