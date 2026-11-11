@@ -36,3 +36,14 @@ export const googleAds: {
   id: "AW-18489388881",
   labels: { quote: "SeHSCI6C7LQdENHetvBE", phone: "CblJCJGC7LQdENHetvBE" },
 };
+
+/**
+ * PostHog analytics (Power Vac Gutter Cleaning organisation, project
+ * "Power-Vac website", EU). The project key is public. Events go through the
+ * site's own /ingest route (see next.config.ts) so ad blockers don't drop them.
+ */
+export const posthogConfig = {
+  key: "phc_zxczWcwUn994omBwgEbkWYPjQFEEqyGMKkLn5HYhU6Cz",
+  apiHost: "/ingest",
+  uiHost: "https://eu.posthog.com",
+} as const;

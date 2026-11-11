@@ -39,12 +39,21 @@ export function loadGoogleTag() {
   document.head.appendChild(script);
 }
 
-/** The visitor withdrew consent: stop the tag and clear its cookies. */
+/** The visitor withdrew consent: stop the tag and clear its cookies and storage. */
 export function stopGoogleTag() {
   window.gtag?.("consent", "update", {
     ad_storage: "denied",
     ad_user_data: "denied",
   });
+  try {
+    for (const key of Object.keys(window.localStorage)) {
+      if (key.startsWith("_gcl") || key.startsWith("_ga")) {
+        window.localStorage.removeItem(key);
+      }
+    }
+  } catch {
+    // Storage blocked: nothing to clear.
+  }
   for (const cookie of document.cookie.split(";")) {
     const name = cookie.split("=")[0].trim();
     if (name.startsWith("_gcl") || name.startsWith("_ga")) {

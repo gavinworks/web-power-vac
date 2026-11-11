@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Check, CircleAlert, LoaderCircle } from "lucide-react";
 import { useGlobal } from "@/context/GlobalContext";
 import { editable } from "@/lib/editable";
+import { trackEvent } from "@/lib/analytics";
 import { trackConversion } from "@/lib/google-ads";
 import {
   QUOTE_LIMITS,
@@ -213,6 +214,7 @@ export function QuoteForm({
       }
 
       trackConversion("quote");
+      trackEvent("quote_form_sent", { page: pathname, services: selected });
       setStatus({
         state: "sent",
         firstName: values.name.trim().split(" ")[0] || "there",
