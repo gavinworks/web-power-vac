@@ -724,6 +724,38 @@ export const getNewsPagePreview = (token: string) =>
 export const getPostsPreview = (token: string) =>
   previewList<Post>("posts", { ...PUBLISHED, sort: "-date_published" }, token);
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Swaps a Directus share id for the share's short-lived access token.
+ *
+ * A share (created in Directus with the item's Share button) can read that one
+ * item and nothing else, drafts included, so a client can read a draft on the
+ * real site before it goes live. Deleting the share in Directus switches the
+ * link off at once. Shares with a password aren't supported. Returns null for
+ * anything that isn't a valid, current share, and never logs the id.
+ */
+export async function getShareToken(share: string): Promise<string | null> {
+  if (!UUID.test(share)) return null;
+  try {
+    const response = await fetch(`${directusUrl}/shares/auth`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ share, mode: "json" }),
+      cache: "no-store",
+    });
+    if (!response.ok) {
+      console.error(`share auth: ${response.status} ${response.statusText}`);
+      return null;
+    }
+    const json = await response.json();
+    return json.data?.access_token ?? null;
+  } catch (error) {
+    console.error("share auth: request failed", error);
+    return null;
+  }
+}
+
 /** An article by slug, whatever its status. */
 export async function getPostPreview(slug: string, token: string) {
   const [post] = await previewList<Post>(
